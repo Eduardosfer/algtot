@@ -1,0 +1,48 @@
+<!-- MODAL DE VISUALIZAÇÃO DE SINTAXE DO PORTUGOL-->
+<?php include_once("includs/modalSintaxePortugol.php"); ?>
+
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Alterar Navegação</span> Menu <i class="fa fa-bars"></i>
+      </button>
+
+      <a class="navbar-brand page-scroll" href="principal.php">AlgTot</a>
+
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <ul class="nav navbar-nav navbar-right">
+
+        <li>
+          <a class="page-scroll" href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> <?php echo $_SESSION['usuario']; ?></a>
+        </li>
+        <li>
+          <a class="page-scroll" href="#"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Pontuação Total: <?php echo $_SESSION['pontuacaoTotal']; ?></a>
+        </li>
+        <li>
+          <a class="page-scroll" data-toggle="modal" data-target="#verDados" href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Perfil</a>
+        </li>
+        <li>
+           <a name="acaoSintaxe" value="sintaxe" data-toggle="modal" data-target="#sintaxe" href="#" class="page-scroll"><span class="glyphicon glyphicon-book"></span> Sintaxe Portugol</a> 
+         </li>
+         <li>
+            <a   href="tradutor.php" class="page-scroll"><span class="glyphicon glyphicon-rub"></span> Treinar Portugol</a> 
+         </li>
+        <li>
+          <a class="page-scroll" data-toggle="modal" data-target="#sair" href="#"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Sair</a>
+        </li>
+
+      </ul>
+
+    </div>
+    <!-- /.navbar-collapse -->
+  </div>
+  <!-- /.container-fluid -->
+</nav>
