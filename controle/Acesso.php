@@ -29,7 +29,7 @@ Class Acesso {
         session_start();
 
         if (!isset($_SESSION['usuario'])) {
-            header("Location: http:/AlgTot/index.php");
+            header("Location: http:/algtot/index.php");
         } else {
 
             $url = explode("/", $_SERVER['REQUEST_URI']);
@@ -77,15 +77,15 @@ Class Acesso {
     public function mostrarPagina() {
 
         if ($_SESSION['cdGrupo'] == 1) {
-            header("Location: http:/AlgTot/visao/principalADM.php");
+            header("Location: http:/algtot/visao/principalADM.php");
         }
 
         if ($_SESSION['cdGrupo'] == 2) {
-            header("Location: http:/AlgTot/visao/principalProfessor.php");
+            header("Location: http:/algtot/visao/principalProfessor.php");
         }
 
         if ($_SESSION['cdGrupo'] == 3) {
-            header("Location: http:/AlgTot/visao/principal.php");
+            header("Location: http:/algtot/visao/principal.php");
         }
     }
 

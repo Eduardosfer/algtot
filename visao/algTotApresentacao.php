@@ -235,7 +235,7 @@
 
     </div><!-- /.modal-dialog -->
 
-    <header>
+    <header> 
 
        <div class="header-content">
 

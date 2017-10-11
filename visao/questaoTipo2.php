@@ -19,15 +19,15 @@ if(!isset($_POST['atividade'])){
 $algTot->setQuestao($atividade);
 
 if ($_SESSION['tipo']==1) {
-  header("Location: http:/AlgTot/visao/questaoTipo1.php");
+  header("Location: http:/algtot/visao/questaoTipo1.php");
 }
 
 if ($_SESSION['tipo']==3) {
-  header("Location: http:/AlgTot/visao/questaoTipo3.php");
+  header("Location: http:/algtot/visao/questaoTipo3.php");
 }
 
 if (!isset($_SESSION['tipo'])) {
-  header("Location: http:/AlgTot/visao/atividades.php");
+  header("Location: http:/algtot/visao/atividades.php");
 }
 
 ?>

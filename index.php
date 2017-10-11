@@ -1,5 +1,5 @@
 
 <?php
-//Iniciando a aplicaÃ§Ã£o
-header("Location: http:/AlgTot/visao/algTotApresentacao.php");
+//Iniciando a aplicação
+header("Location: http:/algtot/visao/algTotApresentacao.php");
 ?>

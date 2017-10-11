@@ -578,9 +578,9 @@ Class AlgTot {
             $cdQuestao = $_SESSION['cdQuestao'];
             $cdAtividade = $_SESSION['atividade'];
 
-            $select = "SELECT DISTINCT usuarioQuestao.status AS acertouAnteriormente FROM usuarioQuestao
-																							WHERE usuarioQuestao.cdUsuario = ? AND usuarioQuestao.cdQuestao = ?
-																							AND usuarioQuestao.status = ?";
+            $select = "SELECT DISTINCT usuarioquestao.status AS acertouAnteriormente FROM usuarioquestao
+																							WHERE usuarioquestao.cdUsuario = ? AND usuarioquestao.cdQuestao = ?
+																							AND usuarioquestao.status = ?";
             $dados = array($cdUsuario, $cdQuestao, 'acertou');
 
             $acertos = $this->modelo->selecionar($select, $dados);
@@ -648,7 +648,7 @@ Class AlgTot {
                         $pontuacaoNivel = $_SESSION['nivel5'];
                     }
 
-                    $insert = "INSERT INTO usuarioQuestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
+                    $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
                     $dados = array($cdUsuario, $cdQuestao, 'acertou');
                     $this->modelo->cadastrar($insert, $dados);
 
@@ -656,7 +656,7 @@ Class AlgTot {
                     $dados = array($pontuacaoTotal, $pontuacaoNivel, $cdUsuario);
                     $this->modelo->alterar($update, $dados);
                 } else {
-                    $insert = "INSERT INTO usuarioQuestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
+                    $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
                     $dados = array($cdUsuario, $cdQuestao, 'acertouDenovo');
                     $this->modelo->cadastrar($insert, $dados);
                 }
@@ -668,7 +668,7 @@ Class AlgTot {
                 $_SESSION['totalQuestoesErradas'] ++;
                 $_SESSION['mostrarModalRegistro'] = 'errou';
 
-                $insert = "INSERT INTO usuarioQuestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
+                $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
                 $dados = array($cdUsuario, $cdQuestao, 'errou');
                 $this->modelo->cadastrar($insert, $dados);
             }
@@ -696,13 +696,13 @@ Class AlgTot {
             if ($_SESSION['progressoAtividade'] > $_SESSION['quantidadeTotalQuestao']) {
                 unset($_SESSION['atividade']);
                 $_SESSION['mostrarModalRegistroFinal'] = 'registroFinalAtividade';
-                header("Location: http:/AlgTot/visao/atividades.php");
+                header("Location: http:/algtot/visao/atividades.php");
             } else {
-                header("Location: http:/AlgTot/visao/questaoTipo1.php");
+                header("Location: http:/algtot/visao/questaoTipo1.php");
             }
         } else {
 
-            header("Location: http:/AlgTot/visao/questaoTipo1.php");
+            header("Location: http:/algtot/visao/questaoTipo1.php");
         }
     }
 
@@ -720,9 +720,9 @@ Class AlgTot {
             $cdAtividade = $_SESSION['atividade'];
             $_SESSION['pontuacaoObtidaQuestao'] = $_SESSION['pontuacao'];
 
-            $select = "SELECT distinct usuarioQuestao.status AS acertouAnteriormente FROM usuarioQuestao
-																							WHERE usuarioQuestao.cdUsuario = ? AND usuarioQuestao.cdQuestao = ?
-																							AND usuarioQuestao.status = ?";
+            $select = "SELECT distinct usuarioquestao.status AS acertouAnteriormente FROM usuarioquestao
+																							WHERE usuarioquestao.cdUsuario = ? AND usuarioquestao.cdQuestao = ?
+																							AND usuarioquestao.status = ?";
             $dados = array($cdUsuario, $cdQuestao, 'acertou');
             $acertos = $this->modelo->selecionar($select, $dados);
 
@@ -795,7 +795,7 @@ Class AlgTot {
                         $pontuacaoNivel = $_SESSION['nivel5'];
                     }
 
-                    $insert = "INSERT INTO usuarioQuestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
+                    $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
                     $dados = array($cdUsuario, $cdQuestao, 'acertou');
                     $this->modelo->cadastrar($insert, $dados);
 
@@ -804,7 +804,7 @@ Class AlgTot {
                     $this->modelo->alterar($update, $dados);
                 } else {
 
-                    $insert = "INSERT INTO usuarioQuestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
+                    $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
                     $dados = array($cdUsuario, $cdQuestao, 'acertouDenovo');
                     $this->modelo->cadastrar($insert, $dados);
                 }
@@ -816,7 +816,7 @@ Class AlgTot {
                 $_SESSION['totalQuestoesErradas'] ++;
                 $_SESSION['mostrarModalRegistro'] = 'errou';
 
-                $insert = "INSERT INTO usuarioQuestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
+                $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
                 $dados = array($cdUsuario, $cdQuestao, 'errou');
                 $this->modelo->cadastrar($insert, $dados);
             }
@@ -844,13 +844,13 @@ Class AlgTot {
             if ($_SESSION['progressoAtividade'] > $_SESSION['quantidadeTotalQuestao']) {
                 unset($_SESSION['atividade']);
                 $_SESSION['mostrarModalRegistroFinal'] = 'registroFinalAtividade';
-                header("Location: http:/AlgTot/visao/atividades.php");
+                header("Location: http:/algtot/visao/atividades.php");
             } else {
-                header("Location: http:/AlgTot/visao/questaoTipo1.php");
+                header("Location: http:/algtot/visao/questaoTipo1.php");
             }
         } else {
 
-            header("Location: http:/AlgTot/visao/questaoTipo1.php");
+            header("Location: http:/algtot/visao/questaoTipo1.php");
         }
     }
 
@@ -894,9 +894,9 @@ Class AlgTot {
         if ($_SESSION['progressoAtividade'] > $_SESSION['quantidadeTotalQuestao']) {
             unset($_SESSION['atividade']);
             $_SESSION['mostrarModalRegistroFinal'] = 'registroFinalAtividade';
-            header("Location: http:/AlgTot/visao/atividades.php");
+            header("Location: http:/algtot/visao/atividades.php");
         } else {
-            header("Location: http:/AlgTot/visao/questaoTipo1.php");
+            header("Location: http:/algtot/visao/questaoTipo1.php");
         }
     }
 
@@ -910,11 +910,11 @@ Class AlgTot {
         if (!isset($_SESSION['cdAtividade'])) {
 
             if ($_SESSION['cdGrupo'] == 1) {
-                header("Location: http:/AlgTot/visao/atividadesADM.php");
+                header("Location: http:/algtot/visao/atividadesADM.php");
             }
 
             if ($_SESSION['cdGrupo'] == 2) {
-                header("Location: http:/AlgTot/visao/atividadesProfessor.php");
+                header("Location: http:/algtot/visao/atividadesProfessor.php");
             }
         }
     }
@@ -928,11 +928,11 @@ Class AlgTot {
         if (!isset($_SESSION['nivel'])) {
 
             if ($_SESSION['cdGrupo'] == 1) {
-                header("Location: http:/AlgTot/visao/atividadesADM.php");
+                header("Location: http:/algtot/visao/atividadesADM.php");
             }
 
             if ($_SESSION['cdGrupo'] == 2) {
-                header("Location: http:/AlgTot/visao/atividadesProfessor.php");
+                header("Location: http:/algtot/visao/atividadesProfessor.php");
             }
         }
     }
@@ -1015,7 +1015,7 @@ Class AlgTot {
             }
         } else {
 
-            header("Location: http:/AlgTot/visao/atividades.php");
+            header("Location: http:/algtot/visao/atividades.php");
         }
     }
 

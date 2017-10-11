@@ -84,7 +84,7 @@ Class Usuario {
 
         session_start();
         session_destroy();
-        header("Location: http:/AlgTot/index.php");
+        header("Location: http:/algtot/index.php");
     }
 
     public function logar() {
@@ -113,15 +113,15 @@ Class Usuario {
 
                 //Verificando qual o grupo do usuario em questão e redirecionando para a pagina inicial e que ele pode ter acesso.
                 if ($_SESSION['cdGrupo'] == 1) {
-                    header("Location: http:/AlgTot/visao/principalADM.php");
+                    header("Location: http:/algtot/visao/principalADM.php");
                 }
 
                 if ($_SESSION['cdGrupo'] == 2) {
-                    header("Location: http:/AlgTot/visao/principalProfessor.php");
+                    header("Location: http:/algtot/visao/principalProfessor.php");
                 }
 
                 if ($_SESSION['cdGrupo'] == 3) {
-                    header("Location: http:/AlgTot/visao/principal.php");
+                    header("Location: http:/algtot/visao/principal.php");
                 }
             } else {
 

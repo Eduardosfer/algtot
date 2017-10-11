@@ -22,7 +22,7 @@
 		//
 	}else{
 
-		header("Location: http:/AlgTot/visao/principal.php");
+		header("Location: http:/algtot/visao/principal.php");
 	}
 
 ?>
@@ -267,10 +267,10 @@
 															$select = "SELECT atividade.cdAtividade AS codAtividade, atividade.* ,
 																				(SELECT SUM( questao.pontuacao ) AS pontuacaoTotalUsuarioAtividade FROM atividade
 																				LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade
-																				LEFT JOIN usuarioQuestao ON questao.cdQuestao = usuarioQuestao.cdQuestao
-																				LEFT JOIN usuario ON usuario.cdUsuario = usuarioQuestao.cdUsuario
+																				LEFT JOIN usuarioquestao ON questao.cdQuestao = usuarioquestao.cdQuestao
+																				LEFT JOIN usuario ON usuario.cdUsuario = usuarioquestao.cdUsuario
 																				WHERE usuario.cdUsuario = ? AND atividade.cdAtividade = codAtividade
-																				AND (usuarioQuestao.status = ? OR usuarioQuestao.status is null)) AS pontuacaoTotalAluno,
+																				AND (usuarioquestao.status = ? OR usuarioquestao.status is null)) AS pontuacaoTotalAluno,
 																				atividade.dataCadastramento AS dataCadastramentoAtividade, COUNT(questao.cdQuestao) AS quantidadeQuestao,
 																				SUM(questao.pontuacao) AS pontuacaoTotal FROM atividade
 																				LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
@@ -285,10 +285,10 @@
 															$select = "SELECT atividade.cdAtividade AS codAtividade, atividade.* ,
 																				(SELECT SUM( questao.pontuacao ) AS pontuacaoTotalUsuarioAtividade FROM atividade
 																				LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade
-																				LEFT JOIN usuarioQuestao ON questao.cdQuestao = usuarioQuestao.cdQuestao
-																				LEFT JOIN usuario ON usuario.cdUsuario = usuarioQuestao.cdUsuario
+																				LEFT JOIN usuarioquestao ON questao.cdQuestao = usuarioquestao.cdQuestao
+																				LEFT JOIN usuario ON usuario.cdUsuario = usuarioquestao.cdUsuario
 																				WHERE usuario.cdUsuario = ? AND atividade.cdAtividade = codAtividade
-																				AND (usuarioQuestao.status = ? OR usuarioQuestao.status is null)) AS pontuacaoTotalAluno,
+																				AND (usuarioquestao.status = ? OR usuarioquestao.status is null)) AS pontuacaoTotalAluno,
 																				atividade.dataCadastramento AS dataCadastramentoAtividade, COUNT(questao.cdQuestao) AS quantidadeQuestao,
 																				SUM(questao.pontuacao) AS pontuacaoTotal FROM atividade
 																				LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
