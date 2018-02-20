@@ -472,7 +472,7 @@ $acesso->acessar();
                                                                     <div class="row">
                                                                         <div class="col-sm-5  col-sm-offset-7">
                                                                             <a name="cancelar" href="atividadesProfessor.php" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-remo"></span> Cancelar</a>
-                                                                            <button name="acao" id="acaoEditarAtividade" type="submit" value="EditarAtividade" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Salvar</button>
+                                                                            <button name="acao"  type="submit" value="EditarAtividade" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Salvar</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>
