@@ -25,7 +25,6 @@ Class Conexao {
         $senha = 'root';
 
         try {
-
             $colacao = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
             $this->conexao = new PDO('mysql:host=' . $host . ';dbname=' . $dbName . '', $usuario, $senha, $colacao);
         } catch (Exception $ex) {
@@ -33,7 +32,7 @@ Class Conexao {
         }
 
         if (!isset($this->conexao)) {
-            $this->mostrarMensagemRedirecionar("Base de dados nÃ£o encontrada!", "../visao/algTotApresentacao.php");
+            $this->mostrarMensagemRedirecionar("Base de dados não encontrada!", "../visao/algTotApresentacao.php");
         }
     }
 
