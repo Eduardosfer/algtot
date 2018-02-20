@@ -392,7 +392,7 @@ if (!isset($_POST['buscarPor'])) {
                                                                         <span class="input-group-addon" id="sizing-addon2">
                                                                             <span class="glyphicon glyphicon-lock"></span>
                                                                         </span>
-                                                                        <input name="senha" id="senha" type="text" pattern="\S+" minlength="3" maxlength="20" class="form-control" value="<?php echo $dado['senha']; ?>" disabled required placeholder="Senha" title="Senha do usuário" aria-describedby="sizing-addon2">
+                                                                        <input name="senha" type="text" pattern="\S+" minlength="3" maxlength="20" class="form-control" value="<?php echo $dado['senha']; ?>" disabled required placeholder="Senha" title="Senha do usuário" aria-describedby="sizing-addon2">
                                                                     </div>
 
                                                                     <br>
@@ -500,7 +500,7 @@ if (!isset($_POST['buscarPor'])) {
                                                                     <div class="row">
                                                                         <div class="col-sm-4  col-sm-offset-8">
                                                                             <a name="cancelar" href="usuariosADM.php" class="btn btn-default">Cancelar</a>
-                                                                            <button name="acao" id="acaoEditarUsuario" type="submit" value="EditarUsuario" class="btn btn-success">Salvar</button>
+                                                                            <button name="acao" type="submit" value="EditarUsuario" class="btn btn-success">Salvar</button>
                                                                         </div>
                                                                     </div>
                                                                 </div>

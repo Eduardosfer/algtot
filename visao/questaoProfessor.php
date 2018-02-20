@@ -416,6 +416,8 @@
                         $tempoTotalQuestao = $dado['tempoTotalQuestao'];
 
                       ?>
+                                    
+                      <?php if($tipo==1){ ?>
 
                       <div name="tipo1" class="panel panel-default" style="<?php if($tipo==1){ echo 'display:block;'; }else{ echo 'display:none;'; }?>">
 
@@ -523,7 +525,7 @@
 
                             <div class="input-group">
                               <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-calendar"></span></span>
-                              <input type="date" value="<?php if ($tipo==1) { echo $dataCadastramento; } ?>" id="dataCadastramento" name="dataCadastramento" disabled maxlength="2000" class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
+                              <input type="date" value="<?php if ($tipo==1) { echo $dataCadastramento; } ?>"  name="dataCadastramento" disabled maxlength="2000" class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
                             </div>
 
                         </div>
@@ -537,8 +539,10 @@
 
                       </div>
 
+                      <?php } ?>
 
-
+                      <?php if($tipo==2){ ?>
+                                    
                       <div name="tipo2" class="panel panel-default" style="<?php if($tipo==2){ echo 'display:block;'; }else{ echo 'display:none;'; }?>">
 
                         <div class="panel-heading" style="background-color: #4cae4c; color:white">
@@ -601,7 +605,7 @@
 
                             <div class="input-group">
                               <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-calendar"></span></span>
-                              <input type="date" value="<?php if ($tipo==2) { echo $dataCadastramento; } ?>" id="dataCadastramento" name="dataCadastramento" disabled class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
+                              <input type="date" value="<?php if ($tipo==2) { echo $dataCadastramento; } ?>"  name="dataCadastramento" disabled class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
                             </div>
 
                         </div>
@@ -615,8 +619,10 @@
 
                       </div>
 
-
-
+                      <?php } ?>
+                                    
+                      <?php if($tipo==3){ ?>
+                                    
                       <div name="tipo3" class="panel panel-default" style="<?php if($tipo==3){ echo 'display:block;'; }else{ echo 'display:none;'; }?>">
 
                         <div class="panel-heading" style="background-color: #4cae4c; color:white">
@@ -723,7 +729,7 @@
 
                             <div class="input-group">
                               <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-calendar"></span></span>
-                              <input type="date" value="<?php if ($tipo==3) { echo $dataCadastramento; } ?>" id="dataCadastramento" name="dataCadastramento" disabled class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
+                              <input type="date" value="<?php if ($tipo==3) { echo $dataCadastramento; } ?>"  name="dataCadastramento" disabled class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
                             </div>
 
                         </div>
@@ -737,7 +743,7 @@
 
                       </div>
 
-
+                      <?php } ?>
 
                       <!--MODAL EXCLUIR-->
                       <div id="excluir<?php  echo $cdQuestao; ?>" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel">

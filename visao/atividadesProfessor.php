@@ -505,7 +505,7 @@ $acesso->acessar();
                                                                         <span class="input-group-addon" id="sizing-addon2">
                                                                             <span class="glyphicon glyphicon-text-width"></span>
                                                                         </span>
-                                                                        <input name="titulo" id="titulo<?php echo $dado['cdAtividade'] ?>" minlength="3" maxlength="200" type="text" class="form-control" value="<?php echo $dado['titulo']; ?>" disabled required placeholder="Título da Atividade" title="Insira o titulo da atividade: Maximo 200 caracteres" aria-describedby="sizing-addon2">
+                                                                        <input name="titulo" minlength="3" maxlength="200" type="text" class="form-control" value="<?php echo $dado['titulo']; ?>" disabled required placeholder="Título da Atividade" title="Insira o titulo da atividade: Maximo 200 caracteres" aria-describedby="sizing-addon2">
                                                                     </div>
 
                                                                     <br>
@@ -513,7 +513,7 @@ $acesso->acessar();
                                                                     <div class="input-group">
 
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-signal"></span></span>
-                                                                        <select required disabled name="nivel" id="nivel<?php echo $dado['cdAtividade'] ?>" class="form-control" title="Selecione um nivel para a atividade">
+                                                                        <select required disabled name="nivel" class="form-control" title="Selecione um nivel para a atividade">
 
                                                                             <option <?php
                                                                             if ($dado['nivel'] == 1) {
@@ -550,7 +550,7 @@ $acesso->acessar();
                                                                     <div class="input-group">
 
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-sort"></span></span>
-                                                                        <select required disabled name="status" id="status<?php echo $dado['cdAtividade'] ?>" class="form-control" title="Selecione o status da atividade">
+                                                                        <select required disabled name="status" class="form-control" title="Selecione o status da atividade">
 
                                                                             <option <?php
                                                                             if ($dado['status'] == 'ativo') {
