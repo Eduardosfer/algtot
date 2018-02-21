@@ -195,7 +195,11 @@
                   ?>
 
 
-                  <li><div class="alert alert-success" role="alert"><a href="ranking.php" class="alert-link">Ver Todos</a></div></li>
+                  <?php if ($contador > 1) { ?>
+                    <li><div class="alert alert-success" role="alert"><a href="ranking.php" class="alert-link">Ver Todos</a></div></li>
+                 <?php } else { ?>
+                    <li><div class="alert alert-warning" role="alert">Nenhum participante</div></li>
+                 <?php } ?>
 
                 </ol>
 

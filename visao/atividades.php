@@ -151,7 +151,7 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
 
                                 <div class="form-group">
                                     <div class="col">
-                                        <a name="atividadesADM" href="atividades.php" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span> Atividades</a>
+                                        <a name="atividadess" href="atividades.php" class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span> Atividades</a>
                                     </div>
                                 </div>
 
@@ -294,8 +294,9 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                         }
 
                                         $atividades = $modelo->selecionar($select, $dados);
+                                        $countAlert = 0;
                                         foreach ($atividades as $key => $atividade) {
-
+                                            $countAlert++;
                                             $codAtividade = htmlspecialchars($atividade['codAtividade']);
                                             $titulo = htmlspecialchars($atividade['titulo']);
                                             $pontuacaoTotal = $atividade['pontuacaoTotal'];
@@ -333,11 +334,17 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
 ?>
 
                                     </form>
-
+                                    
                                 </div>
-
+                                
+                                <?php if ($countAlert == 0 && isset($_POST['parametro'])) { ?>
+                                    <div class="alert alert-warning" role="alert">Nenhuma atividade encontrada</div>
+                                <?php } ?>
+                                <?php if ($countAlert == 0 && !isset($_POST['parametro'])) { ?>
+                                    <div class="alert alert-success" role="alert">Nenhuma atividade cadastrada</div>
+                                <?php } ?>
                             </div>
-
+                            
                         </div>
 
                         <div class="panel-footer">

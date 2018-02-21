@@ -194,11 +194,11 @@ $acesso->acessar();
                                 <div class="row">                                    
 
                                     <div class="col-sm-2">                  
-                                        <a name="voltarInicio" style="width:100px;" href="principalADM.php" class="btn btn-default form-control"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Início</a>                  
+                                        <a name="voltarInicio" style="width:100px;" href="principalProfessor.php" class="btn btn-default form-control"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Início</a>                  
                                     </div>
 
                                     <div class="col">                  
-                                        <a name="atividadesADM" href="atividadesADM.php" class="btn btn-default form-control"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Atividades</a>                  
+                                        <a name="atividadesProfessor" href="atividadesProfessor.php" class="btn btn-default form-control"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Atividades</a>                  
                                     </div>
                                 </div>
                             </form>
@@ -319,9 +319,9 @@ $acesso->acessar();
                                     }
 
                                     $dados = $modelo->selecionar($select, $dados);
-
+                                    $countAlert = 0;
                                     foreach ($dados as $key => $dado) {
-
+                                        $countAlert++;
                                         $dado['titulo'] = htmlspecialchars($dado['titulo']);
                                         $dado['nivel'] = $dado['nivel'];
                                         $dado['status'] = htmlspecialchars($dado['status']);
@@ -617,9 +617,14 @@ $acesso->acessar();
                                     ?>
 
                                 </tbody>
-
+                                
                             </table>
-
+                            <?php if ($countAlert == 0 && isset($_POST['parametro'])) { ?>
+                                <div class="alert alert-warning" role="alert">Nenhuma atividade encontrada</div>
+                            <?php } ?>
+                            <?php if ($countAlert == 0 && !isset($_POST['parametro'])) { ?>
+                                <div class="alert alert-success" role="alert">Nenhuma atividade cadastrada</div>
+                            <?php } ?>
                         </div>
 
                         <div class="panel-footer">

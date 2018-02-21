@@ -319,9 +319,9 @@ $acesso->acessar();
                                     }
 
                                     $dados = $modelo->selecionar($select, $dados);
-
+                                    $countAlert = 0;
                                     foreach ($dados as $key => $dado) {
-
+                                        $countAlert++;
                                         $dado['titulo'] = htmlspecialchars($dado['titulo']);
                                         $dado['nivel'] = $dado['nivel'];
                                         $dado['status'] = htmlspecialchars($dado['status']);
@@ -618,6 +618,13 @@ $acesso->acessar();
                                 </tbody>
 
                             </table>
+                            
+                            <?php if ($countAlert == 0 && isset($_POST['parametro'])) { ?>
+                                <div class="alert alert-warning" role="alert">Nenhuma atividade encontrada</div>
+                            <?php } ?>
+                            <?php if ($countAlert == 0 && !isset($_POST['parametro'])) { ?>
+                                <div class="alert alert-success" role="alert">Nenhuma atividade cadastrada</div>
+                            <?php } ?>
 
                         </div>
 

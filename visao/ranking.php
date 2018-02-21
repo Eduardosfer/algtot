@@ -249,9 +249,9 @@ if (!isset($_POST['buscarPor'])) {
                                     }
 
                                     $dados = $modelo->selecionar($select, $dados);
-
+                                    $countAlert = 0;
                                     foreach ($dados as $key => $dado) {
-
+                                        $countAlert++;
                                         $dado['usuario'] = htmlspecialchars($dado['usuario']);
                                         ?>
 
@@ -272,7 +272,12 @@ if (!isset($_POST['buscarPor'])) {
                                 </tbody>
 
                             </table>
-
+                            <?php if ($countAlert == 0 && isset($_POST['parametro'])) { ?>
+                                <div class="alert alert-warning" role="alert">Nenhum usuário encontrado</div>
+                            <?php } ?>
+                            <?php if ($countAlert == 0 && !isset($_POST['parametro'])) { ?>
+                                <div class="alert alert-success" role="alert">Nenhum usuário cadastrado</div>
+                            <?php } ?>
                         </div>
 
                         <div class="panel-footer">
