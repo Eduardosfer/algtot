@@ -554,32 +554,36 @@ Class Usuario {
                 $value['email'];
                 $value['senha'];
             }
-            
-            if(!isset($value['email'])){ $value['email']=null; }
-            if(!isset($value['senha'])){ $value['senha']=null; }
-            
+
+            if (!isset($value['email'])) {
+                $value['email'] = null;
+            }
+            if (!isset($value['senha'])) {
+                $value['senha'] = null;
+            }
+
             $this->setSenha($value['senha']);
             $this->setEmail($value['email']);
 
             if (isset($this->email)) {
-                
+
                 /*
-                $para = $this->email;
-                $assunto = 'Recuperação de senha, AlgTot';
-                $mensagem = 'Sua senha: ' . $this->senha;
-                $headers = "MIME-Version: 1.1/r/n";
-                $headers .= "Content-type: text/plain; charset=iso-8859-1/r/n";
-                $headers .= "From: AlgTot - AlgTot <algtot@outlook.com.br>/r/n";
-                $headers .= "Return-Path: AlgTot - AlgTot <algtot@outlook.com.br>";
+                  $para = $this->email;
+                  $assunto = 'Recuperação de senha, AlgTot';
+                  $mensagem = 'Sua senha: ' . $this->senha;
+                  $headers = "MIME-Version: 1.1/r/n";
+                  $headers .= "Content-type: text/plain; charset=iso-8859-1/r/n";
+                  $headers .= "From: AlgTot - AlgTot <algtot@outlook.com.br>/r/n";
+                  $headers .= "Return-Path: AlgTot - AlgTot <algtot@outlook.com.br>";
 
-                if (mail($para, $assunto, $mensagem, $headers) == true) {
+                  if (mail($para, $assunto, $mensagem, $headers) == true) {
 
-                    $this->mostrarMensagemRedirecionar("Uma mensagem foi enviada para sua caixa de e-mail.", "../index.php");
-                } else {
+                  $this->mostrarMensagemRedirecionar("Uma mensagem foi enviada para sua caixa de e-mail.", "../index.php");
+                  } else {
 
-                    $this->mostrarMensagemRedirecionar("Não foi possivel enviar o e-mail, tente novamente!", "../index.php");
-                }*/
-                
+                  $this->mostrarMensagemRedirecionar("Não foi possivel enviar o e-mail, tente novamente!", "../index.php");
+                  } */
+
                 $this->mostrarMensagemRedirecionar("Este serviço ainda não está funcionando !\\nEnvie um e-mail para algtot@outlook.com.br solicitando a sua senha\\nVocê deve utilizar o e-mail que está vinculado com o seu usuário do AlgTot!", "../index.php");
             } else {
 
