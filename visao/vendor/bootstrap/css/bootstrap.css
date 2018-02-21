@@ -18,7 +18,13 @@
     outline: none!important;
 }
 
-.page-scroll-button:hover, :focus {
+.page-scroll-button:hover {
+    color: #333!important;
+    background-color: transparent!important;
+    border: none!important;
+}
+
+.page-scroll-button:focus {
     color: #333!important;
     background-color: transparent!important;
     border: none!important;
