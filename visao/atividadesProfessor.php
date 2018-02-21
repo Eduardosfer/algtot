@@ -653,19 +653,13 @@ $acesso->acessar();
                                     <button name="paginar" title="Página <?php echo $pagina; ?> de <?php echo $ultimaPagina; ?>" type="button" class="btn btn-success">
                                         <?php echo $pagina; ?> de <?php echo $ultimaPagina; ?>
                                     </button>
-
-                                    <button name="paginar" title="Ir para página anterior" value="anterior" type="submit" class="btn btn-default"><</button>
-                                    <button name="paginar" title="Ir para primeira página" value="primeira" type="submit" class="btn btn-default">Primeira</button>
-
+                                    <button style="padding: 9px;" name="paginar" title="Ir para primeira página" value="primeira" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-menu-left" ></span><span class="glyphicon glyphicon-menu-left" ></span></button>
+                                    <button style="padding: 9px;" name="paginar" title="Ir para página anterior" value="anterior" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-menu-left" ></span></button>
                                     <button name="paginar" title="Página atual" value="atual" type="button" class="btn btn-success">
                                         <?php echo $pagina; ?>
                                     </button>
-
-                                    <button name="paginar" title="Ir para ultima página" value="ultima" type="submit" class="btn btn-default">
-                                        Última
-                                    </button>
-
-                                    <button name="paginar" title="Ir para próxima página" value="proxima" type="submit" class="btn btn-default">></button>
+                                    <button style="padding: 9px;" name="paginar" title="Ir para próxima página" value="proxima" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-menu-right" ></span></button>
+                                    <button style="padding: 9px;" name="paginar" title="Ir para ultima página" value="ultima" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-menu-right" ></span><span class="glyphicon glyphicon-menu-right" ></span></button>
 
                                 </div>
 
