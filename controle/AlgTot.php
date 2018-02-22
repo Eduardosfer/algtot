@@ -275,25 +275,25 @@ Class AlgTot {
                 $tempoTotalQuestao = $_POST['tempoTotalQuestao'];
                 $cdAtividade = $_POST['cdAtividade'];
                 $tipo = $_POST['tipo'];
-                $dataCadastramento = date('Y-m-d');                
+                $dataCadastramento = date('Y-m-d');
 
                 $select = "SELECT count(cdQuestao) AS quantidade FROM questao WHERE pergunta = ? AND status != ?";
                 $dados = array($pergunta, 'deletado');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
-                    
+
                     $insert = "INSERT INTO questao(cdAtividade,dataCadastramento,tipo,pergunta,alternativaCorreta,
 											alternativaIncorreta1,alternativaIncorreta2,alternativaIncorreta3,alternativaIncorreta4,
 											pontuacao,tempoTotalQuestao,dica,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?) ";
 
                     $dados = array($cdAtividade, $dataCadastramento, $tipo, $pergunta,
-                                    $alternativaCorreta, $alternativaIncorreta1,$alternativaIncorreta2,
-                                    $alternativaIncorreta3, $alternativaIncorreta4, $pontuacao, $tempoTotalQuestao,
-                                    $dica, 'ativo');
-                
+                        $alternativaCorreta, $alternativaIncorreta1, $alternativaIncorreta2,
+                        $alternativaIncorreta3, $alternativaIncorreta4, $pontuacao, $tempoTotalQuestao,
+                        $dica, 'ativo');
+
                     $this->modelo->cadastrar($insert, $dados);
                     $mensagem = $mensagem . 'A questão foi cadastrada com sucesso!\n';
-                }else{
+                } else {
                     $mensagem = $mensagem . 'A questão não foi cadastrada, pois já esxiste uma questão com esta pergunta!\nCaso queira cadastrar mesmo assim, terá que mudar algo na pergunta!';
                 }
             }
@@ -337,8 +337,8 @@ Class AlgTot {
                 $tipo = $_POST['tipo'];
                 $dataCadastramento = date('Y-m-d');
                 $alternativaCorreta = trim($alternativaCorreta);
-                
-                
+
+
                 $select = "SELECT count(cdQuestao) AS quantidade FROM questao WHERE pergunta = ? AND status != ?";
                 $dados = array($pergunta, 'deletado');
 
@@ -350,7 +350,7 @@ Class AlgTot {
                     $this->modelo->cadastrar($insert, $dados);
 
                     $mensagem = $mensagem . 'A questão foi cadastrada com sucesso!\n';
-                }else{
+                } else {
                     $mensagem = $mensagem . 'A questão não foi cadastrada, pois já esxiste uma questão com esta pergunta/contexto!\nCaso queira cadastrar mesmo assim, terá que mudar algo na pergunta/contexto!';
                 }
             }
@@ -431,12 +431,12 @@ Class AlgTot {
                 } else {
                     $dica = $_POST['dica'];
                 }
-                
+
                 $select = "SELECT count(cdQuestao) AS quantidade FROM questao WHERE pergunta = ? AND status != ? AND cdQuestao != ?";
                 $dados = array($pergunta, 'deletado', $cdQuestao);
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
-                                    
+
                     if (isset($pergunta)) {
 
                         $update = "UPDATE questao SET pergunta = ? WHERE cdQuestao = ?";
@@ -508,7 +508,7 @@ Class AlgTot {
                         $this->modelo->alterar($update, $dados);
                         $mensagem = $mensagem . 'A dica foi alterada com sucesso!\n';
                     }
-                }else{
+                } else {
                     $mensagem = $mensagem . 'A questão não foi alterada, pois já esxiste uma questão com esta pergunta/contexto!\nCaso queira alterar mesmo assim, terá que mudar algo na pergunta/contexto!';
                 }
             }
@@ -674,22 +674,24 @@ Class AlgTot {
             }
 
             //TRANSFORMO EM UM ARRAY PARA PEGAR O AS QUESTÕES SEM REPETIR 
-            $_SESSION['randQuestao'] = explode(",",$_SESSION['randQuestao']);
+            $_SESSION['randQuestao'] = explode(",", $_SESSION['randQuestao']);
 
-            $questaoRandomica = count($_SESSION['randQuestao'])-1;
+            $questaoRandomica = count($_SESSION['randQuestao']) - 1;
             //Setando o codigo da questao randomicamente -- Começo do 1 pois o primeiro valor é sempre uma virgula
-            $_SESSION['numQuestao'] = $_SESSION['randQuestao'][rand(1, $questaoRandomica)];    
+            $_SESSION['numQuestao'] = $_SESSION['randQuestao'][rand(1, $questaoRandomica)];
 
             //retirando a questao que ja foi selecionada
             $teste = "/\b" . $_SESSION['numQuestao'] . "\b/";
             $_SESSION['randQuestao'] = preg_replace($teste, '', $_SESSION['randQuestao']);
 
             //TORNANDO O RAND QUESTÃO EM UMA STRING NOVAMENTE PARA PODER ELIMINAR O VAZIO QUE FOI DEIXADO PELO PREG_REPLACE    
-            $_SESSION['randQuestao'] = implode(",",$_SESSION['randQuestao']);
+            $_SESSION['randQuestao'] = implode(",", $_SESSION['randQuestao']);
             //RETIRANDO O EXCESSO DE VIRGULAS
             $_SESSION['randQuestao'] = preg_replace('/,,/', ',', $_SESSION['randQuestao']);
             //RETIRANDO O ULTIMO ELEMENTO CASO ELE SEJA UMA VIRGULA    
-            if($_SESSION['randQuestao'][strlen($_SESSION['randQuestao'])-1]==','){ $_SESSION['randQuestao'] = substr($_SESSION['randQuestao'],0,-1); }
+            if ($_SESSION['randQuestao'][strlen($_SESSION['randQuestao']) - 1] == ',') {
+                $_SESSION['randQuestao'] = substr($_SESSION['randQuestao'], 0, -1);
+            }
 
             $_SESSION['progressoAtividade'] ++;
 
@@ -822,22 +824,24 @@ Class AlgTot {
             }
 
             //TRANSFORMO EM UM ARRAY PARA PEGAR O AS QUESTÕES SEM REPETIR 
-            $_SESSION['randQuestao'] = explode(",",$_SESSION['randQuestao']);
+            $_SESSION['randQuestao'] = explode(",", $_SESSION['randQuestao']);
 
-            $questaoRandomica = count($_SESSION['randQuestao'])-1;
+            $questaoRandomica = count($_SESSION['randQuestao']) - 1;
             //Setando o codigo da questao randomicamente -- Começo do 1 pois o primeiro valor é sempre uma virgula
-            $_SESSION['numQuestao'] = $_SESSION['randQuestao'][rand(1, $questaoRandomica)];    
+            $_SESSION['numQuestao'] = $_SESSION['randQuestao'][rand(1, $questaoRandomica)];
 
             //retirando a questao que ja foi selecionada
             $teste = "/\b" . $_SESSION['numQuestao'] . "\b/";
             $_SESSION['randQuestao'] = preg_replace($teste, '', $_SESSION['randQuestao']);
 
             //TORNANDO O RAND QUESTÃO EM UMA STRING NOVAMENTE PARA PODER ELIMINAR O VAZIO QUE FOI DEIXADO PELO PREG_REPLACE    
-            $_SESSION['randQuestao'] = implode(",",$_SESSION['randQuestao']);
+            $_SESSION['randQuestao'] = implode(",", $_SESSION['randQuestao']);
             //RETIRANDO O EXCESSO DE VIRGULAS
             $_SESSION['randQuestao'] = preg_replace('/,,/', ',', $_SESSION['randQuestao']);
             //RETIRANDO O ULTIMO ELEMENTO CASO ELE SEJA UMA VIRGULA    
-            if($_SESSION['randQuestao'][strlen($_SESSION['randQuestao'])-1]==','){ $_SESSION['randQuestao'] = substr($_SESSION['randQuestao'],0,-1); }
+            if ($_SESSION['randQuestao'][strlen($_SESSION['randQuestao']) - 1] == ',') {
+                $_SESSION['randQuestao'] = substr($_SESSION['randQuestao'], 0, -1);
+            }
 
             $_SESSION['progressoAtividade'] ++;
 
@@ -864,22 +868,24 @@ Class AlgTot {
         session_start();
 
         //TRANSFORMO EM UM ARRAY PARA PEGAR O AS QUESTÕES SEM REPETIR 
-        $_SESSION['randQuestao'] = explode(",",$_SESSION['randQuestao']);
+        $_SESSION['randQuestao'] = explode(",", $_SESSION['randQuestao']);
 
-        $questaoRandomica = count($_SESSION['randQuestao'])-1;
+        $questaoRandomica = count($_SESSION['randQuestao']) - 1;
         //Setando o codigo da questao randomicamente -- Começo do 1 pois o primeiro valor é sempre uma virgula
-        $_SESSION['numQuestao'] = $_SESSION['randQuestao'][rand(1, $questaoRandomica)];    
+        $_SESSION['numQuestao'] = $_SESSION['randQuestao'][rand(1, $questaoRandomica)];
 
         //retirando a questao que ja foi selecionada
         $teste = "/\b" . $_SESSION['numQuestao'] . "\b/";
         $_SESSION['randQuestao'] = preg_replace($teste, '', $_SESSION['randQuestao']);
 
         //TORNANDO O RAND QUESTÃO EM UMA STRING NOVAMENTE PARA PODER ELIMINAR O VAZIO QUE FOI DEIXADO PELO PREG_REPLACE    
-        $_SESSION['randQuestao'] = implode(",",$_SESSION['randQuestao']);
+        $_SESSION['randQuestao'] = implode(",", $_SESSION['randQuestao']);
         //RETIRANDO O EXCESSO DE VIRGULAS
         $_SESSION['randQuestao'] = preg_replace('/,,/', ',', $_SESSION['randQuestao']);
         //RETIRANDO O ULTIMO ELEMENTO CASO ELE SEJA UMA VIRGULA    
-        if($_SESSION['randQuestao'][strlen($_SESSION['randQuestao'])-1]==','){ $_SESSION['randQuestao'] = substr($_SESSION['randQuestao'],0,-1); }
+        if ($_SESSION['randQuestao'][strlen($_SESSION['randQuestao']) - 1] == ',') {
+            $_SESSION['randQuestao'] = substr($_SESSION['randQuestao'], 0, -1);
+        }
 
         //pulando a questao
         $_SESSION['progressoAtividade'] ++;
@@ -961,27 +967,28 @@ Class AlgTot {
             $_SESSION['randQuestao'] = null;
 
             for ($i = 0; $i < $_SESSION['quantidadeTotalQuestao']; $i++) {
-                $_SESSION['randQuestao'] = $_SESSION['randQuestao'].",".$i;
-            }       
+                $_SESSION['randQuestao'] = $_SESSION['randQuestao'] . "," . $i;
+            }
 
             //TRANSFORMO EM UM ARRAY PARA PEGAR O AS QUESTÕES SEM REPETIR 
-            $_SESSION['randQuestao'] = explode(",",$_SESSION['randQuestao']);
+            $_SESSION['randQuestao'] = explode(",", $_SESSION['randQuestao']);
 
-            $questaoRandomica = count($_SESSION['randQuestao'])-1;
+            $questaoRandomica = count($_SESSION['randQuestao']) - 1;
             //Setando o codigo da questao randomicamente -- Começo do 1 pois o primeiro valor é sempre uma virgula
-            $_SESSION['numQuestao'] = $_SESSION['randQuestao'][rand(1, $questaoRandomica)];    
+            $_SESSION['numQuestao'] = $_SESSION['randQuestao'][rand(1, $questaoRandomica)];
 
             //retirando a questao que ja foi selecionada
             $teste = "/\b" . $_SESSION['numQuestao'] . "\b/";
             $_SESSION['randQuestao'] = preg_replace($teste, '', $_SESSION['randQuestao']);
 
             //TORNANDO O RAND QUESTÃO EM UMA STRING NOVAMENTE PARA PODER ELIMINAR O VAZIO QUE FOI DEIXADO PELO PREG_REPLACE    
-            $_SESSION['randQuestao'] = implode(",",$_SESSION['randQuestao']);
+            $_SESSION['randQuestao'] = implode(",", $_SESSION['randQuestao']);
             //RETIRANDO O EXCESSO DE VIRGULAS
             $_SESSION['randQuestao'] = preg_replace('/,,/', ',', $_SESSION['randQuestao']);
             //RETIRANDO O ULTIMO ELEMENTO CASO ELE SEJA UMA VIRGULA    
-            if($_SESSION['randQuestao'][strlen($_SESSION['randQuestao'])-1]==','){ $_SESSION['randQuestao'] = substr($_SESSION['randQuestao'],0,-1); }
-                        
+            if ($_SESSION['randQuestao'][strlen($_SESSION['randQuestao']) - 1] == ',') {
+                $_SESSION['randQuestao'] = substr($_SESSION['randQuestao'], 0, -1);
+            }
         }
 
         if (isset($_SESSION['atividade'])) {
@@ -1048,6 +1055,15 @@ Class AlgTot {
         }
 
         return $resultado;
+    }
+
+    public function setModalRedirecionar($header = null, $body = null, $footer = null, $meuModal = null, $url = '../index.php') {
+        session_start();
+        $_SESSION['modal'] = $meuModal;
+        $_SESSION['header'] = $header;
+        $_SESSION['body'] = $body;
+        $_SESSION['footer'] = $footer;
+        header("Location: http:$url");
     }
 
     public function setModelo($modelo) {

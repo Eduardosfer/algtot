@@ -43,7 +43,7 @@ $acesso->verificarApresentacao();
     </head>
 
     <body id="page-top">
-
+        
         <!-- MODAL DE VISUALIZAÇÃO DE SINTAXE DO PORTUGOL-->
         <?php include_once("includs/modalSintaxePortugol.php"); ?>
 
@@ -498,6 +498,9 @@ $acesso->verificarApresentacao();
             </div>
 
         </footer>
+        
+        <!-- MODAIS DE ALERTAS -->
+        <?php include_once("includs/modaisAlertas.php"); ?>
 
     </body>
 

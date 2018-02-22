@@ -12,6 +12,7 @@
  * @author EduSfer
  */
 require_once("../modelo/Modelo.php");
+require_once("../controle/AlgTot.php");
 
 date_default_timezone_set('America/Sao_Paulo');
 
@@ -38,6 +39,7 @@ Class Usuario {
     public function __construct() {
 
         $this->modelo = new Modelo();
+        $this->AlgTot = new AlgTot();
 
         if (!isset($_POST['acao'])) {
 
@@ -123,9 +125,8 @@ Class Usuario {
                 if ($_SESSION['cdGrupo'] == 3) {
                     header("Location: http:/algtot/visao/principal.php");
                 }
-            } else {
-
-                $this->mostrarMensagemRedirecionar("Usuário ou senha incorretos", "../index.php");
+            } else {                
+                $this->AlgTot->setModalRedirecionar('', 'Usuário ou senha incorretos.', '', 'meuModalErro', '../index.php');
             }
         }
     }
