@@ -83,7 +83,6 @@ Class Usuario {
     }
 
     public function deslogar() {
-
         session_start();
         session_destroy();
         header("Location: http:/algtot/index.php");

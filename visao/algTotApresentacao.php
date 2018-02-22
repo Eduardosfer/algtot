@@ -45,7 +45,7 @@ $acesso->verificarApresentacao();
     <body id="page-top">
         
         <!-- MODAL DE VISUALIZAÇÃO DE SINTAXE DO PORTUGOL-->
-        <?php include_once("includs/modalSintaxePortugol.php"); ?>
+        <?php include_once("includs/modalSintaxePortugol.php"); ?>        
 
         <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
 
