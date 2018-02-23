@@ -94,10 +94,9 @@ $acesso->acessar();
                             
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-sort"></span></span>
-                                <select required name="status" class="form-control" title="Selecione o status da atividade">
-                                    <option value="">Selecione</option>
-                                    <option value="ativo">Ativo</option>
+                                <select required name="status" class="form-control" title="Selecione o status da atividade">                                    
                                     <option value="inativo">Inativo</option>
+                                    <option value="ativo">Ativo</option>
                                 </select>                               
                             </div>
 
