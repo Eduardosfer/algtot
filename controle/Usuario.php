@@ -12,7 +12,7 @@
  * @author EduSfer
  */
 require_once("../modelo/Modelo.php");
-require_once("../controle/AlgTot.php");
+require_once("AlgTot.php");
 
 header('Content-Type: text/html; charset=UTF-8');
 

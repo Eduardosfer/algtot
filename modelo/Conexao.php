@@ -11,14 +11,17 @@
  *
  * @author EduSfer
  */
+
+require_once("../controle/AlgTot.php");
+
 header('Content-Type: text/html; charset=UTF-8');
 
 Class Conexao {
 
-    private $conexao;
+    private $conexao;    
 
-    public function __construct() {
-
+    public function __construct() {        
+                
         $host = 'localhost';
         $dbName = 'algtot';
         $usuario = 'root';
@@ -32,20 +35,9 @@ Class Conexao {
         }
 
         if (!isset($this->conexao)) {
-            $this->mostrarMensagemRedirecionar("Base de dados não encontrada!", "../visao/algTotApresentacao.php");
+            echo "<script>alert('Base de dados não encontrada!');window.location = '../index.php';</script>";
         }
-    }
-
-    public function mostrarMensagemRedirecionar($mensagem, $endereco) {
-
-        if ($mensagem != null) {
-            echo "<script>alert('" . $mensagem . "')</script>";
-        }
-
-        if ($endereco != null) {
-            echo "<script>window.location = '" . $endereco . "';</script>";
-        }
-    }
+    }     
 
     public function obterConexao() {
         return $this->conexao;

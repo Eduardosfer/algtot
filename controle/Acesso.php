@@ -48,7 +48,7 @@ Class Acesso {
                 $value['aplicacao'];
             }
 
-            //QUANDO NÃƒO ESTIVER NESSAS APLICAÃ‡Ã•ES E ESTIVER EM ALGUMA QUE FOR VERIFICAVEL EU UNSETO A ATIVIDADE E O TIPO
+            //QUANDO NÃƒO ESTIVER NESSAS APLICAÇÕES E ESTIVER EM ALGUMA QUE FOR VERIFICAVEL EU UNSETO A ATIVIDADE E O TIPO
             if (($aplicacao != 'questaoTipo1.php') && ($aplicacao != 'questaoTipo2.php') && ($aplicacao != 'questaoTipo3.php')) {
                 unset($_SESSION['atividade']);
                 unset($_SESSION['tipo']);
@@ -66,7 +66,7 @@ Class Acesso {
         session_start();
         $url = explode("/", $_SERVER['REQUEST_URI']);
         $aplicacao = $url[3];
-        //QUANDO NÃƒO ESTIVER NESSAS APLICAÃ‡Ã•ES E ESTIVER EM ALGUMA QUE FOR VERIFICAVEL EU UNSETO A ATIVIDADE E O TIPO
+        //QUANDO NÃO ESTIVER NESSAS APLICAÇÕES E ESTIVER EM ALGUMA QUE FOR VERIFICAVEL EU UNSETO A ATIVIDADE E O TIPO
         if (($aplicacao != 'questaoTipo1.php') && ($aplicacao != 'questaoTipo2.php') && ($aplicacao != 'questaoTipo3.php')) {
             unset($_SESSION['atividade']);
             unset($_SESSION['tipo']);
