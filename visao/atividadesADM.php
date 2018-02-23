@@ -94,7 +94,7 @@ $acesso->acessar();
                             
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-sort"></span></span>
-                                <select required name="status" class="form-control" title="Selecione o status da atividade">                                    
+                                <select required name="status" class="form-control" title="Selecione o status da atividade: Ativo, aparece para os alunos. Inativo, não aparece.">                                    
                                     <option value="inativo">Inativo</option>
                                     <option value="ativo">Ativo</option>
                                 </select>                               
@@ -426,7 +426,7 @@ $acesso->acessar();
                                                                     <div class="input-group">
 
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-sort"></span></span>
-                                                                        <select required disabled name="status" id="status<?php echo $dado['cdAtividade'] ?>" class="form-control" title="Selecione o status da atividade">
+                                                                        <select required disabled name="status" id="status<?php echo $dado['cdAtividade'] ?>" class="form-control" title="Selecione o status da atividade: Ativo, aparece para os alunos. Inativo, não aparece.">
 
                                                                             <option <?php
                                                                             if ($dado['status'] == 'ativo') {
@@ -557,7 +557,7 @@ $acesso->acessar();
                                                                     <div class="input-group">
 
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-sort"></span></span>
-                                                                        <select required disabled name="status" class="form-control" title="Selecione o status da atividade">
+                                                                        <select required disabled name="status" class="form-control" title="Status da atividade: Ativo, aparece para os alunos. Inativo, não aparece.">
                                                                             <option <?php
                                                                             if ($dado['status'] == 'ativo') {
                                                                                 echo "selected";
