@@ -3,7 +3,6 @@
 
 <!-- MODAIS DE ALERTAS -->
 <?php include_once("includs/modaisAlertas.php"); ?>
-<script>chamarModal('','teste','','meuModalErro');</script>
 
 <nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
 

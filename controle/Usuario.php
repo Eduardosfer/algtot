@@ -124,7 +124,7 @@ Class Usuario {
                 if ($_SESSION['cdGrupo'] == 3) {
                     header("Location: http:/algtot/visao/principal.php");
                 }
-            } else {                
+            } else {
                 $this->AlgTot->setModalRedirecionar('', 'Usuário ou senha incorretos.', '', 'meuModalErro', '../index.php');
             }
         }
@@ -210,20 +210,18 @@ Class Usuario {
                         $dados = array($this->usuario, $this->senha, $this->email, $this->cdGrupo, 'ativo', $this->data, 0, 0, 0, 0, 0, 0);
                         $this->modelo->cadastrar($insert, $dados);
 
-                        $mensagem = $mensagem . 'Usuário cadastrado com sucesso!\n';
+                        $this->AlgTot->setModalRedirecionar('', 'Usuáriocadastrado com sucesso.', '', 'meuModalSucesso', '../visao/usuariosADM.php');
+                        return true;
                     } else {
-
                         $mensagem = $mensagem . 'Este e-mail já foi cadastrado para um usuário, tente utiliza outro e-mail!\n';
                     }
                 } else {
-
                     $mensagem = $mensagem . 'Este usuário já foi cadastrado, tente outro nome de usuário!\n';
                 }
 
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/usuariosADM.php");
+                $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalErro', '../visao/usuariosADM.php');
             } else {
-
-                $this->mostrarMensagemRedirecionar("Erro ao cadastrar", "../visao/usuariosADM.php");
+                $this->AlgTot->setModalRedirecionar('', 'Erro ao cadastrar', '', 'meuModalErro', '../visao/usuariosADM.php');
             }
         }
 
@@ -254,20 +252,20 @@ Class Usuario {
                         $dados = array($this->usuario, $this->senha, $this->email, $this->cdGrupo, 'ativo', $this->data, 0, 0, 0, 0, 0, 0);
                         $this->modelo->cadastrar($insert, $dados);
 
-                        $mensagem = $mensagem . 'Usuário cadastrado com sucesso!\n';
+                        $mensagem = $mensagem . 'Usuário cadastrado com sucesso!<br>';
+                        $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', '../index.php');
+                        return true;
                     } else {
 
-                        $mensagem = $mensagem . 'Este e-mail já foi cadastrado para um usuário, tente utiliza outro e-mail!\n';
+                        $mensagem = $mensagem . 'Este e-mail já foi cadastrado para um usuário, tente utiliza outro e-mail!<br>';
                     }
                 } else {
-
-                    $mensagem = $mensagem . 'Este usuário já foi cadastrado, tente outro nome de usuário!\n';
+                    $mensagem = $mensagem . 'Este usuário já foi cadastrado, tente outro nome de usuário!<br>';
                 }
 
-                $this->mostrarMensagemRedirecionar($mensagem, "../index.php");
+                $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalErro', '../index.php');
             } else {
-
-                $this->mostrarMensagemRedirecionar("Erro ao cadastrar", "../index.php");
+                $this->AlgTot->setModalRedirecionar('', 'Erro ao cadastrar a sua conta.', '', 'meuModalErro', '../index.php');
             }
         }
     }
@@ -328,6 +326,8 @@ Class Usuario {
         }
 
         $mensagem = "";
+        $sucesso = 0;
+        $erro = 0;
 
         if (isset($antigoUsuario)) {
 
@@ -342,10 +342,11 @@ Class Usuario {
                     $dados = array($novoEmail, $this->cdUsuario, 'ativo');
                     $this->modelo->alterar($update, $dados);
                     $_SESSION['email'] = $novoEmail;
-                    $mensagem = $mensagem . 'E-mail alterado com sucesso!\n';
+                    $mensagem = $mensagem . 'E-mail alterado com sucesso!<br>';
+                    $sucesso++;
                 } else {
-
-                    $mensagem = $mensagem . 'Já existe um usuário utilizando este e-mail!\n';
+                    $mensagem = $mensagem . 'E-mail não alterado. Já existe um usuário utilizando este e-mail!<br>';
+                    $erro++;
                 }
             }
 
@@ -355,42 +356,62 @@ Class Usuario {
                 $dados = array($this->usuario, $this->cdUsuario, 'ativo');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
-
                     $update = "UPDATE usuario SET usuario = ? WHERE cdUsuario = ? AND status = ?";
                     $dados = array($this->usuario, $this->cdUsuario, 'ativo');
                     $this->modelo->alterar($update, $dados);
                     $_SESSION['usuario'] = $this->usuario;
-                    $mensagem = $mensagem . 'Nome de usuário alterado com sucesso!\n';
+                    $mensagem = $mensagem . 'Nome de usuário alterado com sucesso!<br>';
+                    $sucesso++;
                 } else {
-
-                    $mensagem = $mensagem . 'Já existe um usuário com este nome!\n';
+                    $mensagem = $mensagem . 'Nome de usuário não alterado. Já existe um usuário com este nome!<br>';
+                    $erro++;
                 }
             }
 
             if (isset($this->senha)) {
-
                 if ($this->senha == $antigaSenha) {
-
                     if ($this->senha != $novaSenha) {
-
                         $update = "UPDATE usuario SET senha = ? WHERE cdUsuario = ? AND status = ?";
                         $dados = array($novaSenha, $this->cdUsuario, 'ativo');
                         $this->modelo->alterar($update, $dados);
                         $_SESSION['senha'] = $novaSenha;
-                        $mensagem = $mensagem . 'Senha alterada com sucesso!\n';
+                        $mensagem = $mensagem . 'Senha alterada com sucesso!<br>';
+                        $sucesso++;
                     } else {
-
-                        $mensagem = $mensagem . 'Nenhuma alteração feita na senha!\n';
+                        $mensagem = $mensagem . 'Nenhuma alteração feita na senha!<br>';
+                        $erro++;
                     }
                 } else {
-
-                    $mensagem = $mensagem . 'A senha atual nao esta correta, senha nao alterada!\n';
+                    $mensagem = $mensagem . 'A senha atual não esta correta, senha nao alterada!<br>';
+                    $erro++;
                 }
             }
 
             //REDIRECIONANDO PARA A PÁGINA QUE O USUÁRIO ESTAVA ANTERIORMENTE
-            $paginaAnterior = $_SERVER['HTTP_REFERER'];
-            $this->mostrarMensagemRedirecionar($mensagem, $paginaAnterior);
+            if (isset($_SERVER['HTTP_REFERER'])) {
+                $paginaAnterior = explode("/", $_SERVER['HTTP_REFERER']);
+                $paginaAnterior = '../'.$paginaAnterior[count($paginaAnterior)-2].'/'.$paginaAnterior[count($paginaAnterior)-1];
+            } else {
+               $paginaAnterior = '../index.php';
+            }            
+            
+            if ($sucesso == 0 && $erro == 0) {
+                $this->AlgTot->setModalRedirecionar('', 'Nada alterado.', '', 'meuModalSucesso', $paginaAnterior);
+                return true;
+            } else {
+                if ($sucesso > 0 && $erro > 0) {
+                    $this->AlgTot->setModalRedirecionar('Nem todos os dados puderam ser alterados!', $mensagem, '', 'meuModalErro', $paginaAnterior);
+                    return false;
+                }                
+                if ($sucesso > 0 && $erro == 0) {
+                    $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', $paginaAnterior);
+                    return true;
+                }                
+                if ($sucesso == 0 && $erro > 0) {
+                    $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalErro', $paginaAnterior);
+                    return false;
+                }                
+            }
         }
     }
 
@@ -400,6 +421,8 @@ Class Usuario {
 
         $this->cdUsuario = $_POST['cdUsuario'];
         $mensagem = "";
+        $sucesso = 0;
+        $erro = 0;
         $this->cdGrupo = $_SESSION['cdGrupo'];
 
         if ((isset($this->cdGrupo)) && ($this->cdGrupo == 1)) {
@@ -415,53 +438,64 @@ Class Usuario {
                 $dados = array($this->usuario, $this->cdUsuario, 'ativo');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
-
                     $update = "UPDATE usuario SET usuario = ? WHERE cdUsuario = ? AND status = ?";
                     $dados = array($this->usuario, $this->cdUsuario, 'ativo');
                     $this->modelo->alterar($update, $dados);
-                    $mensagem = $mensagem . 'Nome de usuário alterado com sucesso!\n';
+                    $mensagem = $mensagem . 'Nome de usuário alterado com sucesso!<br>';
+                    $sucesso++;
                 } else {
-
-                    $mensagem = $mensagem . 'Já existe um usuário com este nome!\n';
+                    $mensagem = $mensagem . 'Usuário não alterado. Já existe um usuário com este nome!<br>';
+                    $erro++;
                 }
             }
 
             if (!isset($_POST['senha'])) {
-
                 $this->senha = null;
             } else {
-
                 $this->senha = $_POST['senha'];
-
                 $update = "UPDATE usuario SET senha = ? WHERE cdUsuario = ? AND status = ?";
                 $dados = array($this->senha, $this->cdUsuario, 'ativo');
                 $this->modelo->alterar($update, $dados);
-                $mensagem = $mensagem . 'Senha alterada com sucesso!\n';
+                $mensagem = $mensagem . 'Senha alterada com sucesso!<br>';
+                $sucesso++;
             }
 
             if (!isset($_POST['email'])) {
-
                 $this->email = null;
             } else {
-
                 $this->email = $_POST['email'];
-
                 $select = "SELECT count(email) AS quantidade FROM usuario WHERE email = ? AND cdUsuario != ? AND status = ?";
                 $dados = array($this->email, $this->cdUsuario, 'ativo');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
-
                     $update = "UPDATE usuario SET email = ? WHERE cdUsuario = ? AND status = ?";
                     $dados = array($this->email, $this->cdUsuario, 'ativo');
                     $this->modelo->alterar($update, $dados);
-                    $mensagem = $mensagem . 'E-mail alterado com sucesso!\n';
+                    $mensagem = $mensagem . 'E-mail alterado com sucesso!<br>';
+                    $sucesso++;
                 } else {
-
-                    $mensagem = $mensagem . 'Já existe um usuário utilizando este e-mail!\n';
+                    $mensagem = $mensagem . 'E-mail não alterado. Já existe um usuário utilizando este e-mail!<br>';
+                    $erro++;
                 }
             }
-
-            $this->mostrarMensagemRedirecionar($mensagem, "../visao/usuariosADM.php");
+            
+            if ($sucesso == 0 && $erro == 0) {
+                $this->AlgTot->setModalRedirecionar('', 'Nada alterado.', '', 'meuModalSucesso', '../visao/usuariosADM.php');
+                return true;
+            } else {
+                if ($sucesso > 0 && $erro > 0) {
+                    $this->AlgTot->setModalRedirecionar('Nem todos os dados puderam ser alterados!', $mensagem, '', 'meuModalErro', '../visao/usuariosADM.php');
+                    return false;
+                }                
+                if ($sucesso > 0 && $erro == 0) {
+                    $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', '../visao/usuariosADM.php');
+                    return true;
+                }                
+                if ($sucesso == 0 && $erro > 0) {
+                    $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalErro', '../visao/usuariosADM.php');
+                    return false;
+                }                
+            }            
         }
     }
 
@@ -505,18 +539,20 @@ Class Usuario {
                 $dados = array('deletado', $this->cdUsuario);
                 $this->modelo->excluir($update, $dados);
                 session_destroy();
-
-                $this->mostrarMensagemRedirecionar("Sua conta foi excluída!", "../index.php");
+                $this->AlgTot->setModalRedirecionar('Conta excluida.', 'Sua conta foi excluída!', '', 'meuModalErro', '../index.php');
             } else {
-
                 $mensagem = "Senha incorreta!";
                 //REDIRECIONANDO PARA A PÁGINA QUE O USUÁRIO ESTAVA ANTERIORMENTE
-                $paginaAnterior = $_SERVER['HTTP_REFERER'];
-                $this->mostrarMensagemRedirecionar($mensagem, $paginaAnterior);
+                if (isset($_SERVER['HTTP_REFERER'])) {
+                    $paginaAnterior = explode("/", $_SERVER['HTTP_REFERER']);
+                    $paginaAnterior = '../'.$paginaAnterior[count($paginaAnterior)-2].'/'.$paginaAnterior[count($paginaAnterior)-1];
+                } else {
+                   $paginaAnterior = '../index.php';
+                }
+                $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalErro', $paginaAnterior);
             }
         } else {
-
-            $this->mostrarMensagemRedirecionar(null, "../index.php");
+            $this->AlgTot->setModalRedirecionar('', '', '', '', '../index.php');
         }
     }
 
@@ -527,16 +563,13 @@ Class Usuario {
         $grupoExcluir = $_POST['cdGrupo'];
         $usuarioExcluir = $_POST['cdUsuario'];
 
-
         if ((isset($_SESSION['usuario'])) && ($this->cdGrupo == 1)) {
-
             $update = "UPDATE usuario SET status = ? WHERE cdUsuario = ?";
             $dados = array('deletado', $usuarioExcluir);
             $this->modelo->excluir($update, $dados);
-            $this->mostrarMensagemRedirecionar("Conta foi excluída com êxito!", "../visao/usuariosADM.php");
+            $this->AlgTot->setModalRedirecionar('', 'Conta foi excluída com êxito!', '', 'meuModalSucesso', '../visao/usuariosADM.php');
         } else {
-
-            $this->mostrarMensagemRedirecionar("Erro!!", "../index.php");
+            $this->AlgTot->setModalRedirecionar('', 'Ocorreu algun erro ao tentar excluir esse usuário.', '', 'meuModalErro', '../visao/usuariosADM.php');
         }
     }
 
@@ -578,29 +611,16 @@ Class Usuario {
 
                   if (mail($para, $assunto, $mensagem, $headers) == true) {
 
-                  $this->mostrarMensagemRedirecionar("Uma mensagem foi enviada para sua caixa de e-mail.", "../index.php");
+                 * $this->AlgTot->setModalRedirecionar('Email enviado', 'Uma mensagem foi enviada para sua caixa de e-mail.', '', 'meuModalSucesso', '../index.php');
                   } else {
 
-                  $this->mostrarMensagemRedirecionar("Não foi possivel enviar o e-mail, tente novamente!", "../index.php");
+                 * $this->AlgTot->setModalRedirecionar('Email não enviado', 'Não foi possivel enviar o e-mail, tente novamente!', '', 'meuModalErro', '../index.php');
                   } */
 
-                $this->mostrarMensagemRedirecionar("Este serviço ainda não está funcionando !\\nEnvie um e-mail para algtot@outlook.com.br solicitando a sua senha\\nVocê deve utilizar o e-mail que está vinculado com o seu usuário do AlgTot!", "../index.php");
+                $this->AlgTot->setModalRedirecionar('Ainda não disponível!', 'Este serviço ainda não está funcionando !<br>Envie um e-mail para algtot@outlook.com.br solicitando a sua senha<br>Você deve utilizar o e-mail que está vinculado com o seu usuário do AlgTot!', '', 'meuModalErro', '../index.php');
             } else {
-
-                $this->mostrarMensagemRedirecionar("Usuário inválido!", "../index.php");
+                $this->AlgTot->setModalRedirecionar('', 'Usuário inválido!<br>O usuário <b>' . $this->usuario . '</b> não foi encontrado.', '', 'meuModalErro', '../index.php');
             }
-        }
-    }
-
-    //Metodo que mostra uma mensagem e permite o redirecionamento
-    public function mostrarMensagemRedirecionar($mensagem, $endereco) {
-
-        if ($mensagem != null) {
-            echo "<script>alert('" . $mensagem . "')</script>";
-        }
-
-        if ($endereco != null) {
-            echo "<script>window.location = '" . $endereco . "';</script>";
         }
     }
 
