@@ -5,6 +5,15 @@
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
+form {
+    padding: 0!important;
+    margin: 0!important;
+}
+
+th, td {
+    padding: 0.2em!important;    
+}
+
 .page-scroll-button {
     color: #777!important;
     padding-top: 15px!important;    

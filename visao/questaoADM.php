@@ -530,7 +530,7 @@
                         </div>
 
                         <div class="panel-footer">
-                          <button type="button" class="btn btn-danger" title="Excluir questão" data-toggle="modal" data-target="#excluir<?php if ($tipo==1) { echo $cdQuestao; } ?>"><span class="glyphicon glyphicon-trash"></span></button>
+                          <button type="button" class="btn btn-danger" title="Excluir questão" data-toggle="modal" data-target="#excluir<?php if ($tipo==1) { echo $cdQuestao; } ?>"><span class="glyphicon glyphicon-trash"></span> Excluir</button>
                           <button name="acao" title="Clique para alterar a questão" type="submit" value="AlterarQuestao" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Salvar</button>
                         </div>
 
@@ -610,7 +610,7 @@
                         </div>
 
                         <div class="panel-footer">
-                          <button type="button" class="btn btn-danger" title="Excluir questão" data-toggle="modal" data-target="#excluir<?php if ($tipo==2) { echo $cdQuestao; } ?>"><span class="glyphicon glyphicon-trash"></span></button>
+                          <button type="button" class="btn btn-danger" title="Excluir questão" data-toggle="modal" data-target="#excluir<?php if ($tipo==2) { echo $cdQuestao; } ?>"><span class="glyphicon glyphicon-trash"></span> Excluir</button>
                           <button name="acao" title="Clique para alterar a questão" type="submit" value="AlterarQuestao" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Salvar</button>
                         </div>
 
@@ -734,7 +734,7 @@
                         </div>
 
                         <div class="panel-footer">
-                          <button type="button" class="btn btn-danger" title="Excluir questão" data-toggle="modal" data-target="#excluir<?php if ($tipo==3) { echo $cdQuestao; } ?>"><span class="glyphicon glyphicon-trash"></span></button>
+                          <button type="button" class="btn btn-danger" title="Excluir questão" data-toggle="modal" data-target="#excluir<?php if ($tipo==3) { echo $cdQuestao; } ?>"><span class="glyphicon glyphicon-trash"></span> Excluir</button>
                           <button name="acao" title="Clique para alterar a questão" type="submit" value="AlterarQuestao" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Salvar</button>
                         </div>
 

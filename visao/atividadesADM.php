@@ -215,17 +215,17 @@ $acesso->acessar();
                             </form>
 
                         </div>
-
+                        
                         <div class="panel-body table-responsive">
 
                             <table class="table table-bordered">
 
                                 <thead>
-                                <th>Titulo</th>
-                                <th>Nível</th>
-                                <th>Status</th>
-                                <th>Data de cadastro</th>
-                                <th>Ações</th>
+                                    <th>Titulo</th>
+                                    <th>Nível</th>
+                                    <th>Status</th>
+                                    <th>Data de cadastro</th>
+                                    <th>Ações</th>
                                 </thead>
 
                                 <tbody>
@@ -340,21 +340,18 @@ $acesso->acessar();
                                         ?>
 
                                         <tr>
-                                            <td><?php echo $dado['titulo'] ?></td>
-                                            <td><?php echo $dado['nivel'] ?></td>
-                                            <td><?php echo $dado['status'] ?></td>
-                                            <td><?php echo date("d/m/Y", strtotime($dado['dataCadastramento'])) ?></td>
+                                            <td><?php echo $dado['titulo']; ?></td>
+                                            <td><?php echo $dado['nivel']; ?></td>
+                                            <td><?php echo $dado['status']; ?></td>
+                                            <td><?php echo date("d/m/Y", strtotime($dado['dataCadastramento'])); ?></td>
 
                                             <td style="width: 150px;">
 
                                                 <form name="questao" action="questaoADM.php" method="post">
-
                                                     <input type="hidden" name="titulo" value="<?php echo $dado['titulo']; ?>">
-
                                                     <button type="button" class="btn btn-success" data-toggle="modal" title="Ver e/ou editar os dados!" data-target="#editarAtividade<?php echo $dado['cdAtividade'] ?>"><span class="glyphicon glyphicon-edit"></span></button>
                                                     <button name="cdAtividade" type="submit" class="btn btn-primary" value="<?php echo $dado['cdAtividade']; ?>" title="Ver e/ou editar os dados das questões!"><span class="glyphicon glyphicon-eye-open"></span></button>
                                                     <button type="button" class="btn btn-danger" title="Excluir atividade" data-toggle="modal" data-target="#excluirAtividade<?php echo $dado['cdAtividade'] ?>"><span class="glyphicon glyphicon-trash"></span></button>
-
                                                 </form>
 
                                                 <!--Modal de visualização e edição de dado-->
