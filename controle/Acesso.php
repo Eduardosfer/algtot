@@ -20,7 +20,7 @@ Class Acesso {
     private $modelo;
 
     public function __construct() {
-
+        date_default_timezone_set("America/Bahia");
         $this->modelo = new Modelo();
     }
 

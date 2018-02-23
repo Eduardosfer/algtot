@@ -14,8 +14,6 @@
 require_once("../modelo/Modelo.php");
 require_once("../controle/AlgTot.php");
 
-date_default_timezone_set('America/Sao_Paulo');
-
 header('Content-Type: text/html; charset=UTF-8');
 
 new Usuario();
@@ -38,6 +36,7 @@ Class Usuario {
 
     public function __construct() {
 
+        date_default_timezone_set("America/Bahia");
         $this->modelo = new Modelo();
         $this->AlgTot = new AlgTot();
 
@@ -191,7 +190,7 @@ Class Usuario {
             $this->setCdGrupo($_POST['cdGrupo']);
             $this->setData(date('Y-m-d'));
             $mensagem = "";
-
+            
             if (($this->usuario != null) && ($this->senha != null) && ($this->email != null) && ($this->cdGrupo != null)) {
 
                 $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND status = ?";
@@ -396,7 +395,7 @@ Class Usuario {
             }            
             
             if ($sucesso == 0 && $erro == 0) {
-                $this->AlgTot->setModalRedirecionar('', 'Nada alterado.', '', 'meuModalSucesso', $paginaAnterior);
+                $this->AlgTot->setModalRedirecionar('Nenhuma alteração', 'Nada alterado.', '', 'meuModalSucesso', $paginaAnterior);
                 return true;
             } else {
                 if ($sucesso > 0 && $erro > 0) {
@@ -480,7 +479,7 @@ Class Usuario {
             }
             
             if ($sucesso == 0 && $erro == 0) {
-                $this->AlgTot->setModalRedirecionar('', 'Nada alterado.', '', 'meuModalSucesso', '../visao/usuariosADM.php');
+                $this->AlgTot->setModalRedirecionar('Nenhuma alteração', 'Nada alterado.', '', 'meuModalSucesso', '../visao/usuariosADM.php');
                 return true;
             } else {
                 if ($sucesso > 0 && $erro > 0) {

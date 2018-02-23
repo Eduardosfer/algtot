@@ -13,8 +13,6 @@
  */
 require_once("../modelo/Modelo.php");
 
-date_default_timezone_set('America/Sao_Paulo');
-
 header('Content-Type: text/html; charset=UTF-8');
 
 new AlgTot();
@@ -25,6 +23,8 @@ Class AlgTot {
 
     public function __construct() {
 
+        date_default_timezone_set("America/Bahia");
+        
         $this->modelo = new Modelo();
 
         if (!isset($_POST['acao'])) {
@@ -88,39 +88,42 @@ Class AlgTot {
 
         $titulo = $_POST['titulo'];
         $nivel = $_POST['nivel'];
-        $dataCadastramento = date('Y-m-d');
-
+        $status = $_POST['status'];
+        $dataCadastramento = date('Y-m-d');        
         session_start();
+        $mensagem = '';
+        $meuModal = null;        
 
         if (($_SESSION['cdGrupo'] == 1) || ($_SESSION['cdGrupo'] == 2)) {
 
-            if ((isset($titulo)) && (isset($nivel))) {
+            if ((isset($titulo) && $titulo != '') && (isset($nivel) && $nivel != '') && (isset($status) && $status != '')) {
 
                 $select = "SELECT count(cdAtividade) AS quantidade FROM atividade WHERE titulo = ? AND status != ?";
                 $dados = array($titulo, 'deletado');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
-
                     $insert = "INSERT INTO atividade(titulo,nivel,dataCadastramento,status) VALUES(?,?,?,?)";
-                    $dados = array($titulo, $nivel, $dataCadastramento, 'inativo');
+                    $dados = array($titulo, $nivel, $dataCadastramento, $status);
                     $this->modelo->cadastrar($insert, $dados);
-
-                    $this->mostrarMensagemRedirecionar("Atividade cadastrada com sucesso!", null);
+                    $meuModal = 'meuModalSucesso';
+                    $mensagem = 'Atividade cadastrada com sucesso!';                                        
                 } else {
-
-                    $this->mostrarMensagemRedirecionar("Já existe uma atividade cadastrada com esse título. Atividade não cadastrada!", null);
+                    $meuModal = 'meuModalErro';
+                    $mensagem = 'Já existe uma atividade cadastrada com esse título. Atividade não cadastrada!';
                 }
             } else {
-
-                $this->mostrarMensagemRedirecionar("Atividade não foi cadastrada!", null);
+                $meuModal = 'meuModalErro';
+                $mensagem = 'Atividade não foi cadastrada!<br>Algum dado pode estar faltando.';
             }
 
-            if ($_SESSION['cdGrupo'] == 1) {
-                $this->mostrarMensagemRedirecionar(null, "../visao/atividadesADM.php");
+            if ($_SESSION['cdGrupo'] == 1) {                
+                $this->setModalRedirecionar('', $mensagem, '', $meuModal, '../visao/atividadesADM.php');
+                return true;
             }
 
-            if ($_SESSION['cdGrupo'] == 2) {
-                $this->mostrarMensagemRedirecionar(null, "../visao/atividadesProfessor.php");
+            if ($_SESSION['cdGrupo'] == 2) {                
+                $this->setModalRedirecionar('', $mensagem, '', $meuModal, '../visao/atividadesProfessor.php');
+                return true;
             }
         }
     }
@@ -132,81 +135,98 @@ Class AlgTot {
         if (($_SESSION['cdGrupo'] == 1) || ($_SESSION['cdGrupo'] == 2)) {
 
             $mensagem = "";
+            $sucesso = 0;
+            $erro = 0;                    
+            $url = '';                    
 
             if (!isset($_POST['cdAtividade'])) {
-
                 $cdAtividade = null;
             } else {
-
                 $cdAtividade = $_POST['cdAtividade'];
             }
 
             if (!isset($_POST['titulo'])) {
-
                 $titulo = null;
             } else {
-
                 $titulo = $_POST['titulo'];
             }
 
             if (!isset($_POST['nivel'])) {
-
                 $nivel = null;
             } else {
-
                 $nivel = $_POST['nivel'];
             }
 
             if (!isset($_POST['status'])) {
-
                 $status = null;
             } else {
-
                 $status = $_POST['status'];
             }
 
 
-            if (isset($titulo)) {
-
-
+            if (isset($titulo) && $titulo != '') {
                 $select = "SELECT count(cdAtividade) AS quantidade FROM atividade WHERE titulo = ? AND status != ? AND cdAtividade != ?";
                 $dados = array($titulo, 'deletado', $cdAtividade);
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
-
                     $update = "UPDATE atividade SET titulo = ? WHERE cdAtividade = ?";
                     $dados = array($titulo, $cdAtividade);
                     $this->modelo->alterar($update, $dados);
-                    $mensagem = $mensagem . 'Titulo alterado com sucesso!\n';
+                    $mensagem = $mensagem . 'Titulo alterado com sucesso!<br>';
+                    $sucesso++;
                 } else {
-
-                    $mensagem = $mensagem . 'Já existe uma atividade cadastrada com esse titulo. Atividade não cadastrada!\n';
+                    $mensagem = $mensagem . 'Titulo não editado. Já existe uma atividade cadastrada com esse titulo.<br>';
+                    $erro++;
                 }
             }
 
-            if (isset($nivel)) {
-
+            if (isset($nivel) && $nivel != '') {
                 $update = "UPDATE atividade SET nivel = ? WHERE cdAtividade = ?";
                 $dados = array($nivel, $cdAtividade);
                 $this->modelo->alterar($update, $dados);
-                $mensagem = $mensagem . 'Nível alterado com sucesso!\n';
+                $mensagem = $mensagem . 'Nível alterado com sucesso!<br>';
+                $sucesso++;
+            } else {
+                $mensagem = $mensagem . 'Erro ao editar nível.<br>';
+                $erro++;
             }
 
-            if (isset($status)) {
-
+            if (isset($status) && $status != '') {
                 $update = "UPDATE atividade SET status = ? WHERE cdAtividade = ?";
                 $dados = array($status, $cdAtividade);
                 $this->modelo->alterar($update, $dados);
-                $mensagem = $mensagem . 'Status alterado com sucesso!\n';
+                $mensagem = $mensagem . 'Status alterado com sucesso!<br>';
+                $sucesso++;
+            } else {
+                $mensagem = $mensagem . 'Erro ao editar status.<br>';
+                $erro++;
             }
 
-            if ($_SESSION['cdGrupo'] == 1) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/atividadesADM.php");
+            if ($_SESSION['cdGrupo'] == 1) {                
+                $url = '../visao/atividadesADM.php';                
             }
 
-            if ($_SESSION['cdGrupo'] == 2) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/atividadesProfessor.php");
+            if ($_SESSION['cdGrupo'] == 2) {                
+                $url = '../visao/atividadesProfessor.php';  
             }
+            
+            if ($sucesso == 0 && $erro == 0) {
+                $this->setModalRedirecionar('Nenhuma alteração', 'Nada alterado.', '', 'meuModalSucesso', $url);
+                return true;
+            } else {
+                if ($sucesso > 0 && $erro > 0) {
+                    $this->setModalRedirecionar('Nem todos os dados puderam ser alterados!', $mensagem, '', 'meuModalErro', $url);
+                    return false;
+                }                
+                if ($sucesso > 0 && $erro == 0) {
+                    $this->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', $url);
+                    return true;
+                }                
+                if ($sucesso == 0 && $erro > 0) {
+                    $this->setModalRedirecionar('', $mensagem, '', 'meuModalErro', $url);
+                    return false;
+                }                
+            }  
         }
     }
 
@@ -219,27 +239,24 @@ Class AlgTot {
             $mensagem = "";
 
             if (!isset($_POST['cdAtividade'])) {
-
                 $cdAtividade = null;
             } else {
-
                 $cdAtividade = $_POST['cdAtividade'];
             }
 
             if (isset($cdAtividade)) {
-
                 $update = "UPDATE atividade SET status = ? WHERE cdAtividade = ?";
                 $dados = array('deletado', $cdAtividade);
                 $this->modelo->excluir($update, $dados);
-                $mensagem = $mensagem . 'Atividade deletada com sucesso!\n';
+                $mensagem = $mensagem . 'Atividade deletada com sucesso!';
             }
 
             if ($_SESSION['cdGrupo'] == 1) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/atividadesADM.php");
+                $this->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', '../visao/atividadesADM.php');                
             }
 
-            if ($_SESSION['cdGrupo'] == 2) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/atividadesProfessor.php");
+            if ($_SESSION['cdGrupo'] == 2) {                
+                $this->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', '../visao/atividadesProfessor.php');
             }
         }
     }
@@ -251,20 +268,17 @@ Class AlgTot {
         if (($_SESSION['cdGrupo'] == 1) || ($_SESSION['cdGrupo'] == 2)) {
 
             $mensagem = "";
+            $meuModal = "";
 
             if (isset($_POST['dica'])) {
-
                 $dica = $_POST['dica'];
             } else {
-
                 $dica = " ";
             }
 
             if ((!isset($_POST['pergunta'])) || (!isset($_POST['alternativaCorreta'])) || (!isset($_POST['alternativaIncorreta1'])) || (!isset($_POST['alternativaIncorreta2'])) || (!isset($_POST['alternativaIncorreta3'])) || (!isset($_POST['alternativaIncorreta4'])) || (!isset($_POST['pontuacao'])) || (!isset($_POST['cdAtividade'])) || (!isset($_POST['tipo']))) {
-
-                $mensagem = $mensagem . 'A questão não pode ser cadastrada, pois está faltando algum campo a ser preenchido!\n';
+                $mensagem = $mensagem . 'A questão não pode ser cadastrada, pois está faltando algum campo a ser preenchido!<br>';
             } else {
-
                 $pergunta = $_POST['pergunta'];
                 $alternativaCorreta = $_POST['alternativaCorreta'];
                 $alternativaIncorreta1 = $_POST['alternativaIncorreta1'];
@@ -292,18 +306,20 @@ Class AlgTot {
                         $dica, 'ativo');
 
                     $this->modelo->cadastrar($insert, $dados);
-                    $mensagem = $mensagem . 'A questão foi cadastrada com sucesso!\n';
+                    $mensagem = $mensagem . 'A questão foi cadastrada com sucesso!';
+                    $meuModal = 'meuModalSucesso';
                 } else {
-                    $mensagem = $mensagem . 'A questão não foi cadastrada, pois já esxiste uma questão com esta pergunta!\nCaso queira cadastrar mesmo assim, terá que mudar algo na pergunta!';
+                    $mensagem = $mensagem . 'A questão não foi cadastrada, pois já esxiste uma questão com esta pergunta!<br>Caso queira cadastrar mesmo assim, terá que mudar algo na pergunta!';
+                    $meuModal = 'meuModalErro';
                 }
             }
 
-            if ($_SESSION['cdGrupo'] == 1) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/questaoADM.php");
+            if ($_SESSION['cdGrupo'] == 1) {                
+                $this->setModalRedirecionar('', $mensagem, '', $meuModal, '../visao/questaoADM.php');
             }
 
             if ($_SESSION['cdGrupo'] == 2) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/questaoProfessor.php");
+                $this->setModalRedirecionar('', $mensagem, '', $meuModal, '../visao/questaoProfessor.php');                
             }
         }
     }
@@ -315,7 +331,7 @@ Class AlgTot {
         if (($_SESSION['cdGrupo'] == 1) || ($_SESSION['cdGrupo'] == 2)) {
 
             $mensagem = "";
-
+            $meuModal = '';
             if (isset($_POST['dica'])) {
 
                 $dica = $_POST['dica'];
@@ -326,9 +342,8 @@ Class AlgTot {
 
             if ((!isset($_POST['pergunta'])) || (!isset($_POST['alternativaCorreta'])) || (!isset($_POST['pontuacao'])) || (!isset($_POST['cdAtividade'])) || (!isset($_POST['tipo']))) {
 
-                $mensagem = $mensagem . 'A questãoo não pode ser cadastrada, pois está faltando algum campo a ser preenchido!\n';
+                $mensagem = $mensagem . 'A questão não pode ser cadastrada, pois está faltando algum campo a ser preenchido!<br>';
             } else {
-
                 $pergunta = $_POST['pergunta'];
                 $alternativaCorreta = $_POST['alternativaCorreta'];
                 $pontuacao = $_POST['pontuacao'];
@@ -337,7 +352,6 @@ Class AlgTot {
                 $tipo = $_POST['tipo'];
                 $dataCadastramento = date('Y-m-d');
                 $alternativaCorreta = trim($alternativaCorreta);
-
 
                 $select = "SELECT count(cdQuestao) AS quantidade FROM questao WHERE pergunta = ? AND status != ?";
                 $dados = array($pergunta, 'deletado');
@@ -348,26 +362,26 @@ Class AlgTot {
 
                     $dados = array($cdAtividade, $dataCadastramento, $tipo, $pergunta, $alternativaCorreta, $pontuacao, $tempoTotalQuestao, $dica, 'ativo');
                     $this->modelo->cadastrar($insert, $dados);
-
-                    $mensagem = $mensagem . 'A questão foi cadastrada com sucesso!\n';
+                    $mensagem = $mensagem . 'A questão foi cadastrada com sucesso!';
+                    $meuModal = 'meuModalSucesso';
                 } else {
-                    $mensagem = $mensagem . 'A questão não foi cadastrada, pois já esxiste uma questão com esta pergunta/contexto!\nCaso queira cadastrar mesmo assim, terá que mudar algo na pergunta/contexto!';
+                    $mensagem = $mensagem . 'A questão não foi cadastrada, pois já esxiste uma questão com esta pergunta/contexto!<br>Caso queira cadastrar mesmo assim, terá que mudar algo na pergunta/contexto!';
+                    $meuModal = 'meuModalErro';
                 }
             }
 
-            if ($_SESSION['cdGrupo'] == 1) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/questaoADM.php");
+            if ($_SESSION['cdGrupo'] == 1) {                
+                $this->setModalRedirecionar('', $mensagem, '', $meuModal, '../visao/questaoADM.php');
             }
 
             if ($_SESSION['cdGrupo'] == 2) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/questaoProfessor.php");
+                $this->setModalRedirecionar('', $mensagem, '', $meuModal, '../visao/questaoProfessor.php');              
             }
         }
     }
 
     public function cadastrarQuestaoTipo3() {
-
-        //SÃ£o os mesmos campos, por isso nÃ£o precisa de outro metodo, mas posteriormente posso fazer algo diferente, por isso criei este metodo
+        //São os mesmos campos, por isso nÃ£o precisa de outro metodo, mas posteriormente posso fazer algo diferente, por isso criei este metodo
         $this->cadastrarQuestaoTipo1();
     }
 
@@ -378,10 +392,13 @@ Class AlgTot {
         if (($_SESSION['cdGrupo'] == 1) || ($_SESSION['cdGrupo'] == 2)) {
 
             $mensagem = "";
+            $url = "";
+            $sucesso = 0;
+            $erro = 0;
 
             if ((!isset($_POST['cdQuestao']))) {
-
-                $mensagem = $mensagem . 'A questão não pode ser alterada, pois está faltando algum campo a ser preenchido!\n';
+                $mensagem = $mensagem . 'A questão não pode ser alterada, pois está faltando algum campo a ser preenchido!<br>';
+                $erro++;
             } else {
 
                 $cdQuestao = $_POST['cdQuestao'];
@@ -438,87 +455,106 @@ Class AlgTot {
                 if ($this->verificarDuplicidade($select, $dados) == true) {
 
                     if (isset($pergunta)) {
-
                         $update = "UPDATE questao SET pergunta = ? WHERE cdQuestao = ?";
                         $dados = array($pergunta, $cdQuestao);
                         $this->modelo->alterar($update, $dados);
-                        $mensagem = $mensagem . 'A pergunta foi alterada com sucesso!\n';
+                        $mensagem = $mensagem . 'A pergunta foi alterada com sucesso!<br>';
+                        $sucesso++;
                     }
 
                     if (isset($alternativaCorreta)) {
-
                         $update = "UPDATE questao SET alternativaCorreta = ? WHERE cdQuestao = ?";
                         $dados = array($alternativaCorreta, $cdQuestao);
                         $this->modelo->alterar($update, $dados);
-                        $mensagem = $mensagem . 'A alternativa correta foi alterada com sucesso!\n';
+                        $mensagem = $mensagem . 'A alternativa correta foi alterada com sucesso!<br>';
+                        $sucesso++;
                     }
 
                     if (isset($alternativaIncorreta1)) {
-
                         $update = "UPDATE questao SET alternativaIncorreta1 = ? WHERE cdQuestao = ?";
                         $dados = array($alternativaIncorreta1, $cdQuestao);
                         $this->modelo->alterar($update, $dados);
-                        $mensagem = $mensagem . 'A alternativa incorreta 1 foi alterada com sucesso!\n';
+                        $mensagem = $mensagem . 'A alternativa incorreta 1 foi alterada com sucesso!<br>';
+                        $sucesso++;
                     }
 
                     if (isset($alternativaIncorreta2)) {
-
                         $update = "UPDATE questao SET alternativaIncorreta2 = ? WHERE cdQuestao = ?";
                         $dados = array($alternativaIncorreta2, $cdQuestao);
                         $this->modelo->alterar($update, $dados);
-                        $mensagem = $mensagem . 'A alternativa incorreta 2 foi alterada com sucesso!\n';
+                        $mensagem = $mensagem . 'A alternativa incorreta 2 foi alterada com sucesso!<br>';
+                        $sucesso++;
                     }
 
                     if (isset($alternativaIncorreta3)) {
-
                         $update = "UPDATE questao SET alternativaIncorreta3 = ? WHERE cdQuestao = ?";
                         $dados = array($alternativaIncorreta3, $cdQuestao);
                         $this->modelo->alterar($update, $dados);
-                        $mensagem = $mensagem . 'A alternativa incorreta 3 foi alterada com sucesso!\n';
+                        $mensagem = $mensagem . 'A alternativa incorreta 3 foi alterada com sucesso!<>br';
+                        $sucesso++;
                     }
 
                     if (isset($alternativaIncorreta4)) {
-
                         $update = "UPDATE questao SET alternativaIncorreta4 = ? WHERE cdQuestao = ?";
                         $dados = array($alternativaIncorreta4, $cdQuestao);
                         $this->modelo->alterar($update, $dados);
-                        $mensagem = $mensagem . 'A alternativa incorreta 4 foi alterada com sucesso!\n';
+                        $mensagem = $mensagem . 'A alternativa incorreta 4 foi alterada com sucesso!<br>';
+                        $sucesso++;
                     }
 
                     if (isset($pontuacao)) {
-
                         $update = "UPDATE questao SET pontuacao = ? WHERE cdQuestao = ?";
                         $dados = array($pontuacao, $cdQuestao);
                         $this->modelo->alterar($update, $dados);
-                        $mensagem = $mensagem . 'A pontuacao foi alterada com sucesso!\n';
+                        $mensagem = $mensagem . 'A pontuacao foi alterada com sucesso!<br>';
+                        $sucesso++;
                     }
 
                     if (isset($tempoTotalQuestao)) {
-
                         $update = "UPDATE questao SET tempoTotalQuestao = ? WHERE cdQuestao = ?";
                         $dados = array($tempoTotalQuestao, $cdQuestao);
                         $this->modelo->alterar($update, $dados);
-                        $mensagem = $mensagem . 'O tempo de resposta da questão foi alterada com sucesso!\n';
+                        $mensagem = $mensagem . 'O tempo de resposta da questão foi alterada com sucesso!<br>';
+                        $sucesso++;
                     }
 
                     if (isset($dica)) {
-
                         $update = "UPDATE questao SET dica = ? WHERE cdQuestao = ?";
                         $dados = array($dica, $cdQuestao);
                         $this->modelo->alterar($update, $dados);
-                        $mensagem = $mensagem . 'A dica foi alterada com sucesso!\n';
+                        $mensagem = $mensagem . 'A dica foi alterada com sucesso!<br>';
+                        $sucesso++;
                     }
                 } else {
-                    $mensagem = $mensagem . 'A questão não foi alterada, pois já esxiste uma questão com esta pergunta/contexto!\nCaso queira alterar mesmo assim, terá que mudar algo na pergunta/contexto!';
+                    $mensagem = $mensagem . 'A questão não foi alterada, pois já esxiste uma questão com esta pergunta/contexto!<br>Caso queira alterar mesmo assim, terá que mudar algo na pergunta/contexto!';
+                    $erro++;
                 }
             }
-
-            if ($_SESSION['cdGrupo'] == 1) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/questaoADM.php");
+                
+            if ($_SESSION['cdGrupo'] == 1) {                
+                $url = '../visao/questaoADM.php';                
             }
 
-            if ($_SESSION['cdGrupo'] == 2) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/questaoProfessor.php");
+            if ($_SESSION['cdGrupo'] == 2) {                
+                $url = '../visao/questaoProfessor.php';  
+            }
+            
+            if ($sucesso == 0 && $erro == 0) {
+                $this->setModalRedirecionar('Nenhuma alteração', 'Nada alterado.', '', 'meuModalSucesso', $url);
+                return true;
+            } else {
+                if ($sucesso > 0 && $erro > 0) {
+                    $this->setModalRedirecionar('Nem todos os dados puderam ser alterados!', $mensagem, '', 'meuModalErro', $url);
+                    return false;
+                }                
+                if ($sucesso > 0 && $erro == 0) {
+                    $this->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', $url);
+                    return true;
+                }                
+                if ($sucesso == 0 && $erro > 0) {
+                    $this->setModalRedirecionar('', $mensagem, '', 'meuModalErro', $url);
+                    return false;
+                }                
             }
         }
     }
@@ -532,32 +568,25 @@ Class AlgTot {
             $mensagem = "";
 
             if (!isset($_POST['cdQuestao'])) {
-
                 $cdQuestao = null;
             } else {
-
                 $cdQuestao = $_POST['cdQuestao'];
             }
 
             if (isset($cdQuestao)) {
-
                 $update = "UPDATE questao SET status = ? WHERE cdQuestao = ?";
                 $dados = array('deletado', $cdQuestao);
                 $this->modelo->excluir($update, $dados);
-                $mensagem = $mensagem . 'Questão excluida com sucesso!\n';
-            } else {
-
-                $mensagem = $mensagem . 'Não foi possível excluir a questão!\n';
+                $mensagem = $mensagem . 'Questão excluida com sucesso!';
             }
-
-
+            
             if ($_SESSION['cdGrupo'] == 1) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/questaoADM.php");
+                $this->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', '../visao/questaoADM.php');                
             }
 
-            if ($_SESSION['cdGrupo'] == 2) {
-                $this->mostrarMensagemRedirecionar($mensagem, "../visao/questaoProfessor.php");
-            }
+            if ($_SESSION['cdGrupo'] == 2) {                
+                $this->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', '../visao/questaoProfessor.php');
+            }                       
         }
     }
 

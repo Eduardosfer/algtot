@@ -13,8 +13,6 @@
  */
 require_once("../modelo/Modelo.php");
 
-date_default_timezone_set('America/Sao_Paulo');
-
 header('Content-Type: text/html; charset=UTF-8');
 
 Class Tradutor {
@@ -25,6 +23,8 @@ Class Tradutor {
 
     public function __construct() {
 
+        date_default_timezone_set("America/Bahia");
+        
         if (!isset($_POST['acao'])) {
 
             $_POST['acao'] = "";

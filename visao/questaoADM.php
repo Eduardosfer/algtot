@@ -397,9 +397,9 @@
                       $select = "SELECT * FROM questao WHERE cdAtividade = ? AND status = ? ORDER BY cdQuestao DESC";
                       $dados = array($cdAtividade,'ativo');
                       $dados = $modelo->selecionar($select,$dados);
-
+                      $countAlert = 0;
                       foreach ($dados as $key => $dado) {
-
+                        $countAlert++;
                         $cdQuestao = $dado['cdQuestao'];
                         $pergunta = htmlspecialchars($dado['pergunta']);
                         $alternativaCorreta =  htmlspecialchars($dado['alternativaCorreta']);
@@ -773,7 +773,10 @@
                     </div><!-- /.modal FIM DO MODAL EXCLUIR-->
 
               <?php $numero++; } ?>
-
+                    
+                            <?php if ($countAlert == 0) { ?>
+                                <div class="alert alert-warning" role="alert">Nenhuma questão foi cadastrada para essa atividade</div>
+                            <?php } ?>                            
             			</div>
 
           		</div>
