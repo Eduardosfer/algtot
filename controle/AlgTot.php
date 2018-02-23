@@ -608,8 +608,8 @@ Class AlgTot {
             $cdAtividade = $_SESSION['atividade'];
 
             $select = "SELECT DISTINCT usuarioquestao.status AS acertouAnteriormente FROM usuarioquestao
-																							WHERE usuarioquestao.cdUsuario = ? AND usuarioquestao.cdQuestao = ?
-																							AND usuarioquestao.status = ?";
+                        WHERE usuarioquestao.cdUsuario = ? AND usuarioquestao.cdQuestao = ?
+                        AND usuarioquestao.status = ?";
             $dados = array($cdUsuario, $cdQuestao, 'acertou');
 
             $acertos = $this->modelo->selecionar($select, $dados);
@@ -1052,19 +1052,6 @@ Class AlgTot {
         } else {
 
             header("Location: http:/algtot/visao/atividades.php");
-        }
-    }
-
-    //Metodo que mostra uma mensagem e permite o redirecionamento Arrumar um local adequado para colocar esses dois metodos
-    //mostrarMensagemRedirecionar e verificarDuplicidade pois eles estÃ£o tanto em Usuario.php como em AlgTot.php
-    public function mostrarMensagemRedirecionar($mensagem, $endereco) {
-
-        if ($mensagem != null) {
-            echo "<script>alert('" . $mensagem . "')</script>";
-        }
-
-        if ($endereco != null) {
-            echo "<script>window.location = '" . $endereco . "';</script>";
         }
     }
 
