@@ -273,11 +273,12 @@ Class Usuario {
 
         session_start();
 
-        if (!isset($_POST['usuario'])) {
-            $this->setUsuario(null);
-        } else {
-            $this->setUsuario($_POST['usuario']);
-        }
+//        REMOVI A EDIÇÃO DE NOME DE USUÁRIO
+//        if (!isset($_POST['usuario'])) {
+//            $this->setUsuario(null);
+//        } else {
+//            $this->setUsuario($_POST['usuario']);
+//        }
         if (!isset($_POST['senha'])) {
             $this->setSenha(null);
         } else {
@@ -348,24 +349,24 @@ Class Usuario {
                     $erro++;
                 }
             }
-
-            if ((isset($this->usuario)) && ($this->usuario != $antigoUsuario)) {
-
-                $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND cdUsuario != ? AND status = ?";
-                $dados = array($this->usuario, $this->cdUsuario, 'ativo');
-
-                if ($this->verificarDuplicidade($select, $dados) == true) {
-                    $update = "UPDATE usuario SET usuario = ? WHERE cdUsuario = ? AND status = ?";
-                    $dados = array($this->usuario, $this->cdUsuario, 'ativo');
-                    $this->modelo->alterar($update, $dados);
-                    $_SESSION['usuario'] = $this->usuario;
-                    $mensagem = $mensagem . 'Nome de usuário alterado com sucesso!<br>';
-                    $sucesso++;
-                } else {
-                    $mensagem = $mensagem . 'Nome de usuário não alterado. Já existe um usuário com este nome!<br>';
-                    $erro++;
-                }
-            }
+            
+//            REMOVI A EDIÇÃO DE NOME DE USUÁRIO
+//            if ((isset($this->usuario)) && ($this->usuario != $antigoUsuario)) {
+//                $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND cdUsuario != ? AND status = ?";
+//                $dados = array($this->usuario, $this->cdUsuario, 'ativo');
+//
+//                if ($this->verificarDuplicidade($select, $dados) == true) {
+//                    $update = "UPDATE usuario SET usuario = ? WHERE cdUsuario = ? AND status = ?";
+//                    $dados = array($this->usuario, $this->cdUsuario, 'ativo');
+//                    $this->modelo->alterar($update, $dados);
+//                    $_SESSION['usuario'] = $this->usuario;
+//                    $mensagem = $mensagem . 'Nome de usuário alterado com sucesso!<br>';
+//                    $sucesso++;
+//                } else {
+//                    $mensagem = $mensagem . 'Nome de usuário não alterado. Já existe um usuário com este nome!<br>';
+//                    $erro++;
+//                }
+//            }
 
             if (isset($this->senha)) {
                 if ($this->senha == $antigaSenha) {
@@ -616,7 +617,7 @@ Class Usuario {
                  * $this->AlgTot->setModalRedirecionar('Email não enviado', 'Não foi possivel enviar o e-mail, tente novamente!', '', 'meuModalErro', '../index.php');
                   } */
 
-                $this->AlgTot->setModalRedirecionar('Ainda não disponível!', 'Este serviço ainda não está funcionando !<br>Envie um e-mail para algtot@outlook.com.br solicitando a sua senha<br>Você deve utilizar o e-mail que está vinculado com o seu usuário do AlgTot!', '', 'meuModalErro', '../index.php');
+                $this->AlgTot->setModalRedirecionar('Ainda não disponível!', 'Este serviço ainda não está funcionando!<br>Envie um e-mail para algtot@outlook.com.br solicitando a sua senha<br>Você deve utilizar o e-mail que está vinculado com o seu usuário do AlgTot!', '', 'meuModalErro', '../index.php');
             } else {
                 $this->AlgTot->setModalRedirecionar('', 'Usuário inválido!<br>O usuário <b>' . $this->usuario . '</b> não foi encontrado.', '', 'meuModalErro', '../index.php');
             }

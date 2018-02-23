@@ -1086,7 +1086,7 @@ Class AlgTot {
         return $resultado;
     }
 
-    public function setModalRedirecionar($header = null, $body = null, $footer = null, $meuModal = null, $url = '../index.php') {
+    public function setModalRedirecionar($header = null, $body = null, $footer = null, $meuModal = null, $url = '../principal.php') {
         session_start();
         $_SESSION['modal'] = $meuModal;
         $_SESSION['header'] = $header;

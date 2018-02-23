@@ -21,10 +21,7 @@
             <span class="input-group-addon" id="sizing-addon2">
                <span class="glyphicon glyphicon-user"></span>
             </span>
-            <input name="usuario" id="usuario" minlength="3" maxlength="20" type="text" class="form-control" value="<?php echo $_SESSION['usuario'];?>" disabled required placeholder="Usuário" pattern="[a-zA-Z0-9]+" title="Insira um nome de usuário: Apenas letras e números: Maximo 20 caracteres" aria-describedby="sizing-addon2">
-            <span class="input-group-btn">
-              <button id="editarUsuario" class="btn btn-default" title="Clique para editar o nome de usuário" onclick="editarInput(document.getElementById('editarUsuario'), document.getElementById('usuario'))" type="button"><span class="glyphicon glyphicon-edit"></span> Editar</button>
-            </span>
+            <input type="text" class="form-control" value="<?php echo $_SESSION['usuario'];?>" disabled placeholder="Usuário" pattern="[a-zA-Z0-9]+" title="Insira um nome de usuário: Apenas letras e números: Maximo 20 caracteres" aria-describedby="sizing-addon2">          
           </div>
 
           <br>
@@ -87,7 +84,7 @@
             <a data-toggle="modal" data-target="#excluirConta" href="#" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Excluir Conta</a>
           </div>
           <div class="col-sm-5  col-sm-offset-5">
-            <a name="cancelar" href="<?php echo $_SERVER['REQUEST_URI']; ?>" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Cancelar</a>
+              <a name="cancelar" href="<?php echo isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'principal.php'; ?>" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Cancelar</a>
             <button name="acao" id="acaoEditar" type="button" value="AlterarUsuario" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Salvar</button>
           </div>
         </div>
