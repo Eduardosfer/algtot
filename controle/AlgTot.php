@@ -1131,7 +1131,7 @@ Class AlgTot {
             $cdAtividade = $_SESSION['atividade'];
 
             $select = "SELECT COUNT(questao.cdQuestao) AS quantidadeTotalQuestao FROM questao, atividade WHERE atividade.cdAtividade = questao.cdAtividade
-				 					AND atividade.status = ? AND questao.status = ? AND questao.cdAtividade = ?";
+                        AND atividade.status = ? AND questao.status = ? AND questao.cdAtividade = ?";
             $dados = array('ativo', 'ativo', $cdAtividade);
             $quantias = $this->modelo->selecionar($select, $dados);
 
@@ -1173,8 +1173,8 @@ Class AlgTot {
             $cdAtividade = $_SESSION['atividade'];
 
             $select = "SELECT questao.* FROM questao, atividade WHERE atividade.cdAtividade = questao.cdAtividade
-									AND atividade.status = ? AND questao.status = ? AND questao.cdAtividade = ?
-									LIMIT $numQuestao,1";
+                        AND atividade.status = ? AND questao.status = ? AND questao.cdAtividade = ?
+                        LIMIT $numQuestao,1";
             $dados = array('ativo', 'ativo', $cdAtividade);
             $questoes = $this->modelo->selecionar($select, $dados);
 
