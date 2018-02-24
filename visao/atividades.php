@@ -185,10 +185,10 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                             $parametro = $_POST['parametro'];
 
                                             $select = "SELECT count(atividade.cdAtividade) AS numLinhas FROM atividade
-																					LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
-																					WHERE atividade.status = ?
-																					AND atividade.nivel = ?
-																					AND ? LIKE ?";
+                                                        LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
+                                                        WHERE atividade.status = ?
+                                                        AND atividade.nivel = ?
+                                                        AND ? LIKE ?";
                                             $dados = array('ativo', 'ativo', $nivel, $campo, '%' . $parametro . '%');
                                         } else {
 
@@ -261,35 +261,35 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                             $parametro = $_POST['parametro'];
 
                                             $select = "SELECT atividade.cdAtividade AS codAtividade, atividade.* ,
-																				(SELECT SUM( questao.pontuacao ) AS pontuacaoTotalUsuarioAtividade FROM atividade
-																				LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade
-																				LEFT JOIN usuarioquestao ON questao.cdQuestao = usuarioquestao.cdQuestao
-																				LEFT JOIN usuario ON usuario.cdUsuario = usuarioquestao.cdUsuario
-																				WHERE usuario.cdUsuario = ? AND atividade.cdAtividade = codAtividade
-																				AND (usuarioquestao.status = ? OR usuarioquestao.status is null)) AS pontuacaoTotalAluno,
-																				atividade.dataCadastramento AS dataCadastramentoAtividade, COUNT(questao.cdQuestao) AS quantidadeQuestao,
-																				SUM(questao.pontuacao) AS pontuacaoTotal FROM atividade
-																				LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
-																				WHERE atividade.status = ? AND atividade.nivel = ?
-																				AND $campo LIKE ? GROUP BY atividade.cdAtividade
-																				ORDER BY $campo ASC LIMIT $offset,12";
+                                                        (SELECT SUM( DISTINCT questao.pontuacao ) AS pontuacaoTotalUsuarioAtividade FROM atividade
+                                                        LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade
+                                                        LEFT JOIN usuarioquestao ON questao.cdQuestao = usuarioquestao.cdQuestao
+                                                        LEFT JOIN usuario ON usuario.cdUsuario = usuarioquestao.cdUsuario
+                                                        WHERE usuario.cdUsuario = ? AND atividade.cdAtividade = codAtividade
+                                                        AND (usuarioquestao.status = ? OR usuarioquestao.status is null)) AS pontuacaoTotalAluno,
+                                                        atividade.dataCadastramento AS dataCadastramentoAtividade, COUNT(questao.cdQuestao) AS quantidadeQuestao,
+                                                        SUM(questao.pontuacao) AS pontuacaoTotal FROM atividade
+                                                        LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
+                                                        WHERE atividade.status = ? AND atividade.nivel = ?
+                                                        AND $campo LIKE ? GROUP BY atividade.cdAtividade
+                                                        ORDER BY $campo ASC LIMIT $offset,12";
 
                                             $dados = array($cdUsuario, 'acertou', 'ativo', 'ativo', $nivel, '%' . $parametro . '%');
                                         } else {
 
                                             $select = "SELECT atividade.cdAtividade AS codAtividade, atividade.* ,
-																				(SELECT SUM( questao.pontuacao ) AS pontuacaoTotalUsuarioAtividade FROM atividade
-																				LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade
-																				LEFT JOIN usuarioquestao ON questao.cdQuestao = usuarioquestao.cdQuestao
-																				LEFT JOIN usuario ON usuario.cdUsuario = usuarioquestao.cdUsuario
-																				WHERE usuario.cdUsuario = ? AND atividade.cdAtividade = codAtividade
-																				AND (usuarioquestao.status = ? OR usuarioquestao.status is null)) AS pontuacaoTotalAluno,
-																				atividade.dataCadastramento AS dataCadastramentoAtividade, COUNT(questao.cdQuestao) AS quantidadeQuestao,
-																				SUM(questao.pontuacao) AS pontuacaoTotal FROM atividade
-																				LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
-																				WHERE atividade.status = ? AND atividade.nivel = ?
-																				GROUP BY atividade.cdAtividade
-																				ORDER BY codAtividade DESC LIMIT $offset,12";
+                                                        (SELECT SUM( DISTINCT questao.pontuacao ) AS pontuacaoTotalUsuarioAtividade FROM atividade
+                                                        LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade
+                                                        LEFT JOIN usuarioquestao ON questao.cdQuestao = usuarioquestao.cdQuestao
+                                                        LEFT JOIN usuario ON usuario.cdUsuario = usuarioquestao.cdUsuario
+                                                        WHERE usuario.cdUsuario = ? AND atividade.cdAtividade = codAtividade
+                                                        AND (usuarioquestao.status = ? OR usuarioquestao.status is null)) AS pontuacaoTotalAluno,
+                                                        atividade.dataCadastramento AS dataCadastramentoAtividade, COUNT(questao.cdQuestao) AS quantidadeQuestao,
+                                                        SUM(questao.pontuacao) AS pontuacaoTotal FROM atividade
+                                                        LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
+                                                        WHERE atividade.status = ? AND atividade.nivel = ?
+                                                        GROUP BY atividade.cdAtividade
+                                                        ORDER BY codAtividade DESC LIMIT $offset,12";
                                             $dados = array($cdUsuario, 'acertou', 'ativo', 'ativo', $nivel);
                                         }
 

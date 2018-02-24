@@ -607,29 +607,42 @@ Class AlgTot {
             $cdQuestao = $_SESSION['cdQuestao'];
             $cdAtividade = $_SESSION['atividade'];
 
-            $select = "SELECT DISTINCT usuarioquestao.status AS acertouAnteriormente FROM usuarioquestao
+//            OBTENDO SE HOUVE ACERTO OU ERRO
+            $select = "SELECT usuarioquestao.status AS acertouOuErrou FROM usuarioquestao
                         WHERE usuarioquestao.cdUsuario = ? AND usuarioquestao.cdQuestao = ?
-                        AND usuarioquestao.status = ?";
-            $dados = array($cdUsuario, $cdQuestao, 'acertou');
-
+                        ORDER BY usuarioquestao.cdUsuarioQuestao ASC";
+            $dados = array($cdUsuario, $cdQuestao);
             $acertos = $this->modelo->selecionar($select, $dados);
-
+            //USANDO FOREACH PARA SABER SE A ULTIMA VEZ QUE ELE RESPONDEU A QUESTÃO ELE ACERTOU OU ERROU
             foreach ($acertos as $key => $acerto) {
-                $acertouAnteriormente = $acerto['acertouAnteriormente'];
-            }
-
-            if (!isset($acertouAnteriormente)) {
+                $acertouOuErrou = $acerto['acertouOuErrou'];
+            }                
+            if (!isset($acertouOuErrou)) {
                 $acertouAnteriormente = null;
-            }
-
+                $errouAnteriormente = null;
+            } else {
+                if ($acertouOuErrou == 'acertou') {
+                    $acertouAnteriormente = 'acertouAnteriormente';
+                } else {
+                    $acertouAnteriormente = null;
+                }
+                if ($acertouOuErrou == 'errou') {
+                    $errouAnteriormente = 'errouAnteriormente';
+                } else {
+                    $errouAnteriormente = null;
+                }
+            }  
+                        
             $_SESSION['acertouAnteriormente'] = $acertouAnteriormente;
+            $_SESSION['errouAnteriormente'] = $errouAnteriormente;
+//            FIM DO OBTENDO SE HOUVE ACERTO OU ERRO           
 
             if ($resposta == $_SESSION['alternativaCorreta']) {
 
                 $pontuacaoQuestao = $_SESSION['pontuacao'];
 
                 $select = "SELECT atividade.nivel AS nivel FROM atividade, questao
-										WHERE atividade.cdAtividade = questao.cdAtividade AND questao.cdQuestao = ?";
+                            WHERE atividade.cdAtividade = questao.cdAtividade AND questao.cdQuestao = ?";
                 $dados = array($cdQuestao);
                 $niveis = $this->modelo->selecionar($select, $dados);
 
@@ -641,7 +654,7 @@ Class AlgTot {
                     $nivel = null;
                 }
 
-                if (!isset($acertouAnteriormente)) {
+                if ($acertouAnteriormente == null) {
 
                     $_SESSION['pontuacaoTotal'] = $_SESSION['pontuacaoTotal'] + $pontuacaoQuestao;
                     $_SESSION['pontuacaoObtidaAteMomento'] = $_SESSION['pontuacaoObtidaAteMomento'] + $pontuacaoQuestao;
@@ -686,20 +699,80 @@ Class AlgTot {
                     $this->modelo->alterar($update, $dados);
                 } else {
                     $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
-                    $dados = array($cdUsuario, $cdQuestao, 'acertouDenovo');
+                    $dados = array($cdUsuario, $cdQuestao, 'acertou');
                     $this->modelo->cadastrar($insert, $dados);
                 }
 
                 $_SESSION['totalQuestoesAcertadas'] ++;
                 $_SESSION['mostrarModalRegistro'] = 'acertou';
             } else {
+                
+                $pontuacaoQuestao = $_SESSION['pontuacao'];
+
+                $select = "SELECT atividade.nivel AS nivel FROM atividade, questao
+                            WHERE atividade.cdAtividade = questao.cdAtividade AND questao.cdQuestao = ?";
+                $dados = array($cdQuestao);
+                $niveis = $this->modelo->selecionar($select, $dados);
+
+                foreach ($niveis as $key => $nivels) {
+                    $nivel = $nivels['nivel'];
+                }
+
+                if (!isset($nivel)) {
+                    $nivel = null;
+                }
+
+                if ($errouAnteriormente == null) {
+
+                    $_SESSION['pontuacaoTotal'] = $_SESSION['pontuacaoTotal'] - $pontuacaoQuestao;
+                    $_SESSION['pontuacaoObtidaAteMomento'] = $_SESSION['pontuacaoObtidaAteMomento'] - $pontuacaoQuestao;
+                    $pontuacaoTotal = $_SESSION['pontuacaoTotal'];
+
+                    if ($nivel == 1) {
+                        $_SESSION['nivel1'] = $_SESSION['nivel1'] - $pontuacaoQuestao;
+                        $campo = 'nivel1';
+                        $pontuacaoNivel = $_SESSION['nivel1'];
+                    }
+
+                    if ($nivel == 2) {
+                        $_SESSION['nivel2'] = $_SESSION['nivel2'] - $pontuacaoQuestao;
+                        $campo = 'nivel2';
+                        $pontuacaoNivel = $_SESSION['nivel2'];
+                    }
+
+                    if ($nivel == 3) {
+                        $_SESSION['nivel3'] = $_SESSION['nivel3'] - $pontuacaoQuestao;
+                        $campo = 'nivel3';
+                        $pontuacaoNivel = $_SESSION['nivel3'];
+                    }
+
+                    if ($nivel == 4) {
+                        $_SESSION['nivel4'] = $_SESSION['nivel4'] - $pontuacaoQuestao;
+                        $campo = 'nivel4';
+                        $pontuacaoNivel = $_SESSION['nivel4'];
+                    }
+
+                    if ($nivel == 5) {
+                        $_SESSION['nivel5'] = $_SESSION['nivel5'] - $pontuacaoQuestao;
+                        $campo = 'nivel5';
+                        $pontuacaoNivel = $_SESSION['nivel5'];
+                    }
+
+                    $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
+                    $dados = array($cdUsuario, $cdQuestao, 'errou');
+                    $this->modelo->cadastrar($insert, $dados);
+
+                    $update = "UPDATE usuario SET pontuacaoTotal = ?, $campo = ? WHERE cdUsuario = ?";
+                    $dados = array($pontuacaoTotal, $pontuacaoNivel, $cdUsuario);
+                    $this->modelo->alterar($update, $dados);
+                } else {
+                    $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
+                    $dados = array($cdUsuario, $cdQuestao, 'errou');
+                    $this->modelo->cadastrar($insert, $dados);
+                }
 
                 $_SESSION['totalQuestoesErradas'] ++;
                 $_SESSION['mostrarModalRegistro'] = 'errou';
-
-                $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
-                $dados = array($cdUsuario, $cdQuestao, 'errou');
-                $this->modelo->cadastrar($insert, $dados);
             }
 
             //TRANSFORMO EM UM ARRAY PARA PEGAR O AS QUESTÕES SEM REPETIR 
@@ -722,7 +795,7 @@ Class AlgTot {
                 $_SESSION['randQuestao'] = substr($_SESSION['randQuestao'], 0, -1);
             }
 
-            $_SESSION['progressoAtividade'] ++;
+            $_SESSION['progressoAtividade']++;
 
             if ($_SESSION['progressoAtividade'] > $_SESSION['quantidadeTotalQuestao']) {
                 unset($_SESSION['atividade']);
@@ -732,7 +805,6 @@ Class AlgTot {
                 header("Location: http:/algtot/visao/questaoTipo1.php");
             }
         } else {
-
             header("Location: http:/algtot/visao/questaoTipo1.php");
         }
     }
@@ -751,21 +823,34 @@ Class AlgTot {
             $cdAtividade = $_SESSION['atividade'];
             $_SESSION['pontuacaoObtidaQuestao'] = $_SESSION['pontuacao'];
 
-            $select = "SELECT distinct usuarioquestao.status AS acertouAnteriormente FROM usuarioquestao
-																							WHERE usuarioquestao.cdUsuario = ? AND usuarioquestao.cdQuestao = ?
-																							AND usuarioquestao.status = ?";
-            $dados = array($cdUsuario, $cdQuestao, 'acertou');
+            //            OBTENDO SE HOUVE ACERTO OU ERRO
+            $select = "SELECT usuarioquestao.status AS acertouOuErrou FROM usuarioquestao
+                        WHERE usuarioquestao.cdUsuario = ? AND usuarioquestao.cdQuestao = ?
+                        ORDER BY usuarioquestao.cdUsuarioQuestao ASC";
+            $dados = array($cdUsuario, $cdQuestao);
             $acertos = $this->modelo->selecionar($select, $dados);
-
+            //USANDO FOREACH PARA SABER SE A ULTIMA VEZ QUE ELE RESPONDEU A QUESTÃO ELE ACERTOU OU ERROU
             foreach ($acertos as $key => $acerto) {
-                $acertouAnteriormente = $acerto['acertouAnteriormente'];
-            }
-
-            if (!isset($acertouAnteriormente)) {
+                $acertouOuErrou = $acerto['acertouOuErrou'];                
+            }                
+            if (!isset($acertouOuErrou)) {
                 $acertouAnteriormente = null;
-            }
-
+                $errouAnteriormente = null;
+            } else {
+                if ($acertouOuErrou == 'acertou') {
+                    $acertouAnteriormente = 'acertouAnteriormente';
+                } else {
+                    $acertouAnteriormente = null;
+                }
+                if ($acertouOuErrou == 'errou') {
+                    $errouAnteriormente = 'errouAnteriormente';
+                } else {
+                    $errouAnteriormente = null;
+                }
+            }               
             $_SESSION['acertouAnteriormente'] = $acertouAnteriormente;
+            $_SESSION['errouAnteriormente'] = $errouAnteriormente;
+//            FIM DO OBTENDO SE HOUVE ACERTO OU ERRO
 
             foreach ($respostas as $value) {
                 if ($value != $respostas['acao']) {
@@ -790,7 +875,7 @@ Class AlgTot {
                     $nivel = null;
                 }
 
-                if (!isset($acertouAnteriormente)) {
+                if ($acertouAnteriormente == null) {
 
                     $_SESSION['pontuacaoTotal'] = $_SESSION['pontuacaoTotal'] + $pontuacaoQuestao;
                     $_SESSION['pontuacaoObtidaAteMomento'] = $_SESSION['pontuacaoObtidaAteMomento'] + $pontuacaoQuestao;
@@ -836,7 +921,7 @@ Class AlgTot {
                 } else {
 
                     $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
-                    $dados = array($cdUsuario, $cdQuestao, 'acertouDenovo');
+                    $dados = array($cdUsuario, $cdQuestao, 'acertou');
                     $this->modelo->cadastrar($insert, $dados);
                 }
 
@@ -844,12 +929,73 @@ Class AlgTot {
                 $_SESSION['mostrarModalRegistro'] = 'acertou';
             } else {
 
+                
+                $pontuacaoQuestao = $_SESSION['pontuacao'];
+
+                $select = "SELECT atividade.nivel AS nivel FROM atividade, questao
+                            WHERE atividade.cdAtividade = questao.cdAtividade AND questao.cdQuestao = ?";
+                $dados = array($cdQuestao);
+                $niveis = $this->modelo->selecionar($select, $dados);
+
+                foreach ($niveis as $key => $nivels) {
+                    $nivel = $nivels['nivel'];
+                }
+
+                if (!isset($nivel)) {
+                    $nivel = null;
+                }
+
+                if ($errouAnteriormente == null) {
+
+                    $_SESSION['pontuacaoTotal'] = $_SESSION['pontuacaoTotal'] - $pontuacaoQuestao;
+                    $_SESSION['pontuacaoObtidaAteMomento'] = $_SESSION['pontuacaoObtidaAteMomento'] - $pontuacaoQuestao;
+                    $pontuacaoTotal = $_SESSION['pontuacaoTotal'];
+
+                    if ($nivel == 1) {
+                        $_SESSION['nivel1'] = $_SESSION['nivel1'] - $pontuacaoQuestao;
+                        $campo = 'nivel1';
+                        $pontuacaoNivel = $_SESSION['nivel1'];
+                    }
+
+                    if ($nivel == 2) {
+                        $_SESSION['nivel2'] = $_SESSION['nivel2'] - $pontuacaoQuestao;
+                        $campo = 'nivel2';
+                        $pontuacaoNivel = $_SESSION['nivel2'];
+                    }
+
+                    if ($nivel == 3) {
+                        $_SESSION['nivel3'] = $_SESSION['nivel3'] - $pontuacaoQuestao;
+                        $campo = 'nivel3';
+                        $pontuacaoNivel = $_SESSION['nivel3'];
+                    }
+
+                    if ($nivel == 4) {
+                        $_SESSION['nivel4'] = $_SESSION['nivel4'] - $pontuacaoQuestao;
+                        $campo = 'nivel4';
+                        $pontuacaoNivel = $_SESSION['nivel4'];
+                    }
+
+                    if ($nivel == 5) {
+                        $_SESSION['nivel5'] = $_SESSION['nivel5'] - $pontuacaoQuestao;
+                        $campo = 'nivel5';
+                        $pontuacaoNivel = $_SESSION['nivel5'];
+                    }
+
+                    $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
+                    $dados = array($cdUsuario, $cdQuestao, 'errou');
+                    $this->modelo->cadastrar($insert, $dados);
+
+                    $update = "UPDATE usuario SET pontuacaoTotal = ?, $campo = ? WHERE cdUsuario = ?";
+                    $dados = array($pontuacaoTotal, $pontuacaoNivel, $cdUsuario);
+                    $this->modelo->alterar($update, $dados);
+                } else {
+                    $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
+                    $dados = array($cdUsuario, $cdQuestao, 'errou');
+                    $this->modelo->cadastrar($insert, $dados);
+                }
+
                 $_SESSION['totalQuestoesErradas'] ++;
                 $_SESSION['mostrarModalRegistro'] = 'errou';
-
-                $insert = "INSERT INTO usuarioquestao(cdUsuario,cdQuestao,status) VALUES(?,?,?)";
-                $dados = array($cdUsuario, $cdQuestao, 'errou');
-                $this->modelo->cadastrar($insert, $dados);
             }
 
             //TRANSFORMO EM UM ARRAY PARA PEGAR O AS QUESTÕES SEM REPETIR 
@@ -888,7 +1034,7 @@ Class AlgTot {
     }
 
     public function validarQuestaoTipo3() {
-        //SÃ£o os mesmos tratamentos para o tipo 1, mas criei este metodo para caso precise fazer algo diferente
+        //São os mesmos tratamentos para o tipo 1, mas criei este metodo para caso precise fazer algo diferente
         $this->validarQuestaoTipo1();
     }
 

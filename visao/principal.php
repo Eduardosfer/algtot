@@ -85,29 +85,29 @@
 
           						<form name="niveis" action="atividades.php" method="post">
 
-          							<button name="nivel" value="1" style="min-width: 120px; min-height: 100px;" type="submit" title="Clique para abrir o nível" class="btn btn-success" href="atividades.php">
+          							<button name="nivel" value="1" style="min-width: 120px; min-height: 100px;" type="submit" title="Clique para abrir o nível" class="btn btn-<?php echo ($_SESSION['nivel1'] < 0)?'danger':'success'; ?>" href="atividades.php">
                           Nível 1<br>
                           Pontuação<br>
                           <?php echo $_SESSION['nivel1']; ?> <span class='glyphicon glyphicon-star' aria-hidden='true'></span>
                         </button>
           							<br><br>
 
-          							<button name="nivel" value="2" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel1']>=1000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 1000 pontos no nível 1'"." disabled "; } ?> class="btn btn-success">
+          							<button name="nivel" value="2" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel1']>=1000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 1000 pontos no nível 1'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel2'] < 0)?'danger':'success'; ?>">
                           Nível 2
                           <?php if($_SESSION['nivel1']>=1000){ echo "<br>Pontuação<br>".$_SESSION['nivel2']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>1000 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 1"; } ?></button>
           							<br><br>
 
-          							<button name="nivel" value="3" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel2']>=2000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 2000 pontos no nível 2'"." disabled "; } ?> class="btn btn-success">
+          							<button name="nivel" value="3" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel2']>=2000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 2000 pontos no nível 2'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel3'] < 0)?'danger':'success'; ?>">
                           Nível 3
                           <?php if($_SESSION['nivel2']>=2000){ echo "<br>Pontuação<br>".$_SESSION['nivel3']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>2000 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 2"; } ?></button>
           							<br><br>
 
-          							<button name="nivel" value="4" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel3']>=3000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 3000 pontos no nível 3'"." disabled "; } ?> class="btn btn-success">
+          							<button name="nivel" value="4" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel3']>=3000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 3000 pontos no nível 3'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel4'] < 0)?'danger':'success'; ?>">
                           Nível 4
                           <?php if($_SESSION['nivel3']>=3000){ echo "<br>Pontuação<br>".$_SESSION['nivel4']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>3000 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 3"; } ?></button>
           							<br><br>
 
-          							<button name="nivel" value="5" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel4']>=4000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 4000 pontos no nível 4'"." disabled "; } ?> class="btn btn-success">
+          							<button name="nivel" value="5" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel4']>=4000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 4000 pontos no nível 4'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel5'] < 0)?'danger':'success'; ?>">
                           Nível 5
                           <?php if($_SESSION['nivel4']>=4000){ echo "<br>Pontuação<br>".$_SESSION['nivel5']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>4000 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 4"; } ?></button>
           							<br><br>

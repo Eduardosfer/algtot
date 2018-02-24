@@ -58,11 +58,9 @@
                        if ($modal=='acertou'){
 
                          //SIGNIFICA QUE ELE AINDA NÃO TINHA ACERTDO ESSA QUESTÃO ANTERIORMENTE, E POIR ISSO ELE PODE RECEBER A PONTUAÇÃO DELA
-                        if (!isset($_SESSION['acertouAnteriormente'])) {
-
+                        if ($_SESSION['acertouAnteriormente'] == null) {
                           echo "<p>Você recebeu ".$_SESSION['pontuacaoObtidaQuestao']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span></p>";
                         }else {
-
                           echo "<p>Você acertou mas nao ganhou nenhum ponto, pois já pontuou nestá questão!</P>";
                           echo "<p>Revisar é sempre importante para aprender mais!</P>";
                         }
@@ -70,13 +68,21 @@
                        }
 
                        if ($modal=='errou'){
-                         echo '<p>Não desista, a percistência é a chave para a vitória!</p>';
+                           
+                           //SIGNIFICA QUE ELE AINDA NÃO TINHA ERRADO ESSA QUESTÃO ANTERIORMENTE, E POR ISSO ELE IRA PERDER A PONTUAÇÃO DELA
+                            if ($_SESSION['errouAnteriormente'] == null) {
+                                echo '<p>Não desista, a percistência é a chave para a vitória!</p>';
+                                echo "<p>Você perdeu ".$_SESSION['pontuacaoObtidaQuestao']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span></p>";
+                            }else {
+                              echo "<p>Você errou mas não perdeu nenhum ponto, pois já havia errado esta questão!</P>";
+                              echo "<p>Revisar é sempre importante para aprender mais!</P>";
+                            }
+                                                    
                        }
 
                        if ($modal=='pulou') {
                          echo "<p>Seja mais rápido(a) da próxima vez!</p>";
                        }
-
                        echo "<p>Pontuação recebida até o momento: ".$_SESSION['pontuacaoObtidaAteMomento']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span></p>";
                      }
 
