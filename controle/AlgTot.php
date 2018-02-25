@@ -164,7 +164,7 @@ Class AlgTot {
             }
 
 
-            if (isset($titulo) && $titulo != '') {
+            if ($titulo != null && $titulo != '') {
                 $select = "SELECT count(cdAtividade) AS quantidade FROM atividade WHERE titulo = ? AND status != ? AND cdAtividade != ?";
                 $dados = array($titulo, 'deletado', $cdAtividade);
 
@@ -179,27 +179,21 @@ Class AlgTot {
                     $erro++;
                 }
             }
-
-            if (isset($nivel) && $nivel != '') {
+            
+            if ($nivel != null && $nivel != '') {
                 $update = "UPDATE atividade SET nivel = ? WHERE cdAtividade = ?";
                 $dados = array($nivel, $cdAtividade);
                 $this->modelo->alterar($update, $dados);
                 $mensagem = $mensagem . 'Nível alterado com sucesso!<br>';
                 $sucesso++;
-            } else {
-                $mensagem = $mensagem . 'Erro ao editar nível.<br>';
-                $erro++;
             }
 
-            if (isset($status) && $status != '') {
+            if ($status != null && $status != '') {
                 $update = "UPDATE atividade SET status = ? WHERE cdAtividade = ?";
                 $dados = array($status, $cdAtividade);
                 $this->modelo->alterar($update, $dados);
                 $mensagem = $mensagem . 'Status alterado com sucesso!<br>';
                 $sucesso++;
-            } else {
-                $mensagem = $mensagem . 'Erro ao editar status.<br>';
-                $erro++;
             }
 
             if ($_SESSION['cdGrupo'] == 1) {                
@@ -248,6 +242,9 @@ Class AlgTot {
                 $update = "UPDATE atividade SET status = ? WHERE cdAtividade = ?";
                 $dados = array('deletado', $cdAtividade);
                 $this->modelo->excluir($update, $dados);
+                $update2 = "UPDATE questao SET status = ? WHERE cdAtividade = ?";
+                $dados2 = array('deletado', $cdAtividade);
+                $this->modelo->excluir($update2, $dados2);
                 $mensagem = $mensagem . 'Atividade deletada com sucesso!';
             }
 
@@ -610,7 +607,7 @@ Class AlgTot {
 //            OBTENDO SE HOUVE ACERTO OU ERRO
             $select = "SELECT usuarioquestao.status AS acertouOuErrou FROM usuarioquestao
                         WHERE usuarioquestao.cdUsuario = ? AND usuarioquestao.cdQuestao = ?
-                        ORDER BY usuarioquestao.cdUsuarioQuestao ASC";
+                        ORDER BY usuarioquestao.cdUsuarioQuestao DESC LIMIT 0,1";
             $dados = array($cdUsuario, $cdQuestao);
             $acertos = $this->modelo->selecionar($select, $dados);
             //USANDO FOREACH PARA SABER SE A ULTIMA VEZ QUE ELE RESPONDEU A QUESTÃO ELE ACERTOU OU ERROU
@@ -826,7 +823,7 @@ Class AlgTot {
             //            OBTENDO SE HOUVE ACERTO OU ERRO
             $select = "SELECT usuarioquestao.status AS acertouOuErrou FROM usuarioquestao
                         WHERE usuarioquestao.cdUsuario = ? AND usuarioquestao.cdQuestao = ?
-                        ORDER BY usuarioquestao.cdUsuarioQuestao ASC";
+                        ORDER BY usuarioquestao.cdUsuarioQuestao DESC LIMIT 0,1";
             $dados = array($cdUsuario, $cdQuestao);
             $acertos = $this->modelo->selecionar($select, $dados);
             //USANDO FOREACH PARA SABER SE A ULTIMA VEZ QUE ELE RESPONDEU A QUESTÃO ELE ACERTOU OU ERROU
@@ -863,7 +860,7 @@ Class AlgTot {
                 $pontuacaoQuestao = $_SESSION['pontuacao'];
 
                 $select = "SELECT atividade.nivel AS nivel FROM atividade, questao
-																							WHERE atividade.cdAtividade = questao.cdAtividade AND questao.cdQuestao = ?";
+                                            WHERE atividade.cdAtividade = questao.cdAtividade AND questao.cdQuestao = ?";
                 $dados = array($cdQuestao);
                 $niveis = $this->modelo->selecionar($select, $dados);
 
@@ -1120,7 +1117,7 @@ Class AlgTot {
 
     public function setQuestao($atividade) {
 
-        if (isset($atividade)) {
+        if ($atividade != null) {
             $_SESSION['atividade'] = $atividade;
             $_SESSION['numQuestao'] = 0;
             $_SESSION['pontuacaoObtidaAteMomento'] = 0;
@@ -1129,15 +1126,25 @@ Class AlgTot {
             $_SESSION['totalQuestoesErradas'] = 0;
             $_SESSION['progressoAtividade'] = 1;
             $cdAtividade = $_SESSION['atividade'];
+            $cdUsuario = $_SESSION['cdUsuario'];
 
-            $select = "SELECT COUNT(questao.cdQuestao) AS quantidadeTotalQuestao FROM questao, atividade WHERE atividade.cdAtividade = questao.cdAtividade
-                        AND atividade.status = ? AND questao.status = ? AND questao.cdAtividade = ?";
-            $dados = array('ativo', 'ativo', $cdAtividade);
+            //            PEGANDO A QUANTIDADE TOTAL DE QUESTÕES QUE O USUÁRIO AINDA NÃO ACERTOU
+            $select = "SELECT COUNT(questao.cdQuestao) AS quantidadeTotalQuestao
+                        FROM questao
+                        WHERE questao.cdAtividade = ?
+                        AND questao.status = ?
+                        AND ((select count(usuarioquestao.cdUsuarioQuestao) 
+                        FROM usuarioquestao where usuarioquestao.cdQuestao = questao.cdQuestao 
+                        AND usuarioquestao.cdUsuario = ? 
+                        AND usuarioquestao.status = ?
+                        AND questao.status = ?) = 0)";
+            $dados = array($cdAtividade, 'ativo', $cdUsuario, 'acertou', 'ativo');
             $quantias = $this->modelo->selecionar($select, $dados);
 
             foreach ($quantias as $key => $quantia) {
                 $_SESSION['quantidadeTotalQuestao'] = $quantia['quantidadeTotalQuestao'];
             }
+            //FIM DO PEGANDO QUANTIDADE TOTAL DE QUESTÕES              
 
             $_SESSION['randQuestao'] = null;
 
@@ -1171,18 +1178,28 @@ Class AlgTot {
             $quantidadeTotalQuestao = $_SESSION['quantidadeTotalQuestao'];
             $numQuestao = $_SESSION['numQuestao'];
             $cdAtividade = $_SESSION['atividade'];
+            $cdUsuario = $_SESSION['cdUsuario'];
 
-            $select = "SELECT questao.* FROM questao, atividade WHERE atividade.cdAtividade = questao.cdAtividade
-                        AND atividade.status = ? AND questao.status = ? AND questao.cdAtividade = ?
+//            SELECIONANDO TODAS AS QUESTÕES QUE O USUARIO AINDA NAO ACERTOU DA ATIVIDADE
+            $select = "SELECT questao.*
+                        FROM questao
+                        WHERE questao.cdAtividade = ?
+                        AND questao.status = ?
+                        AND ((select count(usuarioquestao.cdUsuarioQuestao) 
+                        FROM usuarioquestao where usuarioquestao.cdQuestao = questao.cdQuestao 
+                        AND usuarioquestao.cdUsuario = ? 
+                        AND usuarioquestao.status = ?
+                        AND questao.status = ?) = 0)
                         LIMIT $numQuestao,1";
-            $dados = array('ativo', 'ativo', $cdAtividade);
-            $questoes = $this->modelo->selecionar($select, $dados);
-
+            $dados = array($cdAtividade, 'ativo', $cdUsuario, 'acertou', 'ativo');            
+            $questoes = $this->modelo->selecionarFetchAll($select, $dados);
+            
             if (isset($_SESSION['tipo'])) {
                 unset($_SESSION['tipo']);
             }
-
-            foreach ($questoes as $key => $questao) {
+                     
+            if ($questoes == true) {                               
+                $questao = $questoes[0];                            
                 $_SESSION['cdQuestao'] = $questao['cdQuestao'];
                 $_SESSION['tipo'] = $questao['tipo'];
                 $_SESSION['pergunta'] = $questao['pergunta'];
@@ -1193,10 +1210,14 @@ Class AlgTot {
                 $_SESSION['alternativaIncorreta4'] = $questao['alternativaIncorreta4'];
                 $_SESSION['dica'] = $questao['dica'];
                 $_SESSION['pontuacao'] = $questao['pontuacao'];
-                $_SESSION['tempoTotalQuestao'] = $questao['tempoTotalQuestao'];
+                $_SESSION['tempoTotalQuestao'] = $questao['tempoTotalQuestao'];                                
             }
-        } else {
-
+            
+        } else {            
+            header("Location: http:/algtot/visao/atividades.php");
+        }
+        
+        if (!isset($_SESSION['tipo'])) {                
             header("Location: http:/algtot/visao/atividades.php");
         }
     }

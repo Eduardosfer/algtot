@@ -40,6 +40,18 @@ Class Modelo {
         $selecao->execute($dados);
         return $selecao;
     }
+    
+    public function selecionarFetchAll($select, $dados) {
+        $selecao = $this->conexaoModelo->prepare($select);
+        $selecao->execute($dados);
+        return $selecao->fetchAll();
+    }
+    
+    public function selecionarFetch($select, $dados) {
+        $selecao = $this->conexaoModelo->prepare($select);
+        $selecao->execute($dados);
+        return $selecao->fetch();
+    }
 
     public function excluir($update, $dados) {
         $alteracao = $this->conexaoModelo->prepare($update);

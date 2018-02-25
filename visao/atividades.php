@@ -261,6 +261,19 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                             $parametro = $_POST['parametro'];
 
                                             $select = "SELECT atividade.cdAtividade AS codAtividade, atividade.* ,
+                                                        (SELECT COUNT(questao.cdQuestao)
+                                                        FROM questao, atividade
+                                                        WHERE atividade.cdAtividade = questao.cdAtividade
+                                                        AND atividade.cdAtividade = codAtividade) AS quantQuestaoAtividade,
+                                                        (SELECT COUNT(questao.cdQuestao)
+                                                        FROM questao
+                                                        WHERE questao.cdAtividade = codAtividade
+                                                        AND questao.status = ?
+                                                        AND (select count(usuarioquestao.cdUsuarioQuestao) 
+                                                              FROM usuarioquestao where usuarioquestao.cdQuestao = questao.cdQuestao 
+                                                              AND usuarioquestao.cdUsuario = ? 
+                                                              AND usuarioquestao.status = ?
+                                                              AND questao.status = ?) = 0) AS aResponder,
                                                         (SELECT SUM( DISTINCT questao.pontuacao ) AS pontuacaoTotalUsuarioAtividade FROM atividade
                                                         LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade
                                                         LEFT JOIN usuarioquestao ON questao.cdQuestao = usuarioquestao.cdQuestao
@@ -274,10 +287,23 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                                         AND $campo LIKE ? GROUP BY atividade.cdAtividade
                                                         ORDER BY $campo ASC LIMIT $offset,12";
 
-                                            $dados = array($cdUsuario, 'acertou', 'ativo', 'ativo', $nivel, '%' . $parametro . '%');
+                                            $dados = array('ativo', $cdUsuario, 'acertou', 'ativo', $cdUsuario, 'acertou', 'ativo', 'ativo', $nivel, '%' . $parametro . '%');
                                         } else {
 
                                             $select = "SELECT atividade.cdAtividade AS codAtividade, atividade.* ,
+                                                        (SELECT COUNT(questao.cdQuestao)
+                                                        FROM questao, atividade
+                                                        WHERE atividade.cdAtividade = questao.cdAtividade
+                                                        AND atividade.cdAtividade = codAtividade) AS quantQuestaoAtividade,
+                                                        (SELECT COUNT(questao.cdQuestao)
+                                                        FROM questao
+                                                        WHERE questao.cdAtividade = codAtividade
+                                                        AND questao.status = ?
+                                                        AND (select count(usuarioquestao.cdUsuarioQuestao) 
+                                                              FROM usuarioquestao where usuarioquestao.cdQuestao = questao.cdQuestao 
+                                                              AND usuarioquestao.cdUsuario = ? 
+                                                              AND usuarioquestao.status = ?
+                                                              AND questao.status = ?) = 0) AS aResponder,
                                                         (SELECT SUM( DISTINCT questao.pontuacao ) AS pontuacaoTotalUsuarioAtividade FROM atividade
                                                         LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade
                                                         LEFT JOIN usuarioquestao ON questao.cdQuestao = usuarioquestao.cdQuestao
@@ -290,7 +316,7 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                                         WHERE atividade.status = ? AND atividade.nivel = ?
                                                         GROUP BY atividade.cdAtividade
                                                         ORDER BY codAtividade DESC LIMIT $offset,12";
-                                            $dados = array($cdUsuario, 'acertou', 'ativo', 'ativo', $nivel);
+                                            $dados = array('ativo', $cdUsuario, 'acertou', 'ativo', $cdUsuario, 'acertou', 'ativo', 'ativo', $nivel);
                                         }
 
                                         $atividades = $modelo->selecionar($select, $dados);
@@ -302,6 +328,8 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                             $pontuacaoTotal = $atividade['pontuacaoTotal'];
                                             $dataCadastramento = htmlspecialchars($atividade['dataCadastramento']);
                                             $pontuacaoTotalAluno = $atividade['pontuacaoTotalAluno'];
+                                            $quantQuestaoAtividade = $atividade['quantQuestaoAtividade'];
+                                            $aResponder = $atividade['aResponder'];
 
                                             $tituloCortado = substr($titulo, 0, 21);
 
@@ -322,7 +350,7 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                             $dataCadastramento = date("d/m/Y", strtotime($dataCadastramento));
                                             ?>
 
-                                            <button name="atividade" type="submit" value="<?php echo $codAtividade; ?>" style="margin: .5em; width: 160px; height: 100px;" title="<?php echo $titulo; ?>" class="btn btn-<?php if ($pontuacaoTotalAluno >= $pontuacaoTotal) {
+                                        <button <?php if ($quantQuestaoAtividade > 0) { if ($aResponder > 0) { ?> name="atividade" type="submit" <?php } else { echo "type='button' onclick='cModal(1);'"; } } else { echo "type='button' onclick='cModal(2);'"; } ?> value="<?php echo $codAtividade; ?>" style="margin: .5em; width: 160px; height: 100px;" title="<?php echo $titulo; ?>" class="btn btn-<?php if ($pontuacaoTotalAluno >= $pontuacaoTotal) {
                                             echo 'success';
                                         } else {
                                             echo 'primary';
@@ -532,5 +560,17 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
         </section>
         <!--Minhas verificações -->
         <script src="js/verificacoes.js"></script>
+        
+        <script>
+            function cModal(tipoModal) {
+                if (tipoModal == 1) {
+                    chamarModal('Parabéns você já completou essa atividade.', 'Parabéns você ja respondeu corretamente todas as questões dessa atividade, continue pontuado em outras atividades.', '', 'meuModalSucesso');
+                }
+                
+                if (tipoModal == 2) {
+                    chamarModal('Aviso!', 'Essa atividade ainda não possui nenhuma questão.', '', 'meuModalErro');
+                }
+            }
+        </script>
     </body>
 </html>

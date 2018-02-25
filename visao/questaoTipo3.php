@@ -28,10 +28,6 @@ if ($_SESSION['tipo']==2) {
   header("Location: http:/algtot/visao/questaoTipo2.php");
 }
 
-if (!isset($_SESSION['tipo'])) {
-  header("Location: http:/algtot/visao/atividades.php");
-}
-
 if (!isset($_POST['codigo'])) {
   $codigo = null;
 }else {

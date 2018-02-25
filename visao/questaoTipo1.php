@@ -26,10 +26,6 @@ if ($_SESSION['tipo']==3) {
   header("Location: http:/algtot/visao/questaoTipo3.php");
 }
 
-if (!isset($_SESSION['tipo'])) {
-  header("Location: http:/algtot/visao/atividades.php");
-}
-
 ?>
 
 <!DOCTYPE html>
