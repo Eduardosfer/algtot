@@ -10,7 +10,7 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
 
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <button id="botaoFecharMenuHam" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                 <span class="sr-only">Alterar Navegação</span><span class="glyphicon glyphicon-menu-hamburger"></span><i class="fa fa-bars"></i>
             </button>
 
@@ -51,3 +51,19 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
+
+<script>            
+    $(document).mouseup(function(e) {
+        var container = $('#bs-example-navbar-collapse-1');           
+        if (!container.is(e.target) && container.has(e.target).length === 0) {
+            if (container.is(':visible') == true && screen.width < 768) {
+                $('#botaoFecharMenuHam').click();            
+            }
+        }
+    });
+    $(document).scroll( function () {
+        if ($('#bs-example-navbar-collapse-1').is(':visible') == true && screen.width < 768) {
+            $('#botaoFecharMenuHam').click();            
+        }
+    });
+</script>

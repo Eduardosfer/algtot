@@ -53,7 +53,7 @@ $acesso->verificarApresentacao();
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
 
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <button id="botaoFecharMenuHam" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Alterar Navegação</span><i class="fa fa-bars"></i>
                     </button>
 
@@ -501,6 +501,22 @@ $acesso->verificarApresentacao();
         
         <!-- MODAIS DE ALERTAS -->
         <?php include_once("includs/modaisAlertas.php"); ?>
+        
+        <script>            
+            $(document).mouseup(function(e) {
+                var container = $('#bs-example-navbar-collapse-1');           
+                if (!container.is(e.target) && container.has(e.target).length === 0) {
+                    if (container.is(':visible') == true  && screen.width < 768) {
+                        $('#botaoFecharMenuHam').click();            
+                    }
+                }
+            });
+            $(document).scroll( function () {
+                if ($('#bs-example-navbar-collapse-1').is(':visible') == true  && screen.width < 768) {
+                    $('#botaoFecharMenuHam').click();            
+                }
+            });
+        </script>
 
     </body>
 
