@@ -34,7 +34,7 @@ Class Acesso {
 
             $url = explode("/", $_SERVER['REQUEST_URI']);
 
-            $aplicacao = $url[3];
+            $aplicacao = $url[count($url)-1];
             $cdGrupo = $_SESSION['cdGrupo'];
 
             $select = "SELECT aplicacao FROM aplicacao, grupo WHERE grupo.cdGrupo = aplicacao.cdGrupo
@@ -65,7 +65,7 @@ Class Acesso {
 
         session_start();
         $url = explode("/", $_SERVER['REQUEST_URI']);
-        $aplicacao = $url[3];
+        $aplicacao = $url[count($url)-1];
         //QUANDO NÃO ESTIVER NESSAS APLICAÇÕES E ESTIVER EM ALGUMA QUE FOR VERIFICAVEL EU UNSETO A ATIVIDADE E O TIPO
         if (($aplicacao != 'questaoTipo1.php') && ($aplicacao != 'questaoTipo2.php') && ($aplicacao != 'questaoTipo3.php')) {
             unset($_SESSION['atividade']);
