@@ -78,16 +78,10 @@
       </div>
 
 
-      <div class="modal-footer">
-        <div class="row">
-          <div class="col-sm-2">
-            <a data-toggle="modal" data-target="#excluirConta" href="#" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Excluir Conta</a>
-          </div>
-          <div class="col-sm-5  col-sm-offset-5">
-              <a name="cancelar" href="<?php echo isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'principal.php'; ?>" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Cancelar</a>
-            <button name="acao" id="acaoEditar" type="button" value="AlterarUsuario" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Salvar</button>
-          </div>
-        </div>
+      <div class="modal-footer">        
+        <a data-toggle="modal" data-target="#excluirConta" href="#" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Excluir Conta</a>
+        <a name="cancelar" href="<?php echo isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'principal.php'; ?>" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span> Cancelar</a>        
+        <button name="acao" id="acaoEditar" type="button" value="AlterarUsuario" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Salvar</button>                          
       </div>
 
     </form>

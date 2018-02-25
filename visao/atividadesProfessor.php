@@ -132,85 +132,78 @@ $acesso->acessar();
                                 <h3 class="blog-title">Atividades</h3>
                             </div>
 
-                            <form class="form-inline" role="search" action="atividadesProfessor.php" method="post">
+                            <form class="form-inline" role="search" action="atividadesADM.php" method="post">
+                                
+                                <div class="form-group">
+                                    <a href="#" data-toggle="modal" data-target="#cadastrarAtividade" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Cadastrar Atividade</a>                  
+                                </div>
+                                <?php
+                                if (!isset($_POST['parametro'])) {
 
-                                <div class="row">
-                                    <div class="col-sm-3">                  
-                                        <a href="#" data-toggle="modal" data-target="#cadastrarAtividade" class="btn btn-default form-contro"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Cadastrar Atividade</a>                  
-                                    </div>
+                                    $_POST['parametro'] = null;
+                                }
 
-                                    <?php
-                                    if (!isset($_POST['parametro'])) {
+                                if (!isset($_POST['buscarPor'])) {
 
-                                        $_POST['parametro'] = null;
-                                    }
+                                    $_POST['buscarPor'] = null;
+                                }
+                                ?>
 
-                                    if (!isset($_POST['buscarPor'])) {
+                                <div class="form-group">
+                                    <select required id="buscarPor" title="Selecione pelo que gostaria de buscar" name="buscarPor" class="form-control">
 
-                                        $_POST['buscarPor'] = null;
-                                    }
-                                    ?>
-
-                                    <div class="col-sm-2">
-
-                                        <select required id="buscarPor" title="Selecione pelo que gostaria de buscar" name="buscarPor" class="form-control">
-
-                                            <option value="" <?php
-                                            if (($_POST['buscarPor'] == null) && (isset($_POST['buscarPor']))) {
-                                                echo "selected";
-                                            }
-                                            ?> >Buscar por</option>
-                                            <option value="atividade.titulo" <?php
-                                            if (($_POST['buscarPor'] == 'atividade.titulo') && (isset($_POST['buscarPor']))) {
-                                                echo "selected";
-                                            }
-                                            ?> >Título</option>
-
-                                            <option value="atividade.nivel" <?php
-                                            if (($_POST['buscarPor'] == 'atividade.nivel') && (isset($_POST['buscarPor']))) {
-                                                echo "selected";
-                                            }
-                                            ?> >Nível</option>
-
-                                            <option value="atividade.status" <?php
-                                            if (($_POST['buscarPor'] == 'atividade.status') && (isset($_POST['buscarPor']))) {
-                                                echo "selected";
-                                            }
-                                            ?> >Status</option>
-
-                                            <option value="atividade.dataCadastramento" <?php
-                                            if (($_POST['buscarPor'] == 'atividade.dataCadastramento') && (isset($_POST['buscarPor']))) {
-                                                echo "selected";
-                                            }
-                                            ?> >Data</option>
-
-                                        </select>
-
-                                    </div>
-
-                                    <div class="col-sm-3">                  
-                                        <input required type="text" class="form-control" <?php
-                                        if (isset($_POST['parametro'])) {
-                                            echo "value=" . "'" . $_POST['parametro'] . "'";
+                                        <option value="" <?php
+                                        if (($_POST['buscarPor'] == null) && (isset($_POST['buscarPor']))) {
+                                            echo "selected";
                                         }
-                                        ?> placeholder="Busca" style="width:180px;" name="parametro" title="Digite aqui sua busca">                  
-                                    </div>
+                                        ?> >Buscar por</option>
+                                        <option value="atividade.titulo" <?php
+                                        if (($_POST['buscarPor'] == 'atividade.titulo') && (isset($_POST['buscarPor']))) {
+                                            echo "selected";
+                                        }
+                                        ?> >Título</option>
 
-                                    <div class="col-sm-2">                  
-                                        <button type="submit" name="buscar" value="Buscar" class="btn btn-default form-control"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar</button>                  
-                                    </div>
+                                        <option value="atividade.nivel" <?php
+                                        if (($_POST['buscarPor'] == 'atividade.nivel') && (isset($_POST['buscarPor']))) {
+                                            echo "selected";
+                                        }
+                                        ?> >Nível</option>
+
+                                        <option value="atividade.status" <?php
+                                        if (($_POST['buscarPor'] == 'atividade.status') && (isset($_POST['buscarPor']))) {
+                                            echo "selected";
+                                        }
+                                        ?> >Status</option>
+
+                                        <option value="atividade.dataCadastramento" <?php
+                                        if (($_POST['buscarPor'] == 'atividade.dataCadastramento') && (isset($_POST['buscarPor']))) {
+                                            echo "selected";
+                                        }
+                                        ?> >Data</option>
+
+                                    </select>
                                 </div>
-                                <br>
-                                <div class="row">                                    
 
-                                    <div class="col-sm-2">                  
-                                        <a name="voltarInicio" style="width:100px;" href="principalProfessor.php" class="btn btn-default form-control"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Início</a>                  
-                                    </div>
-
-                                    <div class="col">                  
-                                        <a name="atividadesProfessor" href="atividadesProfessor.php" class="btn btn-default form-control"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Atividades</a>                  
-                                    </div>
+                                <div class="form-group">
+                                    <input required type="text" class="form-control" <?php
+                                    if (isset($_POST['parametro'])) {
+                                        echo "value=" . "'" . $_POST['parametro'] . "'";
+                                    }
+                                    ?> placeholder="Busca" style="width:180px;" name="parametro" title="Digite aqui sua busca">                  
                                 </div>
+                                
+                                <div class="form-group">
+                                    <button type="submit" name="buscar" value="Buscar" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Buscar</button>                                                      
+                                </div>
+
+                                <div class="form-group">
+                                    <a name="voltarInicio" style="width:100px;" href="principalADM.php" class="btn btn-default"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Início</a>                                                      
+                                </div>
+                                
+                                <div class="form-group">                                    
+                                    <a name="atividadesADM" href="atividadesADM.php" class="btn btn-default"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Atividades</a>                                                      
+                                </div>
+                            
                             </form>
 
                         </div>

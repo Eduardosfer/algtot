@@ -2665,7 +2665,7 @@ input[type="search"] {
     }
 }
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 15px!important;
 }
 .radio,
 .checkbox {
@@ -2948,11 +2948,27 @@ select[multiple].input-lg {
     margin-bottom: 10px;
     color: #737373;
 }
+
+@media (max-width: 767px) {
+    .form-group a {
+        width: 100%!important;        
+    }
+    .form-group select {
+        width: 100%!important;        
+    }
+    .form-group input {
+        width: 100%!important;        
+    }
+    .form-group button {
+        width: 100%!important;        
+    }
+}
+
 @media (min-width: 768px) {
     .form-inline .form-group {
         display: inline-block;
         margin-bottom: 0;
-        vertical-align: middle;
+        vertical-align: middle;        
     }
     .form-inline .form-control {
         display: inline-block;
@@ -4575,7 +4591,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-default .navbar-collapse,
 .navbar-default .navbar-form {
-    border-color: #e7e7e7;
+    border-color: #e7e7e7;    
 }
 .navbar-default .navbar-nav > .open > a,
 .navbar-default .navbar-nav > .open > a:hover,
@@ -4583,7 +4599,21 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     color: #555;
     background-color: #e7e7e7;
 }
+
+@media (max-width: 850px) {    
+    .navbar-default .navbar-collapse,
+    .navbar-default .navbar-form {        
+        font-size: .9em;
+    }
+}
+
 @media (max-width: 767px) {
+    
+    .navbar-default .navbar-collapse,
+    .navbar-default .navbar-form {        
+        font-size: 1em;
+    }
+    
     .navbar-default .navbar-nav .open .dropdown-menu > li > a {
         color: #777;
     }
