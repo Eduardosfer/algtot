@@ -318,7 +318,19 @@ if ($_SESSION['tipo']==3) {
         <script src="js/verificacoes.js"></script>
 
         <!--Organizador Lógico -->
-        <script src="js/organizadorLogico.js"></script>                      
+        <script src="js/organizadorLogico.js"></script>  
+        
+        
+        <script>            
+            function disableF5(e) { 
+                if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) {
+                    e.preventDefault();
+                }
+            };
+            $(document).ready(function(){
+                 $(document).on("keydown", disableF5);
+            });             
+        </script>
         
     </body>
 </html>
