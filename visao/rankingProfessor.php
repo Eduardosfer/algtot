@@ -144,7 +144,7 @@ if (!isset($_POST['buscarPor'])) {
 
                         </div>
 
-                        <div class="panel-body">
+                        <div class="table-responsive panel-body">
 
                             <table class="table table-striped">
 
