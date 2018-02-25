@@ -288,7 +288,7 @@ $codigoTraduzido = $tradutor->getCodigoTraduzido();
         
         <script>            
             function disableF5(e) { 
-                if ((e.which || e.keyCode) == 116 || (e.which || e.keyCode) == 82) {
+                if ((e.which || e.keyCode) == 116) {
                     e.preventDefault();
                 }
             };

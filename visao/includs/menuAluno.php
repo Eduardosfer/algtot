@@ -66,4 +66,20 @@
             $('#botaoFecharMenuHam').click();            
         }
     });
+//    BLOQUEANDO A TECLA F12 E O CRL+U
+    function disableF12eCtrlU(e) { 
+        if ((e.which || e.keyCode) == 123) {
+            e.preventDefault();
+        }
+        if (e.ctrlKey && (e.keyCode === 85)) {
+            e.preventDefault();
+        }
+    };
+//    BLOQUEANDO O CLIQUE DIREITO DO MOUSE
+    $(document).ready( function () {
+        $(document).bind("contextmenu",function(e){
+            return false;
+        });        
+        $(document).on("keydown", disableF12eCtrlU);            
+    });  
 </script>

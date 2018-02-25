@@ -515,7 +515,7 @@ $acesso->verificarApresentacao();
                 if ($('#bs-example-navbar-collapse-1').is(':visible') == true  && screen.width < 768) {
                     $('#botaoFecharMenuHam').click();            
                 }
-            });
+            });                        
         </script>
 
     </body>
