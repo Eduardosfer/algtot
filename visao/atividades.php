@@ -114,7 +114,7 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                 <div class="form-group">
 
                                     <div class="col">
-                                        <select required id="buscarPor" title="Selecione pelo que gostaria de buscar" name="buscarPor" class="form-control">
+                                        <select required id="buscarPor" title="Selecione pelo que gostaria de buscar" name="buscarPor" class="form-control buscar_por_select">
 
                                             <option value="" <?php if (($_POST['buscarPor'] == null) && (isset($_POST['buscarPor']))) {
                                     echo "selected";
@@ -136,7 +136,7 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                 <div class="form-group">
                                     <div class="col">
 
-                                        <input required type="text" class="form-control" <?php if (isset($_POST['parametro'])) {
+                                        <input required type="text" class="form-control parametro_da_busca" <?php if (isset($_POST['parametro'])) {
                                     echo "value=" . "'" . $_POST['parametro'] . "'";
                                 } ?> placeholder="Busca" name="parametro" title="Digite aqui sua busca">
 
@@ -183,6 +183,11 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
 
                                             $campo = $_POST['buscarPor'];
                                             $parametro = $_POST['parametro'];
+                                            
+                                            if ($campo == 'atividade.dataCadastramento') {
+                                                $novaData = explode('/', $parametro);                                                                                       
+                                                $parametro = $novaData[2].'-'.$novaData[1].'-'.$novaData[0];                                                                                        
+                                            }
 
                                             $select = "SELECT count(atividade.cdAtividade) AS numLinhas FROM atividade
                                                         LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
@@ -259,6 +264,11 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
 
                                             $campo = $_POST['buscarPor'];
                                             $parametro = $_POST['parametro'];
+                                            
+                                            if ($campo == 'atividade.dataCadastramento') {
+                                                $novaData = explode('/', $parametro);                                                                                       
+                                                $parametro = $novaData[2].'-'.$novaData[1].'-'.$novaData[0];                                                                                        
+                                            }
 
                                             $select = "SELECT atividade.cdAtividade AS codAtividade, atividade.* ,
                                                         (SELECT COUNT(questao.cdQuestao)
@@ -346,8 +356,9 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                             if (!isset($pontuacaoTotal)) {
                                                 $pontuacaoTotal = 0;
                                             }
-
-                                            $dataCadastramento = date("d/m/Y", strtotime($dataCadastramento));
+                                            
+                                            $dataCadastramento = date("d/m/Y H:i", strtotime($dataCadastramento));
+                                            $dataCadastramento = preg_replace('/ /', ' as ', $dataCadastramento); 
                                             ?>
 
                                         <button <?php if ($quantQuestaoAtividade > 0) { if ($aResponder > 0) { ?> name="atividade" type="submit" <?php } else { echo "type='button' onclick='cModal(1);'"; } } else { echo "type='button' onclick='cModal(2);'"; } ?> value="<?php echo $codAtividade; ?>" style="margin: .5em; width: 160px; height: 100px;" title="<?php echo $titulo; ?>" class="btn btn-<?php if ($pontuacaoTotalAluno >= $pontuacaoTotal) {
@@ -560,6 +571,7 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
         </section>
         <!--Minhas verificações -->
         <script src="js/verificacoes.js"></script>
+        <script src="js/jquery.maskedinput.js"></script>
         
         <script>
             function cModal(tipoModal) {
@@ -571,6 +583,19 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                     chamarModal('Aviso!', 'Essa atividade ainda não possui nenhuma questão.', '', 'meuModalErro');
                 }
             }
+            
+            $(document).ready( function () {
+               $('.buscar_por_select').change( function () {                    
+                    if ($(this).val() == 'atividade.dataCadastramento') {                        
+                        $('.parametro_da_busca').mask('99/99/9999');
+                    }
+                    $('.parametro_da_busca').focus();
+                });
+                
+                <?php if ($_POST['buscarPor'] == 'atividade.dataCadastramento') { ?>
+                        $('.parametro_da_busca').mask('99/99/9999');
+                <?php } ?> 
+            });
         </script>
     </body>
 </html>
