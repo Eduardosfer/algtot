@@ -306,7 +306,12 @@ if (!isset($_POST['buscarPor'])) {
                                     if (($_POST['buscarPor'] != null) && ($_POST['parametro'] != null)) {
 
                                         $campo = $_POST['buscarPor'];
-                                        $parametro = $_POST['parametro'];                                        
+                                        $parametro = $_POST['parametro'];  
+                                        
+                                        if ($campo == 'usuario.data') {
+                                            $novaData = explode('/', $parametro);                                                                                       
+                                            $parametro = $novaData[2].'-'.$novaData[1].'-'.$novaData[0];                                                                                        
+                                        }
 
                                         $select = "SELECT count(usuario.cdUsuario) AS numLinhas FROM usuario, grupo
                                       WHERE  usuario.cdGrupo = grupo.cdGrupo

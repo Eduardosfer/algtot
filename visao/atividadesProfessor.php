@@ -132,7 +132,7 @@ $acesso->acessar();
                                 <h3 class="blog-title">Atividades</h3>
                             </div>
 
-                            <form class="form-inline" role="search" action="atividadesADM.php" method="post">
+                            <form class="form-inline" role="search" action="atividadesProfessor.php" method="post">
                                 
                                 <div class="form-group">
                                     <a href="#" data-toggle="modal" data-target="#cadastrarAtividade" class="btn btn-default"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Cadastrar Atividade</a>                  
@@ -150,7 +150,7 @@ $acesso->acessar();
                                 ?>
 
                                 <div class="form-group">
-                                    <select required id="buscarPor" title="Selecione pelo que gostaria de buscar" name="buscarPor" class="form-control">
+                                    <select required id="buscarPor" title="Selecione pelo que gostaria de buscar" name="buscarPor" class="form-control buscar_por_select">
 
                                         <option value="" <?php
                                         if (($_POST['buscarPor'] == null) && (isset($_POST['buscarPor']))) {
@@ -185,7 +185,7 @@ $acesso->acessar();
                                 </div>
 
                                 <div class="form-group">
-                                    <input required type="text" class="form-control" <?php
+                                    <input required type="text" class="form-control parametro_da_busca" <?php
                                     if (isset($_POST['parametro'])) {
                                         echo "value=" . "'" . $_POST['parametro'] . "'";
                                     }
@@ -201,7 +201,7 @@ $acesso->acessar();
                                 </div>
                                 
                                 <div class="form-group">                                    
-                                    <a name="atividadesADM" href="atividadesADM.php" class="btn btn-default"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Atividades</a>                                                      
+                                    <a name="atividadesProfessor" href="atividadesProfessor.php" class="btn btn-default"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Atividades</a>                                                      
                                 </div>
                             
                             </form>
@@ -228,6 +228,11 @@ $acesso->acessar();
 
                                         $campo = $_POST['buscarPor'];
                                         $parametro = $_POST['parametro'];
+                                        
+                                        if ($campo == 'atividade.dataCadastramento') {                                            
+                                            $novaData = explode('/', $parametro);                                                                                       
+                                            $parametro = $novaData[2].'-'.$novaData[1].'-'.$novaData[0];                                                                                         
+                                        }
 
                                         $select = "SELECT count(atividade.cdAtividade) AS numLinhas FROM atividade
                                     LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
@@ -301,6 +306,11 @@ $acesso->acessar();
 
                                         $campo = $_POST['buscarPor'];
                                         $parametro = $_POST['parametro'];
+                                        
+                                        if ($campo == 'atividade.dataCadastramento') {                                            
+                                            $novaData = explode('/', $parametro);                                                                                       
+                                            $parametro = $novaData[2].'-'.$novaData[1].'-'.$novaData[0];                                                                                         
+                                        }
 
                                         $select = "SELECT atividade.* , COUNT(questao.cdQuestao) AS quantidadeQuestao,
                                     SUM(questao.pontuacao) AS pontuacaoTotal FROM atividade
@@ -354,7 +364,7 @@ $acesso->acessar();
                                                         <div class="modal-content">
 
                                                             <div class="modal-header" style="background-color: #4cae4c; color: white;">
-                                                                <a  class="close"  href="atividadesProfessor.php" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                                                                <a  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
                                                                 <h4 class="modal-title" id="gridSystemModalLabel"><?php echo $dado['titulo']; ?></h4>
                                                             </div>
 
@@ -462,7 +472,7 @@ $acesso->acessar();
 
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                        <input name="data" type="date" class="form-control" disabled value="<?php echo $dado['dataCadastramento']; ?>" placeholder="data" title="Esta é a data de cadastramento da conta." aria-describedby="sizing-addon2">
+                                                                        <input type="text" class="form-control" disabled value="<?php echo $dado['dataCadastramento']; ?>" placeholder="data" title="Esta é a data de cadastramento da conta." aria-describedby="sizing-addon2">
                                                                     </div>
 
 
@@ -471,7 +481,7 @@ $acesso->acessar();
                                                                 <div class="modal-footer">
                                                                     <div class="row">
                                                                         <div class="col-sm-5  col-sm-offset-7">
-                                                                            <a name="cancelar" href="atividadesProfessor.php" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-remo"></span> Cancelar</a>
+                                                                            <a data-dismiss="modal" class="btn btn-default"><span class="glyphicon glyphicon-remove"></span><span class="glyphicon glyphicon-remo"></span> Cancelar</a>
                                                                             <button name="acao"  type="submit" value="EditarAtividade" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Salvar</button>
                                                                         </div>
                                                                     </div>
@@ -505,7 +515,7 @@ $acesso->acessar();
                                                                         <span class="input-group-addon" id="sizing-addon2">
                                                                             <span class="glyphicon glyphicon-text-width"></span>
                                                                         </span>
-                                                                        <input name="titulo" minlength="3" maxlength="200" type="text" class="form-control" value="<?php echo $dado['titulo']; ?>" disabled required placeholder="Título da Atividade" title="Insira o titulo da atividade: Maximo 200 caracteres" aria-describedby="sizing-addon2">
+                                                                        <input minlength="3" maxlength="200" type="text" class="form-control" value="<?php echo $dado['titulo']; ?>" disabled required placeholder="Título da Atividade" title="Insira o titulo da atividade: Maximo 200 caracteres" aria-describedby="sizing-addon2">
                                                                     </div>
 
                                                                     <br>
@@ -513,7 +523,7 @@ $acesso->acessar();
                                                                     <div class="input-group">
 
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-signal"></span></span>
-                                                                        <select required disabled name="nivel" class="form-control" title="Selecione um nivel para a atividade">
+                                                                        <select required disabled class="form-control" title="Selecione um nivel para a atividade">
 
                                                                             <option <?php
                                                                             if ($dado['nivel'] == 1) {
@@ -550,7 +560,7 @@ $acesso->acessar();
                                                                     <div class="input-group">
 
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-sort"></span></span>
-                                                                        <select required disabled name="status" class="form-control" title="Status da atividade: Ativo, aparece para os alunos. Inativo, não aparece.">
+                                                                        <select required disabled class="form-control" title="Status da atividade: Ativo, aparece para os alunos. Inativo, não aparece.">
 
                                                                             <option <?php
                                                                             if ($dado['status'] == 'ativo') {
@@ -570,14 +580,14 @@ $acesso->acessar();
 
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-question-sign"></span></span>
-                                                                        <input name="quantidadeQuestao" type="text" class="form-control" disabled value="<?php echo $dado['quantidadeQuestao']; ?>" placeholder="Quantidade de Questão" title="Esta é a quantidade de questão que esta atividade possui no momento." aria-describedby="sizing-addon2">
+                                                                        <input type="text" class="form-control" disabled value="<?php echo $dado['quantidadeQuestao']; ?>" placeholder="Quantidade de Questão" title="Esta é a quantidade de questão que esta atividade possui no momento." aria-describedby="sizing-addon2">
                                                                     </div>
 
                                                                     <br>
 
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-star"></span></span>
-                                                                        <input name="pontuacaoTotal" type="text" class="form-control" disabled value="<?php
+                                                                        <input type="text" class="form-control" disabled value="<?php
                                                                         if ($dado['pontuacaoTotal'] == null) {
                                                                             echo 0;
                                                                         } else {
@@ -590,7 +600,7 @@ $acesso->acessar();
 
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                        <input name="data" type="date" class="form-control" disabled value="<?php echo $dado['dataCadastramento']; ?>" placeholder="data" title="Esta é a data de cadastramento da conta." aria-describedby="sizing-addon2">
+                                                                        <input type="text" class="form-control" disabled value="<?php echo $dado['dataCadastramento']; ?>" placeholder="data" title="Esta é a data de cadastramento da conta." aria-describedby="sizing-addon2">
                                                                     </div>
 
 
@@ -783,5 +793,21 @@ $acesso->acessar();
         <!--Minhas verificações -->
         <script src="js/verificacoes.js"></script>
 
+        <script src="js/jquery.maskedinput.js"></script>
+        
+        <script>
+            $(document).ready( function () {
+                $('.buscar_por_select').change( function () {                    
+                    if ($(this).val() == 'atividade.dataCadastramento') {                        
+                        $('.parametro_da_busca').mask('99/99/9999');
+                    }
+                    $('.parametro_da_busca').focus();
+                });
+                
+                <?php if ($_POST['buscarPor'] == 'atividade.dataCadastramento') { ?>
+                        $('.parametro_da_busca').mask('99/99/9999');
+                <?php } ?>
+            });
+        </script>
     </body>
 </html>

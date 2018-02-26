@@ -11,18 +11,14 @@
   $acesso->acessar();
 
   if (!isset($_POST['cdAtividade'])) {
-
       $cdAtividade = null;
   }else {
-
       $cdAtividade = $_POST['cdAtividade'];
   }
 
   if (!isset($_POST['titulo'])) {
-
       $titulo = null;
   }else {
-
       $titulo = $_POST['titulo'];
   }
 
@@ -411,6 +407,8 @@
                         $tipo = $dado['tipo'];
                         $dica = htmlspecialchars($dado['dica']);
                         $dataCadastramento = $dado['dataCadastramento'];
+                        $dataCadastramento = date("d/m/Y H:i", strtotime($dataCadastramento));
+                        $dataCadastramento = preg_replace('/ /', ' as ', $dataCadastramento);
                         $status = htmlspecialchars($dado['status']);
                         $tempoTotalQuestao = $dado['tempoTotalQuestao'];
 
@@ -524,7 +522,7 @@
 
                             <div class="input-group">
                               <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-calendar"></span></span>
-                              <input type="date" value="<?php if ($tipo==1) { echo $dataCadastramento; } ?>"  name="dataCadastramento" disabled maxlength="2000" class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
+                              <input type="text" value="<?php if ($tipo==1) { echo $dataCadastramento; } ?>" disabled maxlength="2000" class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
                             </div>
 
                         </div>
@@ -604,7 +602,7 @@
 
                             <div class="input-group">
                               <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-calendar"></span></span>
-                              <input type="date" value="<?php if ($tipo==2) { echo $dataCadastramento; } ?>"  name="dataCadastramento" disabled class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
+                              <input type="text" value="<?php if ($tipo==2) { echo $dataCadastramento; } ?>" disabled class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
                             </div>
 
                         </div>
@@ -728,7 +726,7 @@
 
                             <div class="input-group">
                               <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-calendar"></span></span>
-                              <input type="date" value="<?php if ($tipo==3) { echo $dataCadastramento; } ?>"  name="dataCadastramento" disabled class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
+                              <input type="text" value="<?php if ($tipo==3) { echo $dataCadastramento; } ?>" disabled class="form-control" title="Essa é a data de cadastrametoda questão" aria-describedby="sizing-addon2">
                             </div>
 
                         </div>

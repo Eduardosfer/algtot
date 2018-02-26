@@ -89,7 +89,8 @@ Class AlgTot {
         $titulo = $_POST['titulo'];
         $nivel = $_POST['nivel'];
         $status = $_POST['status'];
-        $dataCadastramento = date('Y-m-d');        
+        //TA AUTOMATICO NO BANCO
+//        $dataCadastramento = date('Y-m-d');        
         session_start();
         $mensagem = '';
         $meuModal = null;        
@@ -102,8 +103,8 @@ Class AlgTot {
                 $dados = array($titulo, 'deletado');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
-                    $insert = "INSERT INTO atividade(titulo,nivel,dataCadastramento,status) VALUES(?,?,?,?)";
-                    $dados = array($titulo, $nivel, $dataCadastramento, $status);
+                    $insert = "INSERT INTO atividade(titulo,nivel,status) VALUES(?,?,?)";
+                    $dados = array($titulo, $nivel, $status);
                     $this->modelo->cadastrar($insert, $dados);
                     $meuModal = 'meuModalSucesso';
                     $mensagem = 'Atividade cadastrada com sucesso!';                                        
@@ -286,18 +287,19 @@ Class AlgTot {
                 $tempoTotalQuestao = $_POST['tempoTotalQuestao'];
                 $cdAtividade = $_POST['cdAtividade'];
                 $tipo = $_POST['tipo'];
-                $dataCadastramento = date('Y-m-d');
+                //TA AUTOMATICO NO BANCO
+//                $dataCadastramento = date('Y-m-d');
 
                 $select = "SELECT count(cdQuestao) AS quantidade FROM questao WHERE pergunta = ? AND status != ?";
                 $dados = array($pergunta, 'deletado');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
 
-                    $insert = "INSERT INTO questao(cdAtividade,dataCadastramento,tipo,pergunta,alternativaCorreta,
-											alternativaIncorreta1,alternativaIncorreta2,alternativaIncorreta3,alternativaIncorreta4,
-											pontuacao,tempoTotalQuestao,dica,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?) ";
+                    $insert = "INSERT INTO questao(cdAtividade,tipo,pergunta,alternativaCorreta,
+                                alternativaIncorreta1,alternativaIncorreta2,alternativaIncorreta3,alternativaIncorreta4,
+                                pontuacao,tempoTotalQuestao,dica,status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?) ";
 
-                    $dados = array($cdAtividade, $dataCadastramento, $tipo, $pergunta,
+                    $dados = array($cdAtividade, $tipo, $pergunta,
                         $alternativaCorreta, $alternativaIncorreta1, $alternativaIncorreta2,
                         $alternativaIncorreta3, $alternativaIncorreta4, $pontuacao, $tempoTotalQuestao,
                         $dica, 'ativo');
@@ -347,17 +349,18 @@ Class AlgTot {
                 $tempoTotalQuestao = $_POST['tempoTotalQuestao'];
                 $cdAtividade = $_POST['cdAtividade'];
                 $tipo = $_POST['tipo'];
-                $dataCadastramento = date('Y-m-d');
+                //TA AUTOMATICO NO BANCO
+//                $dataCadastramento = date('Y-m-d');
                 $alternativaCorreta = trim($alternativaCorreta);
 
                 $select = "SELECT count(cdQuestao) AS quantidade FROM questao WHERE pergunta = ? AND status != ?";
                 $dados = array($pergunta, 'deletado');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
-                    $insert = "INSERT INTO questao(cdAtividade,dataCadastramento,tipo,pergunta,alternativaCorreta,pontuacao,tempoTotalQuestao,dica,status)
-                                                                                            VALUES(?,?,?,?,?,?,?,?,?)";
+                    $insert = "INSERT INTO questao(cdAtividade,tipo,pergunta,alternativaCorreta,pontuacao,tempoTotalQuestao,dica,status)
+                                                VALUES(?,?,?,?,?,?,?,?)";
 
-                    $dados = array($cdAtividade, $dataCadastramento, $tipo, $pergunta, $alternativaCorreta, $pontuacao, $tempoTotalQuestao, $dica, 'ativo');
+                    $dados = array($cdAtividade, $tipo, $pergunta, $alternativaCorreta, $pontuacao, $tempoTotalQuestao, $dica, 'ativo');
                     $this->modelo->cadastrar($insert, $dados);
                     $mensagem = $mensagem . 'A questão foi cadastrada com sucesso!';
                     $meuModal = 'meuModalSucesso';

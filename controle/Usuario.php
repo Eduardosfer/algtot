@@ -217,7 +217,8 @@ Class Usuario {
             $this->setInstituicao($_POST['instituicao']);
             $this->setCurso($_POST['curso']);
             $this->setStatus($_POST['status']);  
-            $this->setCdGrupo($_POST['cdGrupo']);            
+            $this->setCdGrupo($_POST['cdGrupo']); 
+            //TA AUTOMATICO NO BANCO
 //            $this->setData(date('Y-m-d'));
             $mensagem = "";
             
