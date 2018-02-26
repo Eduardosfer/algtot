@@ -184,7 +184,7 @@ foreach ($grupos as $key => $grupo) {
                                 <h3 class="blog-title">Usuários</h3>
                             </div>
 
-                            <form class="form-inline" role="search" action="usuariosADM.php" method="post">
+                            <form class="form-inline" role="search" action="usuariosInativosADM.php" method="post">
 
                                 <div class="form-group">
                                     <div class="col">
@@ -321,12 +321,12 @@ if (!isset($_POST['buscarPor'])) {
 
                                         $select = "SELECT count(usuario.cdUsuario) AS numLinhas FROM usuario, grupo
                                       WHERE  usuario.cdGrupo = grupo.cdGrupo
-                                      AND usuario.status != ? AND $campo LIKE ?";
-                                        $dados = array('deletado', '%' . $parametro . '%');
+                                      AND usuario.status = ? AND $campo LIKE ?";
+                                        $dados = array('inativo', '%' . $parametro . '%');
                                     } else {
 
-                                        $select = "SELECT count(cdUsuario) AS numLinhas FROM usuario WHERE status != ?";
-                                        $dados = array('deletado');
+                                        $select = "SELECT count(cdUsuario) AS numLinhas FROM usuario WHERE status = ?";
+                                        $dados = array('inativo');
                                     }
 
                                     $numLinhas = $modelo->selecionar($select, $dados);
@@ -397,15 +397,15 @@ if (!isset($_POST['buscarPor'])) {
                                         }
 
                                         $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
-                                    WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status != ?
+                                    WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status = ?
                                     AND $campo LIKE ? ORDER BY $campo ASC LIMIT $offset,7";
-                                        $dados = array('deletado', '%' . $parametro . '%');
+                                        $dados = array('inativo', '%' . $parametro . '%');
                                     } else {
 
                                         $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
-                                    WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status != ?
+                                    WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status = ?
                                     ORDER BY usuario.cdUsuario DESC LIMIT $offset,7";
-                                        $dados = array('deletado');
+                                        $dados = array('inativo');
                                     }
 
                                     $dados = $modelo->selecionar($select, $dados);
@@ -675,16 +675,16 @@ if (!isset($_POST['buscarPor'])) {
 
                             </table>
                             <?php if ($countAlert == 0 && isset($_POST['parametro'])) { ?>
-                                <div class="alert alert-warning" role="alert">Nenhum usuário encontrado</div>
+                                <div class="alert alert-warning" role="alert">Nenhum usuário inativo encontrado</div>
                             <?php } ?>
                             <?php if ($countAlert == 0 && !isset($_POST['parametro'])) { ?>
-                                <div class="alert alert-success" role="alert">Nenhum usuário cadastrado</div>
+                                <div class="alert alert-success" role="alert">Nenhum usuário inativo encontrado</div>
                             <?php } ?>
                         </div>
 
                         <div class="panel-footer">
 
-                            <form name="paginacao" action="usuariosADM.php" method="post">
+                            <form name="paginacao" action="usuariosInativosADM.php" method="post">
 
                                 <div style="text-align: center">
 
