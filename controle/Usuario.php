@@ -119,19 +119,30 @@ Class Usuario {
                     $_SESSION['nivel4'] = $this->nivel4;
                     $_SESSION['nivel5'] = $this->nivel5;
                     $_SESSION['pontuacaoTotal'] = $this->pontuacaoTotal;
-
+                                        
                     //Verificando qual o grupo do usuario em questão e redirecionando para a pagina inicial e que ele pode ter acesso.
                     if ($_SESSION['cdGrupo'] == 1) {
-                        header("Location: http:/algtot/visao/principalADM.php");
+                        $urlBack = '/algtot/visao/principalADM.php';
                     }
 
-                    if ($_SESSION['cdGrupo'] == 2) {
-                        header("Location: http:/algtot/visao/principalProfessor.php");
+                    if ($_SESSION['cdGrupo'] == 2) {                        
+                        $urlBack = '/algtot/visao/principalProfessor.php';
                     }
 
-                    if ($_SESSION['cdGrupo'] == 3) {
-                        header("Location: http:/algtot/visao/principal.php");
+                    if ($_SESSION['cdGrupo'] == 3) {                        
+                        $urlBack = '/algtot/visao/principal.php';
                     }
+                    
+                    if ($_SESSION['primeiroLogin'] == 'sim' && $_SESSION['cdGrupo'] == 3) {
+                        $_SESSION['primeiroLogin'] = 'nao';                       
+                        $update = "UPDATE usuario SET primeiroLogin = ? WHERE cdUsuario = ?";
+                        $dados = array('nao', $_SESSION['cdUsuario']);
+                        $this->modelo->alterar($update, $dados);
+                        $this->AlgTot->setModalRedirecionar('Bem vindo ao Algtot '.$_SESSION['usuario'].'!','Muito obrigado por participar do Algtot, aqui você poderá competir com outras pessoas no mundo da lógica e programação.<br>Você receberá <b>100</b> pontos de bonificação para começar.<br>Boa sorte e bom jogo.','','meuModalSucesso', $urlBack);
+                    } else {
+                        $this->AlgTot->setModalRedirecionar('','','','', $urlBack);
+                    }
+                    
                 } else {
                     $this->AlgTot->setModalRedirecionar('Usuário ainda não liberado', 'Você ainda não tem acesso ao Algtot, aguarde a liberação de acesso do seu usuário.<br>Isso pode levar algum tempo...', '', 'meuModalErro', '../index.php');
                 }
