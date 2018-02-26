@@ -40,7 +40,7 @@ th, td {
     text-decoration: none!important;
     border: none!important;
     background: transparent!important;
-    outline: none!important;
+    outline: none!important;   
 }
 
 .page-scroll-button:hover {
@@ -2966,6 +2966,11 @@ select[multiple].input-lg {
 }
 
 @media (max-width: 767px) {
+    
+    .page-scroll-button {
+        width: 100%!important;
+        text-align: left!important;
+    }    
     .form-group a {
         width: 100%!important;        
     }
