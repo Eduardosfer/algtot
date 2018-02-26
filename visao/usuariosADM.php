@@ -63,20 +63,41 @@ $acesso->acessar();
                         <h4 class="modal-title" id="gridSystemModalLabel">Cadastar Usuário</h4>
                     </div>
 
-                    <form name="cadastrarUsuario" action="../controle/Usuario.php" method="post">
+                    <form name="cadastrarUsuario" id="cadastrarUsuarioForm" action="../controle/Usuario.php" method="post">
 
                         <div class="modal-body">
 
                             <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-info-sign"></span></span>
+                                <input name="nomeCompleto" type="text" minlength="10" maxlength="200" class="form-control input_verific" required placeholder="Nome Completo" title="Seu nome completo: Apenas letras: Maximo 200 caracteres" aria-describedby="sizing-addon2">
+                            </div>
+
+                            <br>
+                            
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-home"></span></span>
+                                <input name="instituicao" type="text" minlength="3" maxlength="500" class="form-control input_verific" required placeholder="Instituição" title="Instituiçao onde estuda/trabalha" aria-describedby="sizing-addon2">
+                            </div>
+
+                            <br>
+                            
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-education"></span></span>
+                                <input name="curso" type="text" minlength="2" maxlength="200" class="form-control input_verific" required placeholder="Curso" title="Curso que esta ingressado ou leciona" aria-describedby="sizing-addon2">
+                            </div>
+
+                            <br>
+                            
+                            <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-user"></span></span>
-                                <input name="usuario" type="text" minlength="3" maxlength="20" class="form-control" required placeholder="Usuário" pattern="[a-zA-Z0-9]+" title="Insira um nome de usuário: Apenas letras e números: Maximo 20 caracteres" aria-describedby="sizing-addon2">
+                                <input name="usuario" type="text" minlength="3" maxlength="20" class="form-control input_verific" required placeholder="Usuário" pattern="[a-zA-Z0-9]+" title="Insira um nome de usuário: Apenas letras e números: Maximo 20 caracteres" aria-describedby="sizing-addon2">
                             </div>
 
                             <br>
 
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">@</span>
-                                <input name="email" type="email" class="form-control" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="email" title="Insira o e-mail: este e-mail pode ser utilizado para recuperar a conta" aria-describedby="sizing-addon2">
+                                <input name="email" type="email" class="form-control input_verific" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="email" title="Insira o e-mail: este e-mail pode ser utilizado para recuperar a conta" aria-describedby="sizing-addon2">
                             </div>
 
                             <br>
@@ -103,19 +124,29 @@ foreach ($grupos as $key => $grupo) {
 
                                 </select>
                             </div>
-
+                            
                             <br>
-
+                            
                             <div class="input-group">
-                                <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-lock"></span></span>
-                                <input name="senha" id="senhaCadastro" type="password" pattern="\S+" oninput="validarSenha(document.getElementById('senhaCadastro'),document.getElementById('confirmarSenhaCadastro'),document.getElementById('acaoCadastro'))" minlength="3" maxlength="20" class="form-control" required placeholder="Senha" title="Digite uma senha: Maximo 20 caracteres, exceto espaços em branco" aria-describedby="sizing-addon2">
+                                <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-sort"></span></span>
+                                <select title="Selecione o status" required name="status" class="form-control">                                    
+                                    <option value="ativo">Ativo</option>
+                                    <option value="inativo">Intivo</option>
+                                </select>
                             </div>
 
                             <br>
 
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-lock"></span></span>
-                                <input name="confirmarSenha" id="confirmarSenhaCadastro" minlength="3" maxlength="20" type="password" pattern="\S+" oninput="validarSenha(document.getElementById('senhaCadastro'),document.getElementById('confirmarSenhaCadastro'),document.getElementById('acaoCadastro'))" class="form-control" required placeholder="Confirme a Senha" title="Confirme a senha digitada acima, exceto espaços em branco" aria-describedby="sizing-addon2">
+                                <input name="senha" id="senhaCadastro" type="password" pattern="\S+" oninput="validarSenha(document.getElementById('senhaCadastro'),document.getElementById('confirmarSenhaCadastro'),document.getElementById('acaoCadastro'))" minlength="3" maxlength="20" class="form-control input_verific" required placeholder="Senha" title="Digite uma senha: Maximo 20 caracteres, exceto espaços em branco" aria-describedby="sizing-addon2">
+                            </div>
+
+                            <br>
+
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-lock"></span></span>
+                                <input name="confirmarSenha" id="confirmarSenhaCadastro" minlength="3" maxlength="20" type="password" pattern="\S+" oninput="validarSenha(document.getElementById('senhaCadastro'),document.getElementById('confirmarSenhaCadastro'),document.getElementById('acaoCadastro'))" class="form-control input_verific" required placeholder="Confirme a Senha" title="Confirme a senha digitada acima, exceto espaços em branco" aria-describedby="sizing-addon2">
                             </div>
 
                             <br>
@@ -176,11 +207,28 @@ if (!isset($_POST['buscarPor'])) {
                                 <div class="form-group">
 
                                     <div class="col">
-                                        <select required id="buscarPor" title="Selecione pelo que gostaria de buscar" name="buscarPor" class="form-control">
+                                        <select required id="buscarPor" title="Selecione pelo que gostaria de buscar" name="buscarPor" class="form-control buscar_por_select">
 
                                             <option value="" <?php if (($_POST['buscarPor'] == null) && (isset($_POST['buscarPor']))) {
                                     echo "selected";
                                 } ?> >Buscar por</option>
+                                            
+                                            <option value="usuario.nomeCompleto" <?php if (($_POST['buscarPor'] == 'usuario.nomeCompleto') && (isset($_POST['buscarPor']))) {
+                                    echo "selected";
+                                } ?> >Nome</option>
+                                            
+                                            <option value="usuario.instituicao" <?php if (($_POST['buscarPor'] == 'usuario.instituicao') && (isset($_POST['buscarPor']))) {
+                                    echo "selected";
+                                } ?> >Instituicao</option>
+                                            
+                                            <option value="usuario.curso" <?php if (($_POST['buscarPor'] == 'usuario.curso') && (isset($_POST['buscarPor']))) {
+                                    echo "selected";
+                                } ?> >Curso</option>
+                                            
+                                            <option value="usuario.status" <?php if (($_POST['buscarPor'] == 'usuario.status') && (isset($_POST['buscarPor']))) {
+                                    echo "selected";
+                                } ?> >Status</option>
+                                            
                                             <option value="usuario.usuario" <?php if (($_POST['buscarPor'] == 'usuario.usuario') && (isset($_POST['buscarPor']))) {
                                     echo "selected";
                                 } ?> >Usuário</option>
@@ -205,7 +253,7 @@ if (!isset($_POST['buscarPor'])) {
                                 <div class="form-group">
                                     <div class="col">
 
-                                        <input required type="text" class="form-control" <?php if (isset($_POST['parametro'])) {
+                                        <input required type="text" class="form-control parametro_da_busca" <?php if (isset($_POST['parametro'])) {
                                     echo "value=" . "'" . $_POST['parametro'] . "'";
                                 } ?> placeholder="Busca" name="parametro" title="Digite aqui sua busca">
 
@@ -240,10 +288,14 @@ if (!isset($_POST['buscarPor'])) {
 
                                 <thead>
                                     <th>Usuário</th>
-                                    <th>Senha</th>
+                                    <th>Nome</th>
+                                    <th>Instituição</th>
+                                    <th>Curso</th>
+                                    <!--<th>Senha</th>-->
                                     <th>Grupo</th>
-                                    <th>E-mail</th>
-                                    <th>Data de cadastro</th>
+                                    <!--<th>E-mail</th>-->
+                                    <th>Data/hora cadastro</th>
+                                    <th>Status</th>
                                     <th>Ações</th>
                                 </thead>
 
@@ -254,16 +306,16 @@ if (!isset($_POST['buscarPor'])) {
                                     if (($_POST['buscarPor'] != null) && ($_POST['parametro'] != null)) {
 
                                         $campo = $_POST['buscarPor'];
-                                        $parametro = $_POST['parametro'];
+                                        $parametro = $_POST['parametro'];                                        
 
                                         $select = "SELECT count(usuario.cdUsuario) AS numLinhas FROM usuario, grupo
                                       WHERE  usuario.cdGrupo = grupo.cdGrupo
-                                      AND usuario.status = ? AND $campo LIKE ?";
-                                        $dados = array('ativo', '%' . $parametro . '%');
+                                      AND usuario.status != ? AND $campo LIKE ?";
+                                        $dados = array('deletado', '%' . $parametro . '%');
                                     } else {
 
-                                        $select = "SELECT count(cdUsuario) AS numLinhas FROM usuario WHERE status = ?";
-                                        $dados = array('ativo');
+                                        $select = "SELECT count(cdUsuario) AS numLinhas FROM usuario WHERE status != ?";
+                                        $dados = array('deletado');
                                     }
 
                                     $numLinhas = $modelo->selecionar($select, $dados);
@@ -327,36 +379,50 @@ if (!isset($_POST['buscarPor'])) {
 
                                         $campo = $_POST['buscarPor'];
                                         $parametro = $_POST['parametro'];
+                                        
+                                        if ($campo == 'usuario.data') {
+                                            $novaData = explode('/', $parametro);                                                                                       
+                                            $parametro = $novaData[2].'-'.$novaData[1].'-'.$novaData[0];                                                                                        
+                                        }
 
                                         $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
-                                    WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status = ?
+                                    WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status != ?
                                     AND $campo LIKE ? ORDER BY $campo ASC LIMIT $offset,7";
-                                        $dados = array('ativo', '%' . $parametro . '%');
+                                        $dados = array('deletado', '%' . $parametro . '%');
                                     } else {
 
                                         $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
-                                    WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status = ?
+                                    WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status != ?
                                     ORDER BY usuario.cdUsuario DESC LIMIT $offset,7";
-                                        $dados = array('ativo');
+                                        $dados = array('deletado');
                                     }
 
                                     $dados = $modelo->selecionar($select, $dados);
                                     $countAlert = 0;
                                     foreach ($dados as $key => $dado) {                                                                                
-                                        $countAlert++;
+                                        $countAlert++;                                        
                                         $dado['usuario'] = htmlspecialchars($dado['usuario']);
+                                        $dado['nomeCompleto'] = htmlspecialchars($dado['nomeCompleto']);
+                                        $dado['instituicao'] = htmlspecialchars($dado['instituicao']);
+                                        $dado['curso'] = htmlspecialchars($dado['curso']);                                        
                                         $dado['senha'] = htmlspecialchars($dado['senha']);
                                         $dado['grupo'] = htmlspecialchars($dado['grupo']);
                                         $dado['email'] = htmlspecialchars($dado['email']);
                                         $dado['data'] = htmlspecialchars($dado['data']);
+                                        $dado['data'] = date("d/m/Y H:i", strtotime($dado['data']));
+                                        $dado['data'] = preg_replace('/ /', ' as ', $dado['data']);                                        
                                         ?>
 
-                                        <tr>
+                                        <tr>                                                                                        
                                             <td><?php echo $dado['usuario']; ?></td>
-                                            <td><?php echo $dado['senha']; ?></td>
+                                            <td><?php echo $dado['nomeCompleto']; ?></td>
+                                            <td><?php echo $dado['instituicao']; ?></td>
+                                            <td><?php echo $dado['curso']; ?></td>
+                                            <!--<td><?php // echo $dado['senha']; ?></td>-->
                                             <td><?php echo $dado['grupo']; ?></td>
-                                            <td><?php echo $dado['email']; ?></td>
-                                            <td><?php echo date("d/m/Y", strtotime($dado['data'])); ?></td>
+                                            <!--<td><?php // echo $dado['email']; ?></td>-->
+                                            <td><?php echo $dado['data']; ?></td>
+                                            <td><?php echo $dado['status']; ?></td>
 
                                             <td style="width: 105px;">
                                                 <button type="button" class="btn btn-danger" title="Excluir conta" data-toggle="modal" data-target="#excluir<?php echo $dado['cdUsuario'] ?>"><span class="glyphicon glyphicon-trash"></span></button>
@@ -380,10 +446,31 @@ if (!isset($_POST['buscarPor'])) {
                                                                     <input type="hidden" name="cdUsuario" value="<?php echo $dado['cdUsuario']; ?>">
 
                                                                     <div class="input-group">
+                                                                        <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-info-sign"></span></span>
+                                                                        <input disabled="true" type="text" minlength="10" maxlength="200" value="<?php echo $dado['nomeCompleto']; ?>" class="form-control" required placeholder="Nome Completo" title="Seu nome completo: Apenas letras: Maximo 200 caracteres" aria-describedby="sizing-addon2">
+                                                                    </div>
+
+                                                                    <br>
+
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-home"></span></span>
+                                                                        <input disabled="true" type="text" minlength="3" maxlength="500" value="<?php echo $dado['instituicao']; ?>" class="form-control" required placeholder="Instituição" title="Instituiçao onde estuda/trabalha" aria-describedby="sizing-addon2">
+                                                                    </div>
+
+                                                                    <br>
+
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-education"></span></span>
+                                                                        <input disabled="true" type="text" minlength="2" maxlength="200" value="<?php echo $dado['curso']; ?>" class="form-control" required placeholder="Curso" title="Curso que esta ingressado ou leciona" aria-describedby="sizing-addon2">
+                                                                    </div>
+
+                                                                    <br>
+                                                                    
+                                                                    <div class="input-group">
                                                                         <span class="input-group-addon" id="sizing-addon2">
                                                                             <span class="glyphicon glyphicon-user"></span>
                                                                         </span>
-                                                                        <input name="usuario" minlength="3" maxlength="20" type="text" class="form-control" value="<?php echo $dado['usuario']; ?>" disabled required placeholder="Usuário" pattern="[a-zA-Z0-9]+" title="Nome de usuário da conta." aria-describedby="sizing-addon2">
+                                                                        <input minlength="3" maxlength="20" type="text" class="form-control" value="<?php echo $dado['usuario']; ?>" disabled required placeholder="Usuário" pattern="[a-zA-Z0-9]+" title="Nome de usuário da conta." aria-describedby="sizing-addon2">
                                                                     </div>
 
                                                                     <br>
@@ -392,28 +479,35 @@ if (!isset($_POST['buscarPor'])) {
                                                                         <span class="input-group-addon" id="sizing-addon2">
                                                                             <span class="glyphicon glyphicon-lock"></span>
                                                                         </span>
-                                                                        <input name="senha" type="text" pattern="\S+" minlength="3" maxlength="20" class="form-control" value="<?php echo $dado['senha']; ?>" disabled required placeholder="Senha" title="Senha do usuário" aria-describedby="sizing-addon2">
+                                                                        <input type="text" pattern="\S+" minlength="3" maxlength="20" class="form-control" value="<?php echo $dado['senha']; ?>" disabled required placeholder="Senha" title="Senha do usuário" aria-describedby="sizing-addon2">
                                                                     </div>
 
                                                                     <br>
 
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon" id="sizing-addon2">@</span>
-                                                                        <input name="email" type="email" class="form-control" disabled pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?php echo $dado['email']; ?>" placeholder="email" title="Este e-mail pode ser utilizado para recuperar a senha da sua conta" aria-describedby="sizing-addon2">
+                                                                        <input type="email" class="form-control" disabled pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?php echo $dado['email']; ?>" placeholder="email" title="Este e-mail pode ser utilizado para recuperar a senha da sua conta" aria-describedby="sizing-addon2">
                                                                     </div>
 
                                                                     <br>
 
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                        <input name="data" type="date" class="form-control" disabled value="<?php echo $dado['data']; ?>" placeholder="data" title="Esta é a data de cadastramento da conta." aria-describedby="sizing-addon2">
+                                                                        <input type="text" class="form-control" disabled value="<?php echo $dado['data']; ?>" placeholder="data" title="Esta é a data e hora de cadastramento da conta." aria-describedby="sizing-addon2">
                                                                     </div>
 
                                                                     <br>
 
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-flash"></span></span>
-                                                                        <input name="grupo" type="text" class="form-control" disabled value="<?php echo $dado['grupo']; ?>" placeholder="Grupo" title="Este é a grupo deste usuário." aria-describedby="sizing-addon2">
+                                                                        <input type="text" class="form-control" disabled value="<?php echo $dado['grupo']; ?>" placeholder="Grupo" title="Este é a grupo deste usuário." aria-describedby="sizing-addon2">
+                                                                    </div>
+                                                                    
+                                                                    <br>
+                                                                    
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-sort"></span></span>
+                                                                        <input type="text" class="form-control" disabled value="<?php echo $dado['status']; ?>" placeholder="Grupo" title="Este é a status deste usuário." aria-describedby="sizing-addon2">
                                                                     </div>
 
                                                                 </div>
@@ -429,29 +523,59 @@ if (!isset($_POST['buscarPor'])) {
                                                 </div><!-- /.modal -->
 
                                                 <!--Modal de visualização e edição de dado-->
-                                                <div id="editarConta<?php echo $dado['cdUsuario'] ?>" class="modal fade" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="gridSystemModalLabel">
+                                                <div id="editarConta<?php echo $dado['cdUsuario'] ?>" class="modal fade" data-keyboard="false" tabindex="-1" data-backdrop="static" role="dialog" aria-labelledby="gridSystemModalLabel">
 
                                                     <div class="modal-dialog" role="document">
 
                                                         <div class="modal-content">
 
                                                             <div class="modal-header" style="background-color: #4cae4c; color: white;">
-                                                                <a  class="close"  href="usuariosADM.php" aria-label="Close"><span aria-hidden="true">&times;</span></a>
+                                                                <a  class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></a>
                                                                 <h4 class="modal-title" id="gridSystemModalLabel">Usuário: <?php echo $dado['usuario']; ?></h4>
                                                             </div>
 
-                                                            <form name="alterarUsuarioF" action="../controle/Usuario.php" method="post">
+                                                            <form name="alterarUsuarioF" class="editarUsuarioForm" action="../controle/Usuario.php" method="post">
 
                                                                 <input type="hidden" name="cdGrupo" value="<?php echo $dado['cdGrupo']; ?>">
                                                                 <input type="hidden" name="cdUsuario" value="<?php echo $dado['cdUsuario']; ?>">
 
                                                                 <div class="modal-body">
+                                                                    
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-info-sign"></span></span>
+                                                                        <input id="nomeCompleto<?php echo $dado['cdUsuario'] ?>" name="nomeCompleto" disabled="true" type="text" minlength="10" maxlength="200" value="<?php echo $dado['nomeCompleto']; ?>" class="form-control input_verific_editar" required placeholder="Nome Completo" title="Seu nome completo: Apenas letras: Maximo 200 caracteres" aria-describedby="sizing-addon2">
+                                                                        <span class="input-group-btn">
+                                                                            <button id="editarNome<?php echo $dado['cdUsuario'] ?>" class="btn btn-default" title="Clique para editar o nome de usuário" onclick="editarInput(document.getElementById('editarNome<?php echo $dado['cdUsuario'] ?>'), document.getElementById('nomeCompleto<?php echo $dado['cdUsuario'] ?>'))" type="button">Editar</button>
+                                                                        </span>
+                                                                    </div>
+
+                                                                    <br>
+
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-home"></span></span>
+                                                                        <input id="instituicao<?php echo $dado['cdUsuario'] ?>" name="instituicao" disabled="true" type="text" minlength="3" maxlength="500" value="<?php echo $dado['instituicao']; ?>" class="form-control input_verific_editar" required placeholder="Instituição" title="Instituiçao onde estuda/trabalha" aria-describedby="sizing-addon2">
+                                                                        <span class="input-group-btn">
+                                                                            <button id="editarInstituicao<?php echo $dado['cdUsuario'] ?>" class="btn btn-default" title="Clique para editar o nome de usuário" onclick="editarInput(document.getElementById('editarInstituicao<?php echo $dado['cdUsuario'] ?>'), document.getElementById('instituicao<?php echo $dado['cdUsuario'] ?>'))" type="button">Editar</button>
+                                                                        </span>
+                                                                    </div>
+
+                                                                    <br>
+
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-education"></span></span>
+                                                                        <input id="curso<?php echo $dado['cdUsuario'] ?>" name="curso" disabled="true" type="text" minlength="2" maxlength="200" value="<?php echo $dado['curso']; ?>" class="form-control input_verific_editar" required placeholder="Curso" title="Curso que esta ingressado ou leciona" aria-describedby="sizing-addon2">
+                                                                        <span class="input-group-btn">
+                                                                            <button id="editarCurso<?php echo $dado['cdUsuario'] ?>" class="btn btn-default" title="Clique para editar o nome de usuário" onclick="editarInput(document.getElementById('editarCurso<?php echo $dado['cdUsuario'] ?>'), document.getElementById('curso<?php echo $dado['cdUsuario'] ?>'))" type="button">Editar</button>
+                                                                        </span>
+                                                                    </div>
+                                                                    
+                                                                    <br>
 
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon" id="sizing-addon2">
                                                                             <span class="glyphicon glyphicon-user"></span>
                                                                         </span>
-                                                                        <input name="usuario" id="usuario<?php echo $dado['cdUsuario'] ?>" minlength="3" maxlength="20" type="text" class="form-control" value="<?php echo $dado['usuario']; ?>" disabled required placeholder="Usuário" pattern="[a-zA-Z0-9]+" title="Insira um nome de usuário: Apenas letras e números: Maximo 20 caracteres" aria-describedby="sizing-addon2">
+                                                                        <input name="usuario" id="usuario<?php echo $dado['cdUsuario'] ?>" minlength="3" maxlength="20" type="text" class="form-control input_verific_editar" value="<?php echo $dado['usuario']; ?>" disabled required placeholder="Usuário" pattern="[a-zA-Z0-9]+" title="Insira um nome de usuário: Apenas letras e números: Maximo 20 caracteres" aria-describedby="sizing-addon2">
                                                                         <span class="input-group-btn">
                                                                             <button id="editarUsuario<?php echo $dado['cdUsuario'] ?>" class="btn btn-default" title="Clique para editar o nome de usuário" onclick="editarInput(document.getElementById('editarUsuario<?php echo $dado['cdUsuario'] ?>'), document.getElementById('usuario<?php echo $dado['cdUsuario'] ?>'))" type="button">Editar</button>
                                                                         </span>
@@ -463,7 +587,7 @@ if (!isset($_POST['buscarPor'])) {
                                                                         <span class="input-group-addon" id="sizing-addon2">
                                                                             <span class="glyphicon glyphicon-lock"></span>
                                                                         </span>
-                                                                        <input name="senha" id="senha<?php echo $dado['cdUsuario'] ?>" type="text" pattern="\S+" minlength="3" maxlength="20" class="form-control" value="<?php echo $dado['senha']; ?>" disabled required placeholder="Senha atual" title="Digite a senha atual: Maximo 20 caracteres, exceto espaços em branco" aria-describedby="sizing-addon2">
+                                                                        <input name="senha" id="senha<?php echo $dado['cdUsuario'] ?>" type="text" pattern="\S+" minlength="3" maxlength="20" class="form-control input_verific_editar" value="<?php echo $dado['senha']; ?>" disabled required placeholder="Senha atual" title="Digite a senha atual: Maximo 20 caracteres, exceto espaços em branco" aria-describedby="sizing-addon2">
                                                                         <span class="input-group-btn">
                                                                             <button id="editarSenha<?php echo $dado['cdUsuario'] ?>" class="btn btn-default" title="Clique para editar a senha" onclick="editarInput(document.getElementById('editarSenha<?php echo $dado['cdUsuario'] ?>'), document.getElementById('senha<?php echo $dado['cdUsuario'] ?>'))" type="button">Editar</button>
                                                                         </span>
@@ -473,12 +597,25 @@ if (!isset($_POST['buscarPor'])) {
 
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon" id="sizing-addon2">@</span>
-                                                                        <input name="email" id="email<?php echo $dado['cdUsuario'] ?>" type="email" class="form-control" disabled pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?php echo $dado['email']; ?>" placeholder="email" title="Este e-mail pode ser utilizado para recuperar a senha da sua conta" aria-describedby="sizing-addon2">
+                                                                        <input name="email" id="email<?php echo $dado['cdUsuario'] ?>" type="email" class="form-control input_verific_editar" disabled pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" value="<?php echo $dado['email']; ?>" placeholder="email" title="Este e-mail pode ser utilizado para recuperar a senha da sua conta" aria-describedby="sizing-addon2">
                                                                         <span class="input-group-btn">
-                                                                            <button id="editarEmail<?php echo $dado['email'] ?>" class="btn btn-default" title="Clique para editar o e-mail do usuário" onclick="editarInput(document.getElementById('editarEmail<?php echo $dado['cdUsuario'] ?>'), document.getElementById('email<?php echo $dado['cdUsuario'] ?>'))" type="button">Editar</button>
+                                                                            <button id="editarEmail<?php echo $dado['cdUsuario'] ?>" class="btn btn-default" title="Clique para editar o e-mail do usuário" onclick="editarInput(document.getElementById('editarEmail<?php echo $dado['cdUsuario'] ?>'), document.getElementById('email<?php echo $dado['cdUsuario'] ?>'))" type="button">Editar</button>
                                                                         </span>
                                                                     </div>
 
+                                                                    <br>
+                                                                    
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-sort"></span></span>
+                                                                        <select disabled="true" id="status<?php echo $dado['cdUsuario'] ?>" title="Selecione o status" required name="status" class="form-control">                                    
+                                                                            <option <?php echo ($dado['status'] == 'ativo')?'selected':''; ?> value="ativo">Ativo</option>
+                                                                            <option <?php echo ($dado['status'] == 'inativo')?'selected':''; ?> value="inativo">Intivo</option>
+                                                                        </select>
+                                                                        <span class="input-group-btn">
+                                                                            <button id="editarStatus<?php echo $dado['cdUsuario'] ?>" class="btn btn-default" title="Clique para editar o e-mail do usuário" onclick="editarInput(document.getElementById('editarStatus<?php echo $dado['cdUsuario'] ?>'), document.getElementById('status<?php echo $dado['cdUsuario'] ?>'))" type="button">Editar</button>
+                                                                        </span>
+                                                                    </div>
+                                                                    
                                                                     <br>
 
                                                                     <div class="input-group">
@@ -490,7 +627,7 @@ if (!isset($_POST['buscarPor'])) {
 
                                                                     <div class="input-group">
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-calendar"></span></span>
-                                                                        <input name="data" type="date" class="form-control" disabled value="<?php echo $dado['data']; ?>" placeholder="data" title="Esta é a data de cadastramento da conta." aria-describedby="sizing-addon2">
+                                                                        <input name="data" type="text" class="form-control" disabled value="<?php echo $dado['data']; ?>" placeholder="data" title="Esta é a data e hora de cadastramento da conta." aria-describedby="sizing-addon2">
                                                                     </div>
 
 
@@ -499,7 +636,7 @@ if (!isset($_POST['buscarPor'])) {
                                                                 <div class="modal-footer">
                                                                     <div class="row">
                                                                         <div class="col-sm-4  col-sm-offset-8">
-                                                                            <a name="cancelar" href="usuariosADM.php" class="btn btn-default">Cancelar</a>
+                                                                            <a data-dismiss="modal" class="btn btn-default">Cancelar</a>
                                                                             <button name="acao" type="submit" value="EditarUsuario" class="btn btn-success">Salvar</button>
                                                                         </div>
                                                                     </div>
@@ -581,6 +718,53 @@ if (!isset($_POST['buscarPor'])) {
 
         <!--Minhas verificações -->
         <script src="js/verificacoes.js"></script>
-
+        <script src="js/jquery.maskedinput.js"></script>
+        <script>
+            var teste = 0;
+            $(document).ready( function () {
+                $('#cadastrarUsuarioForm').submit( function () {                   
+                   $('.input_verific').each( function () {
+                        if ($(this).val().length === 0 || !$(this).val().trim()) {
+                            $(this).val('');                           
+                            teste++;
+                        } else {
+                            $(this).val($(this).val().trim());
+                        }
+                    });
+                    if (teste > 0) {
+                        teste = 0;
+                        return false;                        
+                    }                    
+                });
+                
+                $('.editarUsuarioForm').submit( function () {                   
+                   $('.input_verific_editar').each( function () {
+                        if ($(this).val().length === 0 || !$(this).val().trim()) {
+                            $(this).val('');                           
+                            teste++;
+                        } else {
+                            $(this).val($(this).val().trim());
+                        }
+                    });
+                    if (teste > 0) {
+                        teste = 0;
+                        return false;                        
+                    }                    
+                });
+                
+                $('.buscar_por_select').change( function () {                    
+                    if ($(this).val() == 'usuario.data') {                        
+                        $('.parametro_da_busca').mask('99/99/9999');
+                    }
+                    $('.parametro_da_busca').focus();
+                });
+                
+                <?php if ($_POST['buscarPor'] == 'usuario.data') { ?>
+                        $('.parametro_da_busca').mask('99/99/9999');
+                <?php } ?>
+                
+            });
+        </script>
+        
     </body>
 </html>

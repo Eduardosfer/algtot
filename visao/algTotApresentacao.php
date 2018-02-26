@@ -187,34 +187,55 @@ $acesso->verificarApresentacao();
                     </div>
 
                     <!--Inicio do formulario de cadastro de usuario no sistema-->
-                    <form name="cadastrarUsuario" action="../controle/Usuario.php" method="post">
+                    <form name="cadastrarUsuario" id="cadastrarUsuario" action="../controle/Usuario.php" method="post">
 
                         <div class="modal-body">
+                            
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-info-sign"></span></span>
+                                <input name="nomeCompleto" type="text" minlength="10" maxlength="200" class="form-control input_verific" required placeholder="Nome Completo" title="Seu nome completo: Apenas letras: Maximo 200 caracteres" aria-describedby="sizing-addon2">
+                            </div>
+
+                            <br>
+                            
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-home"></span></span>
+                                <input name="instituicao" type="text" minlength="3" maxlength="500" class="form-control input_verific" required placeholder="Instituição" title="Instituiçao onde estuda/trabalha" aria-describedby="sizing-addon2">
+                            </div>
+
+                            <br>
+                            
+                            <div class="input-group">
+                                <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-education"></span></span>
+                                <input name="curso" type="text" minlength="2" maxlength="200" class="form-control input_verific" required placeholder="Curso" title="Curso que esta ingressado ou leciona" aria-describedby="sizing-addon2">
+                            </div>
+
+                            <br>
 
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-user"></span></span>
-                                <input name="usuario" type="text" minlength="3" maxlength="20" class="form-control" required placeholder="Usuário" pattern="[a-zA-Z0-9]+" title="Insira um nome de usuário: Apenas letras e números: Maximo 20 caracteres" aria-describedby="sizing-addon2">
+                                <input name="usuario" type="text" minlength="3" maxlength="20" class="form-control input_verific" required placeholder="Usuário" pattern="[a-zA-Z0-9]+" title="Insira um nome de usuário: Apenas letras e números: Maximo 20 caracteres" aria-describedby="sizing-addon2">
                             </div>
 
                             <br>
 
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2">@</span>
-                                <input name="email" type="email" class="form-control" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="email" title="Insira seu e-mail: este e-mail pode ser utilizado para recuperar a senha da sua conta" aria-describedby="sizing-addon2">
+                                <input name="email" type="email" class="form-control input_verific" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="email" title="Insira seu e-mail: este e-mail pode ser utilizado para recuperar a senha da sua conta" aria-describedby="sizing-addon2">
                             </div>
 
                             <br>
 
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-lock"></span></span>
-                                <input name="senha" id="senha" type="password" pattern="\S+" oninput="validarSenha(document.getElementById('senha'),document.getElementById('confirmarSenha'),document.getElementById('acao'))" minlength="3" maxlength="20" class="form-control" required placeholder="Senha" title="Digite uma senha: Maximo 20 caracteres, exceto espaços em branco" aria-describedby="sizing-addon2">
+                                <input name="senha" id="senha" type="password" pattern="\S+" oninput="validarSenha(document.getElementById('senha'),document.getElementById('confirmarSenha'),document.getElementById('acao'))" minlength="3" maxlength="20" class="form-control input_verific" required placeholder="Senha" title="Digite uma senha: Maximo 20 caracteres, exceto espaços em branco" aria-describedby="sizing-addon2">
                             </div>
 
                             <br>
 
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-lock"></span></span>
-                                <input name="confirmarSenha" id="confirmarSenha" pattern="\S+" minlength="3" maxlength="20" type="password" oninput="validarSenha(document.getElementById('senha'),document.getElementById('confirmarSenha'),document.getElementById('acao'))" class="form-control" required placeholder="Confirme a Senha" title="Confirme a senha digitada acima" aria-describedby="sizing-addon2">
+                                <input name="confirmarSenha" id="confirmarSenha" pattern="\S+" minlength="3" maxlength="20" type="password" oninput="validarSenha(document.getElementById('senha'),document.getElementById('confirmarSenha'),document.getElementById('acao'))" class="form-control input_verific" required placeholder="Confirme a Senha" title="Confirme a senha digitada acima" aria-describedby="sizing-addon2">
                             </div>
 
                             <br>
@@ -515,7 +536,25 @@ $acesso->verificarApresentacao();
                 if ($('#bs-example-navbar-collapse-1').is(':visible') == true  && screen.width < 768) {
                     $('#botaoFecharMenuHam').click();            
                 }
-            });                        
+            });          
+            
+            var teste = 0;
+            $(document).ready( function () {
+                $('#cadastrarUsuario').submit( function () {                   
+                   $('.input_verific').each( function () {
+                        if ($(this).val().length === 0 || !$(this).val().trim()) {
+                            $(this).val('');                           
+                            teste++;
+                        } else {
+                            $(this).val($(this).val().trim());
+                        }
+                    });
+                    if (teste > 0) {
+                        teste = 0;
+                        return false;                        
+                    }                    
+                });
+            });
         </script>
 
     </body>

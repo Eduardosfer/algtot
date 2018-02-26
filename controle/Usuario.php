@@ -21,7 +21,11 @@ new Usuario();
 Class Usuario {
 
     private $modelo;
-    private $cdUsuario;
+    private $cdUsuario;    
+    private $nomeCompleto;
+    private $instituicao;
+    private $curso;
+    private $primeiroLogin;        
     private $usuario;
     private $senha;
     private $cdGrupo;
@@ -96,33 +100,43 @@ Class Usuario {
 
             if ($this->verificarLogin() == true) {
 
-                session_start();
+                if ($this->status == 'ativo') {
+                    session_start();
 
-                $_SESSION['usuario'] = $this->usuario;
-                $_SESSION['senha'] = $this->senha;
-                $_SESSION['cdGrupo'] = $this->cdGrupo;
-                $_SESSION['email'] = $this->email;
-                $_SESSION['cdUsuario'] = $this->cdUsuario;
-                $_SESSION['data'] = $this->data;
-                $_SESSION['nivel1'] = $this->nivel1;
-                $_SESSION['nivel2'] = $this->nivel2;
-                $_SESSION['nivel3'] = $this->nivel3;
-                $_SESSION['nivel4'] = $this->nivel4;
-                $_SESSION['nivel5'] = $this->nivel5;
-                $_SESSION['pontuacaoTotal'] = $this->pontuacaoTotal;
+                    $_SESSION['nomeCompleto'] = $this->nomeCompleto;
+                    $_SESSION['instituicao'] = $this->instituicao;
+                    $_SESSION['curso'] = $this->curso;
+                    $_SESSION['primeiroLogin'] = $this->primeiroLogin;
+                    $_SESSION['usuario'] = $this->usuario;
+                    $_SESSION['senha'] = $this->senha;
+                    $_SESSION['cdGrupo'] = $this->cdGrupo;
+                    $_SESSION['email'] = $this->email;
+                    $_SESSION['cdUsuario'] = $this->cdUsuario;
+                    $_SESSION['data'] = $this->data;
+                    $_SESSION['nivel1'] = $this->nivel1;
+                    $_SESSION['nivel2'] = $this->nivel2;
+                    $_SESSION['nivel3'] = $this->nivel3;
+                    $_SESSION['nivel4'] = $this->nivel4;
+                    $_SESSION['nivel5'] = $this->nivel5;
+                    $_SESSION['pontuacaoTotal'] = $this->pontuacaoTotal;
 
-                //Verificando qual o grupo do usuario em questão e redirecionando para a pagina inicial e que ele pode ter acesso.
-                if ($_SESSION['cdGrupo'] == 1) {
-                    header("Location: http:/algtot/visao/principalADM.php");
+                    //Verificando qual o grupo do usuario em questão e redirecionando para a pagina inicial e que ele pode ter acesso.
+                    if ($_SESSION['cdGrupo'] == 1) {
+                        header("Location: http:/algtot/visao/principalADM.php");
+                    }
+
+                    if ($_SESSION['cdGrupo'] == 2) {
+                        header("Location: http:/algtot/visao/principalProfessor.php");
+                    }
+
+                    if ($_SESSION['cdGrupo'] == 3) {
+                        header("Location: http:/algtot/visao/principal.php");
+                    }
+                } else {
+                    $this->AlgTot->setModalRedirecionar('Usuário ainda não liberado', 'Você ainda não tem acesso ao Algtot, aguarde a liberação de acesso do seu usuário.<br>Isso pode levar algum tempo...', '', 'meuModalErro', '../index.php');
                 }
-
-                if ($_SESSION['cdGrupo'] == 2) {
-                    header("Location: http:/algtot/visao/principalProfessor.php");
-                }
-
-                if ($_SESSION['cdGrupo'] == 3) {
-                    header("Location: http:/algtot/visao/principal.php");
-                }
+                                
+                
             } else {
                 $this->AlgTot->setModalRedirecionar('', 'Usuário ou senha incorretos.', '', 'meuModalErro', '../index.php');
             }
@@ -134,12 +148,16 @@ Class Usuario {
         $resultado = false;
         $value = null;
 
-        $select = "SELECT * FROM usuario WHERE usuario = ? AND senha = ? AND status = ?";
-        $dados = array($this->usuario, $this->senha, 'ativo');
+        $select = "SELECT * FROM usuario WHERE usuario = ? AND senha = ? AND status != ?";
+        $dados = array($this->usuario, $this->senha, 'deletado');
         $dados = $this->modelo->selecionar($select, $dados);
 
         foreach ($dados as $key => $value) {
             $value['cdUsuario'];
+            $value['nomeCompleto'];
+            $value['instituicao'];
+            $value['curso'];
+            $value['primeiroLogin'];
             $value['usuario'];
             $value['senha'];
             $value['cdGrupo'];
@@ -151,15 +169,22 @@ Class Usuario {
             $value['nivel4'];
             $value['nivel5'];
             $value['pontuacaoTotal'];
+            $value['status'];
         }
 
         if (($value['usuario'] == $this->usuario) && ($value['senha'] == $this->senha)) {
 
-            $this->cdUsuario = $value['cdUsuario'];
-            $this->usuario = $value['usuario'];
-            $this->senha = $value['senha'];
+            $this->cdUsuario = $value['cdUsuario'];            
+            $this->nomeCompleto = htmlspecialchars($value['nomeCompleto']);
+            $this->instituicao = htmlspecialchars($value['instituicao']);
+            $this->curso = htmlspecialchars($value['curso']);
+            $this->primeiroLogin = $value['primeiroLogin'];            
+            $this->usuario = htmlspecialchars($value['usuario']);
+            $this->senha = htmlspecialchars($value['senha']);
             $this->cdGrupo = $value['cdGrupo'];
-            $this->email = $value['email'];
+            $this->email = $value['email'];            
+            $value['data'] = date("d/m/Y H:i", strtotime($value['data']));
+            $value['data'] = preg_replace('/ /', ' as ', $value['data']);            
             $this->data = $value['data'];
             $this->nivel1 = $value['nivel1'];
             $this->nivel2 = $value['nivel2'];
@@ -167,6 +192,7 @@ Class Usuario {
             $this->nivel4 = $value['nivel4'];
             $this->nivel5 = $value['nivel5'];
             $this->pontuacaoTotal = $value['pontuacaoTotal'];
+            $this->status = $value['status'];
 
             $resultado = true;
         }
@@ -184,29 +210,33 @@ Class Usuario {
 
         if ($_SESSION['cdGrupo'] == 1) {
 
-            $this->setUsuario($_POST['usuario']);
+            $this->setUsuario($_POST['usuario']);                                                          
             $this->setSenha($_POST['senha']);
             $this->setEmail($_POST['email']);
-            $this->setCdGrupo($_POST['cdGrupo']);
-            $this->setData(date('Y-m-d'));
+            $this->setNomeCompleto($_POST['nomeCompleto']);
+            $this->setInstituicao($_POST['instituicao']);
+            $this->setCurso($_POST['curso']);
+            $this->setStatus($_POST['status']);  
+            $this->setCdGrupo($_POST['cdGrupo']);            
+//            $this->setData(date('Y-m-d'));
             $mensagem = "";
             
-            if (($this->usuario != null) && ($this->senha != null) && ($this->email != null) && ($this->cdGrupo != null)) {
+            if (($this->usuario != null) && ($this->senha != null) && ($this->email != null) && ($this->cdGrupo != null) && ($this->nomeCompleto != null) && ($this->instituicao != null) && ($this->curso != null) && ($this->status != null)) {
 
-                $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND status = ?";
-                $dados = array($this->usuario, 'ativo');
+                $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND status != ?";
+                $dados = array($this->usuario, 'deletado');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
 
-                    $select = "SELECT count(email) AS quantidade FROM usuario WHERE email = ? AND status = ?";
-                    $dados = array($this->email, 'ativo');
+                    $select = "SELECT count(email) AS quantidade FROM usuario WHERE email = ? AND status != ?";
+                    $dados = array($this->email, 'deletado');
 
                     if ($this->verificarDuplicidade($select, $dados) == true) {
 
-                        $insert = "INSERT INTO usuario(usuario, senha, email, cdGrupo, status, data,
-													nivel1, nivel2, nivel3, nivel4, nivel5, pontuacaoTotal)
-													VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        $dados = array($this->usuario, $this->senha, $this->email, $this->cdGrupo, 'ativo', $this->data, 0, 0, 0, 0, 0, 0);
+                        $insert = "INSERT INTO usuario(usuario, senha, email, cdGrupo, status,
+                                    nivel1, nivel2, nivel3, nivel4, nivel5, pontuacaoTotal, nomeCompleto, instituicao, curso, primeiroLogin)
+                                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        $dados = array($this->usuario, $this->senha, $this->email, $this->cdGrupo, $this->status, 0, 0, 0, 0, 0, 0, $this->nomeCompleto, $this->instituicao, $this->curso, 'sim');
                         $this->modelo->cadastrar($insert, $dados);
 
                         $this->AlgTot->setModalRedirecionar('', 'Usuáriocadastrado com sucesso.', '', 'meuModalSucesso', '../visao/usuariosADM.php');
@@ -229,29 +259,32 @@ Class Usuario {
             $this->setUsuario($_POST['usuario']);
             $this->setSenha($_POST['senha']);
             $this->setEmail($_POST['email']);
+            $this->setNomeCompleto($_POST['nomeCompleto']);
+            $this->setInstituicao($_POST['instituicao']);
+            $this->setCurso($_POST['curso']);
             $this->setCdGrupo(3);
-            $this->setData(date('Y-m-d'));
+//            $this->setData(date('Y-m-d'));
             $mensagem = "";
 
-            if (($this->usuario != null) && ($this->senha != null) && ($this->email != null) && ($this->cdGrupo != null)) {
+            if (($this->usuario != null) && ($this->senha != null) && ($this->email != null) && ($this->cdGrupo != null) && ($this->nomeCompleto != null) && ($this->instituicao != null) && ($this->curso != null)) {
 
-                $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND status = ?";
-                $dados = array($this->usuario, 'ativo');
+                $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND status != ?";
+                $dados = array($this->usuario, 'deletado');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
 
-                    $select = "SELECT count(email) AS quantidade FROM usuario WHERE email = ? AND status = ?";
-                    $dados = array($this->email, 'ativo');
+                    $select = "SELECT count(email) AS quantidade FROM usuario WHERE email = ? AND status != ?";
+                    $dados = array($this->email, 'deletado');
 
                     if ($this->verificarDuplicidade($select, $dados) == true) {
 
-                        $insert = "INSERT INTO usuario(usuario, senha, email, cdGrupo, status, data,
-													nivel1, nivel2, nivel3, nivel4, nivel5, pontuacaoTotal)
-													VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        $dados = array($this->usuario, $this->senha, $this->email, $this->cdGrupo, 'ativo', $this->data, 0, 0, 0, 0, 0, 0);
+                        $insert = "INSERT INTO usuario(usuario, senha, email, cdGrupo, status,
+                                    nivel1, nivel2, nivel3, nivel4, nivel5, pontuacaoTotal, nomeCompleto, instituicao, curso, primeiroLogin)
+                                    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        $dados = array($this->usuario, $this->senha, $this->email, $this->cdGrupo, 'inativo', 0, 0, 0, 0, 0, 0, $this->nomeCompleto, $this->instituicao, $this->curso, 'sim');
                         $this->modelo->cadastrar($insert, $dados);
 
-                        $mensagem = $mensagem . 'Usuário cadastrado com sucesso!<br>';
+                        $mensagem = $mensagem . 'Usuário cadastrado com sucesso!<br>Em breve estaremos liberando o seu acesso ao Algtot.';
                         $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', '../index.php');
                         return true;
                     } else {
@@ -352,8 +385,8 @@ Class Usuario {
             
 //            REMOVI A EDIÇÃO DE NOME DE USUÁRIO
 //            if ((isset($this->usuario)) && ($this->usuario != $antigoUsuario)) {
-//                $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND cdUsuario != ? AND status = ?";
-//                $dados = array($this->usuario, $this->cdUsuario, 'ativo');
+//                $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND cdUsuario != ? AND status != ?";
+//                $dados = array($this->usuario, $this->cdUsuario, 'deletado');
 //
 //                if ($this->verificarDuplicidade($select, $dados) == true) {
 //                    $update = "UPDATE usuario SET usuario = ? WHERE cdUsuario = ? AND status = ?";
@@ -427,6 +460,50 @@ Class Usuario {
 
         if ((isset($this->cdGrupo)) && ($this->cdGrupo == 1)) {
 
+            if (!isset($_POST['nomeCompleto'])) {
+                $this->nomeCompleto = null;
+            } else {
+                $this->nomeCompleto = $_POST['nomeCompleto'];
+                $update = "UPDATE usuario SET nomeCompleto = ? WHERE cdUsuario = ?";
+                $dados = array($this->nomeCompleto, $this->cdUsuario);
+                $this->modelo->alterar($update, $dados);
+                $mensagem = $mensagem . 'Nome alterado com sucesso!<br>';
+                $sucesso++;
+            }
+            
+            if (!isset($_POST['instituicao'])) {
+                $this->instituicao = null;
+            } else {
+                $this->instituicao = $_POST['instituicao'];
+                $update = "UPDATE usuario SET instituicao = ? WHERE cdUsuario = ?";
+                $dados = array($this->instituicao, $this->cdUsuario);
+                $this->modelo->alterar($update, $dados);
+                $mensagem = $mensagem . 'Instituição alterada com sucesso!<br>';
+                $sucesso++;
+            }
+
+            if (!isset($_POST['curso'])) {
+                $this->curso = null;
+            } else {
+                $this->curso = $_POST['curso'];
+                $update = "UPDATE usuario SET curso = ? WHERE cdUsuario = ?";
+                $dados = array($this->curso, $this->cdUsuario);
+                $this->modelo->alterar($update, $dados);
+                $mensagem = $mensagem . 'Curso alterado com sucesso!<br>';
+                $sucesso++;
+            }
+            
+            if (!isset($_POST['status'])) {
+                $this->status = null;
+            } else {
+                $this->status = $_POST['status'];
+                $update = "UPDATE usuario SET status = ? WHERE cdUsuario = ?";
+                $dados = array($this->status, $this->cdUsuario);
+                $this->modelo->alterar($update, $dados);
+                $mensagem = $mensagem . 'Status alterado com sucesso!<br>';
+                $sucesso++;
+            }
+            
             if (!isset($_POST['usuario'])) {
 
                 $this->usuario = null;
@@ -434,12 +511,12 @@ Class Usuario {
 
                 $this->usuario = $_POST['usuario'];
 
-                $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND cdUsuario != ? AND status = ?";
-                $dados = array($this->usuario, $this->cdUsuario, 'ativo');
+                $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND cdUsuario != ? AND status != ?";
+                $dados = array($this->usuario, $this->cdUsuario, 'deletado');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
-                    $update = "UPDATE usuario SET usuario = ? WHERE cdUsuario = ? AND status = ?";
-                    $dados = array($this->usuario, $this->cdUsuario, 'ativo');
+                    $update = "UPDATE usuario SET usuario = ? WHERE cdUsuario = ?";
+                    $dados = array($this->usuario, $this->cdUsuario);
                     $this->modelo->alterar($update, $dados);
                     $mensagem = $mensagem . 'Nome de usuário alterado com sucesso!<br>';
                     $sucesso++;
@@ -453,8 +530,8 @@ Class Usuario {
                 $this->senha = null;
             } else {
                 $this->senha = $_POST['senha'];
-                $update = "UPDATE usuario SET senha = ? WHERE cdUsuario = ? AND status = ?";
-                $dados = array($this->senha, $this->cdUsuario, 'ativo');
+                $update = "UPDATE usuario SET senha = ? WHERE cdUsuario = ?";
+                $dados = array($this->senha, $this->cdUsuario);
                 $this->modelo->alterar($update, $dados);
                 $mensagem = $mensagem . 'Senha alterada com sucesso!<br>';
                 $sucesso++;
@@ -468,8 +545,8 @@ Class Usuario {
                 $dados = array($this->email, $this->cdUsuario, 'ativo');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
-                    $update = "UPDATE usuario SET email = ? WHERE cdUsuario = ? AND status = ?";
-                    $dados = array($this->email, $this->cdUsuario, 'ativo');
+                    $update = "UPDATE usuario SET email = ? WHERE cdUsuario = ?";
+                    $dados = array($this->email, $this->cdUsuario);
                     $this->modelo->alterar($update, $dados);
                     $mensagem = $mensagem . 'E-mail alterado com sucesso!<br>';
                     $sucesso++;
@@ -643,9 +720,33 @@ Class Usuario {
     public function setEmail($email) {
         $this->email = $email;
     }
+    
+    public function setNomeCompleto($nomeCompleto) {
+        $this->nomeCompleto = $nomeCompleto;
+    }
+    
+    public function setInstituicao($instituicao) {
+        $this->instituicao = $instituicao;
+    }
+    
+    public function setCurso($curso) {
+        $this->curso = $curso;
+    }
 
     public function setData($data) {
         $this->data = $data;
+    }
+    
+    public function setPrimeiroLogin($primeiroLogin) {
+        $this->primeiroLogin = $primeiroLogin;
+    }
+    
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+    
+    public function getStatus($staus) {
+        $this->staus = $staus;
     }
 
     public function getCdUsuario() {
@@ -663,9 +764,25 @@ Class Usuario {
     public function getCdGrupo() {
         return $this->cdGrupo;
     }
+    public function getPrimeiroLogin($primeiroLogin) {
+        $this->primeiroLogin = $primeiroLogin;
+    }
+    
 
     public function getEmail() {
         return $this->email;
+    }
+    
+    public function getNomeCompleto($nomeCompleto) {
+        $this->nomeCompleto = $nomeCompleto;
+    }
+    
+    public function getInstituicao($instituicao) {
+        $this->instituicao = $instituicao;
+    }
+    
+    public function getCurso($curso) {
+        $this->curso = $curso;
     }
 
     public function getData() {
