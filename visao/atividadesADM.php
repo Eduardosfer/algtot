@@ -251,7 +251,7 @@ $acesso->acessar();
                                         $totalLinhas = $value['numLinhas'];
                                     }
 
-                                    $ultimaPagina = $totalLinhas / 6;
+                                    $ultimaPagina = $totalLinhas / 20;
 
                                     //Arredondado o valor de ultima pagina para o proximo numero intero
                                     $ultimaPagina = ceil($ultimaPagina);
@@ -278,13 +278,13 @@ $acesso->acessar();
                                         if (($_POST['paginar'] == 'anterior') && ($pagina >= 2)) {
 
                                             $pagina = $pagina - 1;
-                                            $offset = $offset - 6;
+                                            $offset = $offset - 20;
                                         }
 
                                         if (($_POST['paginar'] == 'proxima') && ($pagina >= 1) && ($pagina < $ultimaPagina)) {
 
                                             $pagina = $pagina + 1;
-                                            $offset = $offset + 6;
+                                            $offset = $offset + 20;
                                         }
 
                                         if ($_POST['paginar'] == 'primeira') {
@@ -298,7 +298,7 @@ $acesso->acessar();
                                             $pagina = $ultimaPagina;
 
                                             //É necessario subtrair -1 pois o offset inicia-se em 0 e a numeracao das paginas em 1
-                                            $offset = ($ultimaPagina - 1) * 6;
+                                            $offset = ($ultimaPagina - 1) * 20;
                                         }
                                     }
 
@@ -318,7 +318,7 @@ $acesso->acessar();
                                                     WHERE atividade.status != ?
                                                     AND $campo LIKE ?
                                                     GROUP BY atividade.cdAtividade
-                                                    ORDER BY $campo ASC LIMIT $offset,6";
+                                                    ORDER BY $campo ASC LIMIT $offset,20";
                                         $dados = array('ativo', 'deletado', '%' . $parametro . '%');
                                     } else {
 
@@ -327,7 +327,7 @@ $acesso->acessar();
                                     LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
                                     WHERE atividade.status != ?
                                     GROUP BY atividade.cdAtividade
-                                    ORDER BY atividade.cdAtividade DESC LIMIT $offset,6";
+                                    ORDER BY atividade.cdAtividade DESC LIMIT $offset,20";
                                         $dados = array('ativo', 'deletado');
                                     }
 

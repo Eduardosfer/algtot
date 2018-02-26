@@ -335,7 +335,7 @@ if (!isset($_POST['buscarPor'])) {
                                         $totalLinhas = $value['numLinhas'];
                                     }
 
-                                    $ultimaPagina = $totalLinhas / 7;
+                                    $ultimaPagina = $totalLinhas / 20;
 
                                     //Arredondado o valor de ultima pagina para o proximo numero intero
                                     $ultimaPagina = ceil($ultimaPagina);
@@ -362,13 +362,13 @@ if (!isset($_POST['buscarPor'])) {
                                         if (($_POST['paginar'] == 'anterior') && ($pagina >= 2)) {
 
                                             $pagina = $pagina - 1;
-                                            $offset = $offset - 7;
+                                            $offset = $offset - 20;
                                         }
 
                                         if (($_POST['paginar'] == 'proxima') && ($pagina >= 1) && ($pagina < $ultimaPagina)) {
 
                                             $pagina = $pagina + 1;
-                                            $offset = $offset + 7;
+                                            $offset = $offset + 20;
                                         }
 
                                         if ($_POST['paginar'] == 'primeira') {
@@ -382,7 +382,7 @@ if (!isset($_POST['buscarPor'])) {
                                             $pagina = $ultimaPagina;
 
                                             //É necessario subtrair -1 pois o offset inicia-se em 0 e a numeracao das paginas em 1
-                                            $offset = ($ultimaPagina - 1) * 7;
+                                            $offset = ($ultimaPagina - 1) * 20;
                                         }
                                     }
 
@@ -398,13 +398,13 @@ if (!isset($_POST['buscarPor'])) {
 
                                         $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
                                     WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status != ?
-                                    AND $campo LIKE ? ORDER BY $campo ASC LIMIT $offset,7";
+                                    AND $campo LIKE ? ORDER BY $campo ASC LIMIT $offset,20";
                                         $dados = array('deletado', '%' . $parametro . '%');
                                     } else {
 
                                         $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
                                     WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status != ?
-                                    ORDER BY usuario.cdUsuario DESC LIMIT $offset,7";
+                                    ORDER BY usuario.cdUsuario DESC LIMIT $offset,20";
                                         $dados = array('deletado');
                                     }
 
