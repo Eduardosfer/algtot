@@ -2,7 +2,7 @@
 require_once("../controle/Acesso.php");
 $acesso = new Acesso();
 $modelo = new Modelo();
-//pegando numero de linhas                                                                                                                                                                                              
+//pegando OS JOGADORES DO RANKING                                                                                                                                                                                         
 $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
 WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status = ?
 AND usuario.cdGrupo = ?
