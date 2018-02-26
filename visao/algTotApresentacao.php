@@ -1,6 +1,14 @@
 <?php
 require_once("../controle/Acesso.php");
 $acesso = new Acesso();
+$modelo = new Modelo();
+//pegando numero de linhas                                                                                                                                                                                              
+$select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
+WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status = ?
+AND usuario.cdGrupo = ?
+ORDER BY usuario.pontuacaoTotal DESC LIMIT 0,10";
+$dados = array('atisvo', 3);                                    
+$dados = $modelo->selecionar($select, $dados);
 $acesso->verificarApresentacao();
 ?>
 
@@ -292,49 +300,53 @@ $acesso->verificarApresentacao();
             </div>
 
             <div class="container">
-
                 <div class="row">
+                    <div class="table-responsive panel-body">
 
-                    <div class="col-lg-3 col-md-6 text-center">
+                            <table class="table table-striped">
 
-                        <div class="service-box">
-                            <i class="fa fa-4x text-success sr-icons"><span class="glyphicon glyphicon-rub"></span></i>
-                            <h3>Aprenda Com Portugol</h3>
-                            <p class="text-muted">Aprenda a programar utilizando o Portugol que é uma pseudo linguagem de programação desenvolvida para facilitar no aprendizado.</p>
-                            <button name="acaoSintaxe" value="sintaxe" type="button" data-toggle="modal" data-target="#sintaxe" href="#" class="btn btn-success"><span class="glyphicon glyphicon-book"></span> Sintaxe</button>
+                                <thead>
+                                    <th><span class="glyphicon glyphicon-sort-by-attributes-alt"></span></th>
+                                    <th><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Usuário</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 1</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 2</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 3</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 4</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 5</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Pontuação Total</th>
+                                </thead>
+
+                                <tbody>
+
+                                    <?php                                                                        
+                                    $countAlert = 0;
+                                    foreach ($dados as $key => $dado) {
+                                        $countAlert++;
+                                        $dado['usuario'] = htmlspecialchars($dado['usuario']);
+                                        ?>
+
+                                        <tr>
+                                            <td><?php echo $countAlert.'ª'; ?></td>
+                                            <td><?php echo $dado['usuario']; ?></td>
+                                            <td><?php echo $dado['nivel1']; ?></td>
+                                            <td><?php echo $dado['nivel2']; ?></td>
+                                            <td><?php echo $dado['nivel3']; ?></td>
+                                            <td><?php echo $dado['nivel4']; ?></td>
+                                            <td><?php echo $dado['nivel5']; ?></td>
+                                            <td><?php echo $dado['pontuacaoTotal']; ?></td>
+                                        </tr>
+
+                                        <?php
+                                    }
+                                    ?>
+
+                                </tbody>
+
+                            </table>                         
+                            <?php if ($countAlert == 0) { ?>
+                                <div class="alert alert-success" role="alert">Nenhum participante ainda.</div>
+                            <?php } ?>
                         </div>
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 text-center">
-
-                        <div class="service-box">
-                            <i class="fa fa-4x text-primary sr-icons"><span class="glyphicon glyphicon-sort-by-alphabet"></span></i>
-                            <h3>Aprenda a Estruturar Seus Pensamentos</h3>
-                            <p class="text-muted">Aprenda desde conceitos básicos de programação como declarar variáveis até conceitos mais avançados utilizando estruturas de repetição.</p>
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 text-center">
-
-                        <div class="service-box">
-                            <i class="fa fa-4x text-success sr-icons"><span class="glyphicon glyphicon-education"></span></i>
-                            <h3>Aprenda Aos Poucos</h3>
-                            <p class="text-muted">O AlgTot trabalha com 5 níveis de dificuldade onde são dispostos as atividades, essas atividades possuem três maneiras diferente se responder.</p>
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 text-center">
-
-                        <div class="service-box">
-                            <i class="fa fa-4x text-primary sr-icons"><span class="glyphicon glyphicon-stats"></span></i>
-                            <h3>Compare Seu Desempenho Com o de Outros Usuários</h3>
-                            <p class="text-muted">Você poderá ver seu avanço por meio de uma pontuação que é adquirida de acordo responde as atividades, essa pontuação também é comparada com a de outros usuários.</p>
-                        </div>
-
-                    </div>
                 </div>
             </div>
 

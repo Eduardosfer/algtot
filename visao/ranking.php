@@ -148,13 +148,14 @@ if (!isset($_POST['buscarPor'])) {
                             <table class="table table-striped">
 
                                 <thead>
-                                <th><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Usuário</th>
-                                <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 1</th>
-                                <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 2</th>
-                                <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 3</th>
-                                <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 4</th>
-                                <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 5</th>
-                                <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Pontuação Total</th>
+                                    <th><span class="glyphicon glyphicon-sort-by-attributes-alt"></span></th>
+                                    <th><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Usuário</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 1</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 2</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 3</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 4</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Nível 5</th>
+                                    <th><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Pontuação Total</th>
                                 </thead>
 
                                 <tbody>
@@ -179,7 +180,7 @@ if (!isset($_POST['buscarPor'])) {
                                         $totalLinhas = $value['numLinhas'];
                                     }
 
-                                    $ultimaPagina = $totalLinhas / 9;
+                                    $ultimaPagina = $totalLinhas / 10;
 
                                     //Arredondado o valor de ultima pagina para o proximo numero intero
                                     $ultimaPagina = ceil($ultimaPagina);
@@ -206,13 +207,13 @@ if (!isset($_POST['buscarPor'])) {
                                         if (($_POST['paginar'] == 'anterior') && ($pagina >= 2)) {
 
                                             $pagina = $pagina - 1;
-                                            $offset = $offset - 9;
+                                            $offset = $offset - 10;
                                         }
 
                                         if (($_POST['paginar'] == 'proxima') && ($pagina >= 1) && ($pagina < $ultimaPagina)) {
 
                                             $pagina = $pagina + 1;
-                                            $offset = $offset + 9;
+                                            $offset = $offset + 10;
                                         }
 
                                         if ($_POST['paginar'] == 'primeira') {
@@ -226,7 +227,7 @@ if (!isset($_POST['buscarPor'])) {
                                             $pagina = $ultimaPagina;
 
                                             //É necessario subtrair -1 pois o offset inicia-se em 0 e a numeracao das paginas em 1
-                                            $offset = ($ultimaPagina - 1) * 9;
+                                            $offset = ($ultimaPagina - 1) * 10;
                                         }
                                     }
 
@@ -237,14 +238,14 @@ if (!isset($_POST['buscarPor'])) {
                                         $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
                                     WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status = ?
                                     AND usuario.cdGrupo = ?
-                                    ORDER BY $campo DESC LIMIT $offset,9";
+                                    ORDER BY $campo DESC LIMIT $offset,10";
                                         $dados = array('ativo', 3);
                                     } else {
 
                                         $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
                                     WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status = ?
                                     AND usuario.cdGrupo = ?
-                                    ORDER BY usuario.pontuacaoTotal DESC LIMIT $offset,9";
+                                    ORDER BY usuario.pontuacaoTotal DESC LIMIT $offset,10";
                                         $dados = array('ativo', 3);
                                     }
 
@@ -256,6 +257,7 @@ if (!isset($_POST['buscarPor'])) {
                                         ?>
 
                                         <tr>
+                                            <td><?php echo $countAlert.'ª'; ?></td>
                                             <td><?php echo $dado['usuario']; ?></td>
                                             <td><?php echo $dado['nivel1']; ?></td>
                                             <td><?php echo $dado['nivel2']; ?></td>
