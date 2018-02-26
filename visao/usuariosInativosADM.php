@@ -64,9 +64,9 @@ $acesso->acessar();
                     </div>
 
                     <form name="cadastrarUsuario" id="cadastrarUsuarioForm" action="../controle/Usuario.php" method="post">
-
+                        
                         <div class="modal-body">
-
+                            <input type="hidden" value="usuariosInativos" name="page_usuarios_inativos">
                             <div class="input-group">
                                 <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-info-sign"></span></span>
                                 <input name="nomeCompleto" type="text" minlength="10" maxlength="200" class="form-control input_verific" required placeholder="Nome Completo" title="Seu nome completo: Apenas letras: Maximo 200 caracteres" aria-describedby="sizing-addon2">
@@ -181,7 +181,7 @@ foreach ($grupos as $key => $grupo) {
                         <div class="panel-heading" style="background-color: #4cae4c; color:white;">
 
                             <div style="text-align: center;">
-                                <h3 class="blog-title">Usuários</h3>
+                                <h3 class="blog-title">Usuários Inativos</h3>
                             </div>
 
                             <form class="form-inline" role="search" action="usuariosInativosADM.php" method="post">
@@ -444,6 +444,7 @@ if (!isset($_POST['buscarPor'])) {
                                                 <div id="excluir<?php echo $dado['cdUsuario'] ?>" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="gridSystemModalLabel">
                                                     <div class="modal-dialog" role="document">
                                                         <form class="form-horizontal" action="../controle/Usuario.php" method="post">
+                                                            <input type="hidden" value="usuariosInativos" name="page_usuarios_inativos">
                                                             <div class="modal-content">
 
                                                                 <div class="modal-header" style="background-color: #d43f3a; color: white">
@@ -546,7 +547,8 @@ if (!isset($_POST['buscarPor'])) {
                                                             </div>
 
                                                             <form name="alterarUsuarioF" class="editarUsuarioForm" action="../controle/Usuario.php" method="post">
-
+                                                                
+                                                                <input type="hidden" value="usuariosInativos" name="page_usuarios_inativos">
                                                                 <input type="hidden" name="cdGrupo" value="<?php echo $dado['cdGrupo']; ?>">
                                                                 <input type="hidden" name="cdUsuario" value="<?php echo $dado['cdUsuario']; ?>">
 

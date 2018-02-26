@@ -222,6 +222,12 @@ Class Usuario {
 //            $this->setData(date('Y-m-d'));
             $mensagem = "";
             
+            if (isset($_POST['page_usuarios_inativos'])) {
+                $urlBack = '../visao/usuariosInativosADM.php';
+            } else {
+                $urlBack = '../visao/usuariosADM.php';
+            }
+                
             if (($this->usuario != null) && ($this->senha != null) && ($this->email != null) && ($this->cdGrupo != null) && ($this->nomeCompleto != null) && ($this->instituicao != null) && ($this->curso != null) && ($this->status != null)) {
 
                 $select = "SELECT count(usuario) AS quantidade FROM usuario WHERE usuario = ? AND status != ?";
@@ -237,10 +243,10 @@ Class Usuario {
                         $insert = "INSERT INTO usuario(usuario, senha, email, cdGrupo, status,
                                     nivel1, nivel2, nivel3, nivel4, nivel5, pontuacaoTotal, nomeCompleto, instituicao, curso, primeiroLogin)
                                     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        $dados = array($this->usuario, $this->senha, $this->email, $this->cdGrupo, $this->status, 0, 0, 0, 0, 0, 0, $this->nomeCompleto, $this->instituicao, $this->curso, 'sim');
+                        $dados = array($this->usuario, $this->senha, $this->email, $this->cdGrupo, $this->status, 100, 0, 0, 0, 0, 100, $this->nomeCompleto, $this->instituicao, $this->curso, 'sim');
                         $this->modelo->cadastrar($insert, $dados);
 
-                        $this->AlgTot->setModalRedirecionar('', 'Usuáriocadastrado com sucesso.', '', 'meuModalSucesso', '../visao/usuariosADM.php');
+                        $this->AlgTot->setModalRedirecionar('', 'Usuáriocadastrado com sucesso.', '', 'meuModalSucesso', $urlBack);
                         return true;
                     } else {
                         $mensagem = $mensagem . 'Este e-mail já foi cadastrado para um usuário, tente utiliza outro e-mail!\n';
@@ -248,10 +254,10 @@ Class Usuario {
                 } else {
                     $mensagem = $mensagem . 'Este usuário já foi cadastrado, tente outro nome de usuário!\n';
                 }
-
-                $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalErro', '../visao/usuariosADM.php');
-            } else {
-                $this->AlgTot->setModalRedirecionar('', 'Erro ao cadastrar', '', 'meuModalErro', '../visao/usuariosADM.php');
+                                
+                $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalErro', $urlBack);                               
+            } else {                               
+                $this->AlgTot->setModalRedirecionar('', 'Erro ao cadastrar', '', 'meuModalErro', $urlBack);               
             }
         }
 
@@ -282,7 +288,7 @@ Class Usuario {
                         $insert = "INSERT INTO usuario(usuario, senha, email, cdGrupo, status,
                                     nivel1, nivel2, nivel3, nivel4, nivel5, pontuacaoTotal, nomeCompleto, instituicao, curso, primeiroLogin)
                                     VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                        $dados = array($this->usuario, $this->senha, $this->email, $this->cdGrupo, 'inativo', 0, 0, 0, 0, 0, 0, $this->nomeCompleto, $this->instituicao, $this->curso, 'sim');
+                        $dados = array($this->usuario, $this->senha, $this->email, $this->cdGrupo, 'inativo', 100, 0, 0, 0, 0, 100, $this->nomeCompleto, $this->instituicao, $this->curso, 'sim');
                         $this->modelo->cadastrar($insert, $dados);
 
                         $mensagem = $mensagem . 'Usuário cadastrado com sucesso!<br>Em breve estaremos liberando o seu acesso ao Algtot.';
@@ -372,8 +378,8 @@ Class Usuario {
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
 
-                    $update = "UPDATE usuario SET email = ? WHERE cdUsuario = ? AND status = ?";
-                    $dados = array($novoEmail, $this->cdUsuario, 'ativo');
+                    $update = "UPDATE usuario SET email = ? WHERE cdUsuario = ?";
+                    $dados = array($novoEmail, $this->cdUsuario);
                     $this->modelo->alterar($update, $dados);
                     $_SESSION['email'] = $novoEmail;
                     $mensagem = $mensagem . 'E-mail alterado com sucesso!<br>';
@@ -390,8 +396,8 @@ Class Usuario {
 //                $dados = array($this->usuario, $this->cdUsuario, 'deletado');
 //
 //                if ($this->verificarDuplicidade($select, $dados) == true) {
-//                    $update = "UPDATE usuario SET usuario = ? WHERE cdUsuario = ? AND status = ?";
-//                    $dados = array($this->usuario, $this->cdUsuario, 'ativo');
+//                    $update = "UPDATE usuario SET usuario = ? WHERE cdUsuario = ?";
+//                    $dados = array($this->usuario, $this->cdUsuario);
 //                    $this->modelo->alterar($update, $dados);
 //                    $_SESSION['usuario'] = $this->usuario;
 //                    $mensagem = $mensagem . 'Nome de usuário alterado com sucesso!<br>';
@@ -405,8 +411,8 @@ Class Usuario {
             if (isset($this->senha)) {
                 if ($this->senha == $antigaSenha) {
                     if ($this->senha != $novaSenha) {
-                        $update = "UPDATE usuario SET senha = ? WHERE cdUsuario = ? AND status = ?";
-                        $dados = array($novaSenha, $this->cdUsuario, 'ativo');
+                        $update = "UPDATE usuario SET senha = ? WHERE cdUsuario = ?";
+                        $dados = array($novaSenha, $this->cdUsuario);
                         $this->modelo->alterar($update, $dados);
                         $_SESSION['senha'] = $novaSenha;
                         $mensagem = $mensagem . 'Senha alterada com sucesso!<br>';
@@ -506,7 +512,6 @@ Class Usuario {
             }
             
             if (!isset($_POST['usuario'])) {
-
                 $this->usuario = null;
             } else {
 
@@ -542,8 +547,8 @@ Class Usuario {
                 $this->email = null;
             } else {
                 $this->email = $_POST['email'];
-                $select = "SELECT count(email) AS quantidade FROM usuario WHERE email = ? AND cdUsuario != ? AND status = ?";
-                $dados = array($this->email, $this->cdUsuario, 'ativo');
+                $select = "SELECT count(email) AS quantidade FROM usuario WHERE email = ? AND cdUsuario != ? AND status != ?";
+                $dados = array($this->email, $this->cdUsuario, 'deletado');
 
                 if ($this->verificarDuplicidade($select, $dados) == true) {
                     $update = "UPDATE usuario SET email = ? WHERE cdUsuario = ?";
@@ -555,22 +560,28 @@ Class Usuario {
                     $mensagem = $mensagem . 'E-mail não alterado. Já existe um usuário utilizando este e-mail!<br>';
                     $erro++;
                 }
+            }                        
+                
+            if (isset($_POST['page_usuarios_inativos'])) {
+                $urlBack = '../visao/usuariosInativosADM.php';
+            } else {
+                $urlBack = '../visao/usuariosADM.php';               
             }
             
-            if ($sucesso == 0 && $erro == 0) {
-                $this->AlgTot->setModalRedirecionar('Nenhuma alteração', 'Nada alterado.', '', 'meuModalSucesso', '../visao/usuariosADM.php');
+            if ($sucesso == 0 && $erro == 0) {                
+                $this->AlgTot->setModalRedirecionar('Nenhuma alteração', 'Nada alterado.', '', 'meuModalSucesso', $urlBack);
                 return true;
             } else {
                 if ($sucesso > 0 && $erro > 0) {
-                    $this->AlgTot->setModalRedirecionar('Nem todos os dados puderam ser alterados!', $mensagem, '', 'meuModalErro', '../visao/usuariosADM.php');
+                    $this->AlgTot->setModalRedirecionar('Nem todos os dados puderam ser alterados!', $mensagem, '', 'meuModalErro', $urlBack);
                     return false;
                 }                
                 if ($sucesso > 0 && $erro == 0) {
-                    $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', '../visao/usuariosADM.php');
+                    $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalSucesso', $urlBack);
                     return true;
                 }                
                 if ($sucesso == 0 && $erro > 0) {
-                    $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalErro', '../visao/usuariosADM.php');
+                    $this->AlgTot->setModalRedirecionar('', $mensagem, '', 'meuModalErro', $urlBack);
                     return false;
                 }                
             }            
@@ -640,14 +651,20 @@ Class Usuario {
         $this->setCdGrupo($_SESSION['cdGrupo']);
         $grupoExcluir = $_POST['cdGrupo'];
         $usuarioExcluir = $_POST['cdUsuario'];
+        
+        if (isset($_POST['page_usuarios_inativos'])) {            
+            $urlBack = '../visao/usuariosInativosADM.php';
+        } else {
+            $urlBack = '../visao/usuariosADM.php';               
+        }
 
         if ((isset($_SESSION['usuario'])) && ($this->cdGrupo == 1)) {
             $update = "UPDATE usuario SET status = ? WHERE cdUsuario = ?";
             $dados = array('deletado', $usuarioExcluir);
             $this->modelo->excluir($update, $dados);
-            $this->AlgTot->setModalRedirecionar('', 'Conta foi excluída com êxito!', '', 'meuModalSucesso', '../visao/usuariosADM.php');
+            $this->AlgTot->setModalRedirecionar('', 'Conta foi excluída com êxito!', '', 'meuModalSucesso', $urlBack);
         } else {
-            $this->AlgTot->setModalRedirecionar('', 'Ocorreu algun erro ao tentar excluir esse usuário.', '', 'meuModalErro', '../visao/usuariosADM.php');
+            $this->AlgTot->setModalRedirecionar('', 'Ocorreu algun erro ao tentar excluir esse usuário.', '', 'meuModalErro', $urlBack);
         }
     }
 
