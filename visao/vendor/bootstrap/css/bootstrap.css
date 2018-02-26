@@ -5,6 +5,22 @@
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 
+.status_ativo {
+    background-color: #5cb85c;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    cursor: context-menu;
+}
+
+.status_inativo {
+    background-color: #d9534f;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    cursor: context-menu;
+}
+
 form {
     padding: 0!important;
     margin: 0!important;

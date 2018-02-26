@@ -215,8 +215,8 @@ $acesso->acessar();
                                 <thead>
                                 <th>Titulo</th>
                                 <th>Nível</th>
-                                <th>Status</th>
                                 <th>Data de cadastro</th>
+                                <th>Status</th>
                                 <th>Ações</th>
                                 </thead>
 
@@ -344,8 +344,8 @@ $acesso->acessar();
                                         <tr>
                                             <td><?php echo $dado['titulo'] ?></td>
                                             <td><?php echo $dado['nivel'] ?></td>
-                                            <td><?php echo $dado['status'] ?></td>
                                             <td><?php echo date("d/m/Y", strtotime($dado['dataCadastramento'])) ?></td>
+                                            <td><div class="<?php echo ($dado['status'] == 'ativo')?'status_ativo':'status_inativo'; ?>" ><?php echo $dado['status']; ?></div></td>
 
                                             <td style="width: 150px;">
 

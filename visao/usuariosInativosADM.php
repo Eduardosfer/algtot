@@ -433,7 +433,7 @@ if (!isset($_POST['buscarPor'])) {
                                             <td><?php echo $dado['grupo']; ?></td>
                                             <!--<td><?php // echo $dado['email']; ?></td>-->
                                             <td><?php echo $dado['data']; ?></td>
-                                            <td><?php echo $dado['status']; ?></td>
+                                            <td><div class="<?php echo ($dado['status'] == 'ativo')?'status_ativo':'status_inativo'; ?>" ><?php echo $dado['status']; ?></div></td>
 
                                             <td style="width: 105px;">
                                                 <button type="button" class="btn btn-danger" title="Excluir conta" data-toggle="modal" data-target="#excluir<?php echo $dado['cdUsuario'] ?>"><span class="glyphicon glyphicon-trash"></span></button>
