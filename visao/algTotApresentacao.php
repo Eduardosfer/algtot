@@ -7,7 +7,7 @@ $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
 WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status = ?
 AND usuario.cdGrupo = ?
 ORDER BY usuario.pontuacaoTotal DESC LIMIT 0,10";
-$dados = array('atisvo', 3);                                    
+$dados = array('ativo', 3);                                    
 $dados = $modelo->selecionar($select, $dados);
 $acesso->verificarApresentacao();
 ?>
