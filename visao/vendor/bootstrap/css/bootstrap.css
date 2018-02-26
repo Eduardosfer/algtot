@@ -4619,7 +4619,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 @media (max-width: 850px) {    
     .navbar-default .navbar-collapse,
     .navbar-default .navbar-form {        
-        font-size: .9em;
+        font-size: .9em!important;
+    }
+    
+    .navbar-default .nav>li>a {
+        font-size: .9em!important;
     }
 }
 

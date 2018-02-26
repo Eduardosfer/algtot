@@ -31,7 +31,7 @@ $acesso->verificarApresentacao();
         <link href="vendor/magnific-popup/magnific-popup.css" rel="stylesheet">
 
         <!-- Theme CSS -->
-        <link href="css/creative.min.css" rel="stylesheet">
+        <link href="css/creative.css" rel="stylesheet">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -67,16 +67,19 @@ $acesso->verificarApresentacao();
                     <ul class="nav navbar-nav navbar-right">
 
                         <li>
-                            <a class="page-scroll" data-toggle="modal" href="remote.html" data-target="#acessar"><span class="glyphicon glyphicon-log-in"></span> Acessar</a>
+                            <a class="page-scroll" href="#page-top" data-toggle="modal" data-target="#acessar"><span class="glyphicon glyphicon-log-in"></span> Acessar</a>
                         </li>
                         <li>
-                            <a class="page-scroll" data-toggle="modal" href="remote.html" data-target="#cadastrar"><span class="glyphicon glyphicon-user"></span> Cadastrar</a>
+                            <a class="page-scroll" href="#page-top" data-toggle="modal" data-target="#cadastrar"><span class="glyphicon glyphicon-user"></span> Cadastrar</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="#ranking"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Ranking</a>
                         </li>
                         <li>
                             <a class="page-scroll" href="#conhecer"><span class="glyphicon glyphicon-education"></span> Conhecer</a>
                         </li>
                         <li>
-                            <a name="acaoSintaxe" href="#" value="sintaxe" data-toggle="modal" data-target="#sintaxe" class="page-scroll"><span class="glyphicon glyphicon-book"></span> Sintaxe Portugol</a> 
+                            <a href="#" value="sintaxe" data-toggle="modal" data-target="#sintaxe" class="page-scroll"><span class="glyphicon glyphicon-book"></span> Sintaxe Portugol</a> 
                         </li>
                         <li>
                             <a class="page-scroll" href="#contato"><span class="glyphicon glyphicon-envelope"></span> Contato</a>
@@ -272,6 +275,134 @@ $acesso->verificarApresentacao();
             </div>
 
         </header>
+        
+        <section id="ranking">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> Ranking</h2>
+                        <hr class="primary">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-6 text-center">
+
+                        <div class="service-box">
+                            <i class="fa fa-4x text-success sr-icons"><span class="glyphicon glyphicon-rub"></span></i>
+                            <h3>Aprenda Com Portugol</h3>
+                            <p class="text-muted">Aprenda a programar utilizando o Portugol que é uma pseudo linguagem de programação desenvolvida para facilitar no aprendizado.</p>
+                            <button name="acaoSintaxe" value="sintaxe" type="button" data-toggle="modal" data-target="#sintaxe" href="#" class="btn btn-success"><span class="glyphicon glyphicon-book"></span> Sintaxe</button>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 text-center">
+
+                        <div class="service-box">
+                            <i class="fa fa-4x text-primary sr-icons"><span class="glyphicon glyphicon-sort-by-alphabet"></span></i>
+                            <h3>Aprenda a Estruturar Seus Pensamentos</h3>
+                            <p class="text-muted">Aprenda desde conceitos básicos de programação como declarar variáveis até conceitos mais avançados utilizando estruturas de repetição.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 text-center">
+
+                        <div class="service-box">
+                            <i class="fa fa-4x text-success sr-icons"><span class="glyphicon glyphicon-education"></span></i>
+                            <h3>Aprenda Aos Poucos</h3>
+                            <p class="text-muted">O AlgTot trabalha com 5 níveis de dificuldade onde são dispostos as atividades, essas atividades possuem três maneiras diferente se responder.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 text-center">
+
+                        <div class="service-box">
+                            <i class="fa fa-4x text-primary sr-icons"><span class="glyphicon glyphicon-stats"></span></i>
+                            <h3>Compare Seu Desempenho Com o de Outros Usuários</h3>
+                            <p class="text-muted">Você poderá ver seu avanço por meio de uma pontuação que é adquirida de acordo responde as atividades, essa pontuação também é comparada com a de outros usuários.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+        
+        <section id="conhecer">
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-lg-12 text-center">
+                        <h2 class="section-heading">Como o AlgTot Funciona</h2>
+                        <hr class="primary">
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="container">
+
+                <div class="row">
+
+                    <div class="col-lg-3 col-md-6 text-center">
+
+                        <div class="service-box">
+                            <i class="fa fa-4x text-success sr-icons"><span class="glyphicon glyphicon-rub"></span></i>
+                            <h3>Aprenda Com Portugol</h3>
+                            <p class="text-muted">Aprenda a programar utilizando o Portugol que é uma pseudo linguagem de programação desenvolvida para facilitar no aprendizado.</p>
+                            <button name="acaoSintaxe" value="sintaxe" type="button" data-toggle="modal" data-target="#sintaxe" href="#" class="btn btn-success"><span class="glyphicon glyphicon-book"></span> Sintaxe</button>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 text-center">
+
+                        <div class="service-box">
+                            <i class="fa fa-4x text-primary sr-icons"><span class="glyphicon glyphicon-sort-by-alphabet"></span></i>
+                            <h3>Aprenda a Estruturar Seus Pensamentos</h3>
+                            <p class="text-muted">Aprenda desde conceitos básicos de programação como declarar variáveis até conceitos mais avançados utilizando estruturas de repetição.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 text-center">
+
+                        <div class="service-box">
+                            <i class="fa fa-4x text-success sr-icons"><span class="glyphicon glyphicon-education"></span></i>
+                            <h3>Aprenda Aos Poucos</h3>
+                            <p class="text-muted">O AlgTot trabalha com 5 níveis de dificuldade onde são dispostos as atividades, essas atividades possuem três maneiras diferente se responder.</p>
+                        </div>
+
+                    </div>
+
+                    <div class="col-lg-3 col-md-6 text-center">
+
+                        <div class="service-box">
+                            <i class="fa fa-4x text-primary sr-icons"><span class="glyphicon glyphicon-stats"></span></i>
+                            <h3>Compare Seu Desempenho Com o de Outros Usuários</h3>
+                            <p class="text-muted">Você poderá ver seu avanço por meio de uma pontuação que é adquirida de acordo responde as atividades, essa pontuação também é comparada com a de outros usuários.</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
 
         <section id="conhecer">
 
