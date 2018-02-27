@@ -276,8 +276,9 @@ $acesso->verificarApresentacao();
                     <hr>
 
                     <p>O AlgTot é uma serious game de auxílio na aprendizagem de programação básica, focado em quem está dando os primeiros passos no estudo de programação</p>
-                    <button class="btn btn-success btn-xl page-scroll" data-toggle="modal" type="button" data-target="#acessar">Acesse já</button> OU
-                    <button class="btn btn-primary btn-xl page-scroll" data-toggle="modal" type="button" data-target="#cadastrar">Cadastre-se</button>
+                    <button class="btn btn-success btn page-scroll" data-toggle="modal" type="button" data-target="#acessar">Acesse já</button> 
+                    <b style="margin: 0.3em!important;">OU</b>
+                    <button class="btn btn-primary btn page-scroll" data-toggle="modal" type="button" data-target="#cadastrar">Cadastre-se</button>
 
                 </div>
             </div>
