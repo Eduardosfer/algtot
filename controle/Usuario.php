@@ -256,7 +256,7 @@ Class Usuario {
                         $dados = array($this->usuario, $this->senha, $this->email, $this->cdGrupo, $this->status, 100, 0, 0, 0, 0, 100, $this->nomeCompleto, $this->instituicao, $this->curso, 'sim');
                         $this->modelo->cadastrar($insert, $dados);
 
-                        $this->AlgTot->setModalRedirecionar('', 'Usuáriocadastrado com sucesso.', '', 'meuModalSucesso', $urlBack);
+                        $this->AlgTot->setModalRedirecionar('', 'Usuário cadastrado com sucesso.', '', 'meuModalSucesso', $urlBack);
                         return true;
                     } else {
                         $mensagem = $mensagem . 'Este e-mail já foi cadastrado para um usuário, tente utiliza outro e-mail!\n';
