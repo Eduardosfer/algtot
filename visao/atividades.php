@@ -21,7 +21,7 @@ if (($_SESSION['nivel'] == 1) || (($_SESSION['nivel'] == 2) && ($_SESSION['nivel
     //
 } else {
 
-    header("Location: http:/algtot/visao/principal.php");
+    header("Location: http:".BASE_URL_ALG."visao/principal.php");
 }
 ?>
 

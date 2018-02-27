@@ -45,7 +45,6 @@ Class Usuario {
         $this->AlgTot = new AlgTot();
 
         if (!isset($_POST['acao'])) {
-
             $_POST['acao'] = "";
         }
 
@@ -88,7 +87,7 @@ Class Usuario {
     public function deslogar() {
         session_start();
         session_destroy();
-        header("Location: http:/algtot/index.php");
+        header("Location: http:".BASE_URL_ALG."index.php");
     }
 
     public function logar() {
@@ -122,15 +121,15 @@ Class Usuario {
                                         
                     //Verificando qual o grupo do usuario em questão e redirecionando para a pagina inicial e que ele pode ter acesso.
                     if ($_SESSION['cdGrupo'] == 1) {
-                        $urlBack = '/algtot/visao/principalADM.php';
+                        $urlBack = "".BASE_URL_ALG."visao/principalADM.php";
                     }
 
                     if ($_SESSION['cdGrupo'] == 2) {                        
-                        $urlBack = '/algtot/visao/principalProfessor.php';
+                        $urlBack = "".BASE_URL_ALG."visao/principalProfessor.php";
                     }
 
                     if ($_SESSION['cdGrupo'] == 3) {                        
-                        $urlBack = '/algtot/visao/principal.php';
+                        $urlBack = "".BASE_URL_ALG."visao/principal.php";
                     }
                     
                     if ($_SESSION['primeiroLogin'] == 'sim' && $_SESSION['cdGrupo'] == 3) {

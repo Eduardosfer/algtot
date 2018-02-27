@@ -12,6 +12,7 @@
  * @author EduSfer
  */
 require_once("../modelo/Modelo.php");
+require_once("../config/config.php");
 
 header('Content-Type: text/html; charset=UTF-8');
 
@@ -800,12 +801,12 @@ Class AlgTot {
             if ($_SESSION['progressoAtividade'] > $_SESSION['quantidadeTotalQuestao']) {
                 unset($_SESSION['atividade']);
                 $_SESSION['mostrarModalRegistroFinal'] = 'registroFinalAtividade';
-                header("Location: http:/algtot/visao/atividades.php");
+                header("Location: http:".BASE_URL_ALG."visao/atividades.php");
             } else {
-                header("Location: http:/algtot/visao/questaoTipo1.php");
+                header("Location: http:".BASE_URL_ALG."visao/questaoTipo1.php");
             }
         } else {
-            header("Location: http:/algtot/visao/questaoTipo1.php");
+            header("Location: http:".BASE_URL_ALG."visao/questaoTipo1.php");
         }
     }
 
@@ -1023,13 +1024,13 @@ Class AlgTot {
             if ($_SESSION['progressoAtividade'] > $_SESSION['quantidadeTotalQuestao']) {
                 unset($_SESSION['atividade']);
                 $_SESSION['mostrarModalRegistroFinal'] = 'registroFinalAtividade';
-                header("Location: http:/algtot/visao/atividades.php");
+                header("Location: http:".BASE_URL_ALG."visao/atividades.php");
             } else {
-                header("Location: http:/algtot/visao/questaoTipo1.php");
+                header("Location: http:".BASE_URL_ALG."visao/questaoTipo1.php");
             }
         } else {
 
-            header("Location: http:/algtot/visao/questaoTipo1.php");
+            header("Location: http:".BASE_URL_ALG."visao/questaoTipo1.php");
         }
     }
 
@@ -1075,9 +1076,9 @@ Class AlgTot {
         if ($_SESSION['progressoAtividade'] > $_SESSION['quantidadeTotalQuestao']) {
             unset($_SESSION['atividade']);
             $_SESSION['mostrarModalRegistroFinal'] = 'registroFinalAtividade';
-            header("Location: http:/algtot/visao/atividades.php");
+            header("Location: http:".BASE_URL_ALG."visao/atividades.php");
         } else {
-            header("Location: http:/algtot/visao/questaoTipo1.php");
+            header("Location: http:".BASE_URL_ALG."visao/questaoTipo1.php");
         }
     }
 
@@ -1091,11 +1092,11 @@ Class AlgTot {
         if (!isset($_SESSION['cdAtividade'])) {
 
             if ($_SESSION['cdGrupo'] == 1) {
-                header("Location: http:/algtot/visao/atividadesADM.php");
+                header("Location: http:".BASE_URL_ALG."visao/atividadesADM.php");
             }
 
             if ($_SESSION['cdGrupo'] == 2) {
-                header("Location: http:/algtot/visao/atividadesProfessor.php");
+                header("Location: http:".BASE_URL_ALG."visao/atividadesProfessor.php");
             }
         }
     }
@@ -1109,11 +1110,11 @@ Class AlgTot {
         if (!isset($_SESSION['nivel'])) {
 
             if ($_SESSION['cdGrupo'] == 1) {
-                header("Location: http:/algtot/visao/atividadesADM.php");
+                header("Location: http:".BASE_URL_ALG."visao/atividadesADM.php");
             }
 
             if ($_SESSION['cdGrupo'] == 2) {
-                header("Location: http:/algtot/visao/atividadesProfessor.php");
+                header("Location: http:".BASE_URL_ALG."visao/atividadesProfessor.php");
             }
         }
     }
@@ -1217,11 +1218,11 @@ Class AlgTot {
             }
             
         } else {            
-            header("Location: http:/algtot/visao/atividades.php");
+            header("Location: http:".BASE_URL_ALG."visao/atividades.php");
         }
         
         if (!isset($_SESSION['tipo'])) {                
-            header("Location: http:/algtot/visao/atividades.php");
+            header("Location: http:".BASE_URL_ALG."visao/atividades.php");
         }
     }
 

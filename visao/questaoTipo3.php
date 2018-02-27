@@ -21,11 +21,11 @@ if(!isset($_POST['atividade'])){
 $algTot->setQuestao($atividade);
 
 if ($_SESSION['tipo']==1) {
-  header("Location: http:/algtot/visao/questaoTipo1.php");
+  header("Location: http:".BASE_URL_ALG."visao/questaoTipo1.php");
 }
 
 if ($_SESSION['tipo']==2) {
-  header("Location: http:/algtot/visao/questaoTipo2.php");
+  header("Location: http:".BASE_URL_ALG."visao/questaoTipo2.php");
 }
 
 if (!isset($_POST['codigo'])) {
