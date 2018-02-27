@@ -4,7 +4,7 @@
  * CONFIG OPTIONS
  */
 
-//ENDEREÇO
+//ENDEREÇO EX: header("Location: ".BASE_URL_ALG."visao/principal.php");
 define("BASE_URL_ALG",  "/algtot/");
 
 //BANCO DE DADOS
@@ -15,3 +15,6 @@ define("DB_USER_SENHA",  "root");
 
 //CONFIGURAÇÕES DE DATA/HORA
 date_default_timezone_set("America/Bahia");
+
+//CONFIGURAÇÕES DE CHARSET
+header('Content-Type: text/html; charset=UTF-8');

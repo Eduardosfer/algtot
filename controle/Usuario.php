@@ -13,13 +13,12 @@
  */
 require_once("AlgTot.php");
 
-header('Content-Type: text/html; charset=UTF-8');
-
 new Usuario();
 
 Class Usuario {
 
     private $modelo;
+    private $AlgTot;
     private $cdUsuario;    
     private $nomeCompleto;
     private $instituicao;
@@ -35,7 +34,7 @@ Class Usuario {
     private $nivel3;
     private $nivel4;
     private $nivel5;
-    private $pontuacaoTotal;
+    private $pontuacaoTotal;   
 
     public function __construct() {                
 
@@ -82,7 +81,7 @@ Class Usuario {
     public function deslogar() {
         session_start();
         session_destroy();
-        header("Location: http:".BASE_URL_ALG."index.php");
+        header("Location: ".BASE_URL_ALG."index.php");
     }
 
     public function logar() {

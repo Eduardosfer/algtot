@@ -13,8 +13,6 @@
  */
 require_once("../modelo/Modelo.php");
 
-header('Content-Type: text/html; charset=UTF-8');
-
 Class Tradutor {
 
     private $codigoTraduzido;

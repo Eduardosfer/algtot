@@ -12,7 +12,7 @@
  * @author EduSfer
  */
 
-header('Content-Type: text/html; charset=UTF-8');
+//TODOS OS ARQUIVOS DO SISTEMA ESTÃO DE ALGUMA FORMA VINCULADOS A ESSE O INCLUINDO, POR ISSO ELE É TAMBEM UM CENTRALIZADOR ONDE AS CONFIGURAÇÕES SÃO LINCADAS
 require_once("../config/config.php");
 
 Class Conexao {
