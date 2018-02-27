@@ -176,7 +176,7 @@
                <div class="modal-header" style="background-color: #4cae4c; color: white;" >
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="gridSystemModalLabel">Cadastro de Questão tipo 2</h4>
-                <p>Escreva um psseudocódigo utilizando apenas uma ação por linha, utilize um ponto e virgula ";" ao final de cada ação. Ex: inicio; ler dois numeros; somar; mostrar;</p>
+                <p>Escreva um pseudocódigo utilizando apenas uma ação por linha, utilize um ponto e virgula ";" ao final de cada ação. Ex: inicio; ler dois numeros; somar; mostrar;</p>
               </div>
 
               <form name="cadastrarQuestao2" action="../controle/AlgTot.php" method="post">
