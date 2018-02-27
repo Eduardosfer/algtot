@@ -2,7 +2,7 @@
 
 require_once("../controle/Acesso.php");
 require_once("../controle/AlgTot.php");
-require_once("../modelo/Modelo.php");
+
 require_once("../controle/Tradutor.php");
 
 $algTot = new AlgTot();

@@ -11,7 +11,6 @@
  *
  * @author EduSfer
  */
-require_once("../modelo/Modelo.php");
 require_once("AlgTot.php");
 
 header('Content-Type: text/html; charset=UTF-8');
@@ -38,11 +37,7 @@ Class Usuario {
     private $nivel5;
     private $pontuacaoTotal;
 
-    public function __construct() {
-
-        date_default_timezone_set("America/Bahia");
-        $this->modelo = new Modelo();
-        $this->AlgTot = new AlgTot();
+    public function __construct() {                
 
         if (!isset($_POST['acao'])) {
             $_POST['acao'] = "";
@@ -91,6 +86,9 @@ Class Usuario {
     }
 
     public function logar() {
+        
+        $this->modelo = new Modelo();
+        $this->AlgTot = new AlgTot();
 
         $this->setUsuario($_POST['usuario']);
         $this->setSenha($_POST['senha']);
@@ -211,6 +209,9 @@ Class Usuario {
     }
 
     public function cadastrar() {
+        
+        $this->modelo = new Modelo();
+        $this->AlgTot = new AlgTot();
 
         session_start();
 
@@ -320,6 +321,9 @@ Class Usuario {
     }
 
     public function alterarUsuario() {
+        
+        $this->modelo = new Modelo();
+        $this->AlgTot = new AlgTot();
 
         session_start();
 
@@ -466,6 +470,9 @@ Class Usuario {
     }
 
     public function editarUsuario() {
+        
+        $this->modelo = new Modelo();
+        $this->AlgTot = new AlgTot();
 
         session_start();
 
@@ -598,7 +605,7 @@ Class Usuario {
         }
     }
 
-    public function verificarDuplicidade($select, $dados) {
+    public function verificarDuplicidade($select, $dados) {              
 
         $resultado = false;
 
@@ -617,6 +624,9 @@ Class Usuario {
     }
 
     public function excluirConta() {
+        
+        $this->modelo = new Modelo();
+        $this->AlgTot = new AlgTot();
 
         session_start();
 
@@ -656,6 +666,9 @@ Class Usuario {
     }
 
     public function excluirUsuario() {
+        
+        $this->modelo = new Modelo();
+        $this->AlgTot = new AlgTot();
 
         session_start();
         $this->setCdGrupo($_SESSION['cdGrupo']);
@@ -679,6 +692,9 @@ Class Usuario {
     }
 
     public function recuperarSenha() {
+        
+        $this->modelo = new Modelo();
+        $this->AlgTot = new AlgTot();
 
         $this->setUsuario($_POST['usuario']);
 

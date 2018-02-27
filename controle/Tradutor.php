@@ -21,12 +21,8 @@ Class Tradutor {
     private $codigoPortugol;
     private $escrevas;
 
-    public function __construct() {
-
-        date_default_timezone_set("America/Bahia");
-        
+    public function __construct() {        
         if (!isset($_POST['acao'])) {
-
             $_POST['acao'] = "";
         }
     }

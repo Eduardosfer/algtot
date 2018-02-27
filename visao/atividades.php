@@ -1,7 +1,7 @@
 <?php
 require_once("../controle/Acesso.php");
 require_once("../controle/AlgTot.php");
-require_once("../modelo/Modelo.php");
+
 
 $algTot = new AlgTot();
 $acesso = new Acesso();

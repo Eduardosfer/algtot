@@ -12,9 +12,8 @@
  * @author EduSfer
  */
 
-require_once("../controle/AlgTot.php");
-
 header('Content-Type: text/html; charset=UTF-8');
+require_once("../config/config.php");
 
 Class Conexao {
 
@@ -22,10 +21,10 @@ Class Conexao {
 
     public function __construct() {        
                 
-        $host = 'localhost';
-        $dbName = 'algtot';
-        $usuario = 'root';
-        $senha = 'root';
+        $host = LOCAL_HOST;
+        $dbName = DB_NAME;
+        $usuario = DB_USER_NAME;
+        $senha = DB_USER_SENHA;
 
         try {
             $colacao = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
@@ -35,7 +34,7 @@ Class Conexao {
         }
 
         if (!isset($this->conexao)) {
-            echo "<script>alert('Base de dados não encontrada!');window.location = '../index.php';</script>";
+            echo "<script>alert('BASE DE DADOS NÃO ENCONTRADA');window.location = '../index.php';</script>";
         }
     }     
 

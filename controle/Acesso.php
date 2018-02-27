@@ -20,11 +20,12 @@ Class Acesso {
     private $modelo;
 
     public function __construct() {
-        date_default_timezone_set("America/Bahia");
-        $this->modelo = new Modelo();
+        //       
     }
 
     public function acessar() {
+        
+        $this->modelo = new Modelo();
 
         session_start();
 
@@ -62,7 +63,6 @@ Class Acesso {
     }
 
     public function verificarApresentacao() {
-
         session_start();
         $url = explode("/", $_SERVER['REQUEST_URI']);
         $aplicacao = $url[count($url)-1];
@@ -75,7 +75,6 @@ Class Acesso {
     }
 
     public function mostrarPagina() {
-
         if ($_SESSION['cdGrupo'] == 1) {
             header("Location: http:".BASE_URL_ALG."visao/principalADM.php");
         }

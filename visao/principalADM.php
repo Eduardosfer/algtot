@@ -1,6 +1,6 @@
 <?php
 require_once("../controle/Acesso.php");
-require_once("../modelo/Modelo.php");
+
 
 $modelo = new Modelo();
 $acesso = new Acesso();

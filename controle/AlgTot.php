@@ -12,7 +12,6 @@
  * @author EduSfer
  */
 require_once("../modelo/Modelo.php");
-require_once("../config/config.php");
 
 header('Content-Type: text/html; charset=UTF-8');
 
@@ -22,14 +21,9 @@ Class AlgTot {
 
     private $modelo;
 
-    public function __construct() {
-
-        date_default_timezone_set("America/Bahia");
-        
-        $this->modelo = new Modelo();
+    public function __construct() {                        
 
         if (!isset($_POST['acao'])) {
-
             $_POST['acao'] = "";
         }
 
@@ -86,6 +80,8 @@ Class AlgTot {
     }
 
     public function cadastrarAtividade() {
+        
+        $this->modelo = new Modelo();
 
         $titulo = $_POST['titulo'];
         $nivel = $_POST['nivel'];
@@ -131,6 +127,8 @@ Class AlgTot {
     }
 
     public function editarAtividade() {
+        
+        $this->modelo = new Modelo();
 
         session_start();
 
@@ -227,6 +225,8 @@ Class AlgTot {
     }
 
     public function excluirAtividade() {
+        
+        $this->modelo = new Modelo();
 
         session_start();
 
@@ -261,6 +261,8 @@ Class AlgTot {
     }
 
     public function cadastrarQuestaoTipo1() {
+        
+        $this->modelo = new Modelo();        
 
         session_start();
 
@@ -325,6 +327,8 @@ Class AlgTot {
     }
 
     public function cadastrarQuestaoTipo2() {
+        
+        $this->modelo = new Modelo();
 
         session_start();
 
@@ -387,6 +391,8 @@ Class AlgTot {
     }
 
     public function alterarQuestao() {
+        
+        $this->modelo = new Modelo();
 
         session_start();
 
@@ -561,6 +567,8 @@ Class AlgTot {
     }
 
     public function excluirQuestao() {
+        
+        $this->modelo = new Modelo();
 
         session_start();
 
@@ -592,6 +600,8 @@ Class AlgTot {
     }
 
     public function validarQuestaoTipo1() {
+        
+        $this->modelo = new Modelo();
 
         session_start();
 
@@ -811,6 +821,8 @@ Class AlgTot {
     }
 
     public function validarQuestaoTipo2() {
+        
+        $this->modelo = new Modelo();
 
         session_start();
 
@@ -1039,7 +1051,7 @@ Class AlgTot {
         $this->validarQuestaoTipo1();
     }
 
-    public function pularQuestao() {
+    public function pularQuestao() {                
 
         session_start();
 
@@ -1121,6 +1133,8 @@ Class AlgTot {
 
     public function setQuestao($atividade) {
 
+        $this->modelo = new Modelo();
+        
         if ($atividade != null) {
             $_SESSION['atividade'] = $atividade;
             $_SESSION['numQuestao'] = 0;
@@ -1226,7 +1240,7 @@ Class AlgTot {
         }
     }
 
-    public function verificarDuplicidade($select, $dados) {
+    public function verificarDuplicidade($select, $dados) {             
 
         $resultado = false;
 
