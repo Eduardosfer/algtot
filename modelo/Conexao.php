@@ -33,8 +33,16 @@ Class Conexao {
             $ex->getMessage();
         }
 
-        if (!isset($this->conexao)) {
-            echo "<script>alert('BASE DE DADOS NÃO ENCONTRADA');window.location = '../index.php';</script>";
+        if (!isset($this->conexao)) {            
+            echo "<div style='text-align: center; margin-top: 5%;margin-left: 20%;margin-right: 20%;'>"
+                    . "<div style='padding: 1em;background: crimson;border-radius: 10px 10px 0px 0px;color: aliceblue;' >"
+                        . "<p style='padding: 0;margin: 0;'>A BASE DE DADOS NÃO PODE SER ENCONTRADA!</p>"
+                    . "</div>"
+                    . "<div style='padding: 1em;border-bottom: 1px solid;border-left: 1px solid;border-right: 1px solid;background-color: white;'>"
+                        . "<p style='padding: 0;margin: 0;'>ENTRE EM CONTATO COM O ADMINISTRADOR DO SERVIDOR OU VERIFIQUE AS INFORMAÇÕES EM: CONFIG.PHP</p>"
+                    . "</div>"
+                . "</div>";
+            die;
         }
     }     
 
