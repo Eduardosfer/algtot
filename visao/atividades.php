@@ -204,7 +204,7 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                             $totalLinhas = $value['numLinhas'];
                                         }
 
-                                        $ultimaPagina = $totalLinhas / 12;
+                                        $ultimaPagina = $totalLinhas / 20;
 
                                         //Arredondado o valor de ultima pagina para o proximo numero intero
                                         $ultimaPagina = ceil($ultimaPagina);
@@ -231,13 +231,13 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                             if (($_POST['paginar'] == 'anterior') && ($pagina >= 2)) {
 
                                                 $pagina = $pagina - 1;
-                                                $offset = $offset - 12;
+                                                $offset = $offset - 20;
                                             }
 
                                             if (($_POST['paginar'] == 'proxima') && ($pagina >= 1) && ($pagina < $ultimaPagina)) {
 
                                                 $pagina = $pagina + 1;
-                                                $offset = $offset + 12;
+                                                $offset = $offset + 20;
                                             }
 
                                             if ($_POST['paginar'] == 'primeira') {
@@ -251,7 +251,7 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                                 $pagina = $ultimaPagina;
 
                                                 //É necessario subtrair -1 pois o offset inicia-se em 0 e a numeracao das paginas em 1
-                                                $offset = ($ultimaPagina - 1) * 12;
+                                                $offset = ($ultimaPagina - 1) * 20;
                                             }
                                         }
 
@@ -292,7 +292,7 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                                         LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
                                                         WHERE atividade.status = ? AND atividade.nivel = ?
                                                         AND $campo LIKE ? GROUP BY atividade.cdAtividade
-                                                        ORDER BY $campo ASC LIMIT $offset,12";
+                                                        ORDER BY $campo ASC LIMIT $offset,20";
 
                                             $dados = array('ativo', $cdUsuario, 'acertou', 'ativo', $cdUsuario, 'acertou', 'ativo', 'ativo', $nivel, '%' . $parametro . '%');
                                         } else {
@@ -322,7 +322,7 @@ unset($_SESSION['mostrarModalRegistroFinal']); ?>
                                                         LEFT JOIN questao ON questao.cdAtividade = atividade.cdAtividade AND (questao.status = ? OR questao.status is null)
                                                         WHERE atividade.status = ? AND atividade.nivel = ?
                                                         GROUP BY atividade.cdAtividade
-                                                        ORDER BY codAtividade DESC LIMIT $offset,12";
+                                                        ORDER BY codAtividade DESC LIMIT $offset,20";
                                             $dados = array('ativo', $cdUsuario, 'acertou', 'ativo', $cdUsuario, 'acertou', 'ativo', 'ativo', $nivel);
                                         }
 

@@ -248,6 +248,7 @@ if (!isset($_POST['buscarPor'])) {
 
                                     $dados = $modelo->selecionar($select, $dados);
                                     $countAlert = 0;
+                                    $countAlert = $offset;
                                     foreach ($dados as $key => $dado) {
                                         $countAlert++;
                                         $dado['usuario'] = htmlspecialchars($dado['usuario']);
