@@ -360,6 +360,12 @@
                       <a title="Clique para adicionar uma nova questão de tipo 3" data-toggle="modal" data-target="#cadastrarQuestao3" type="button" class="btn btn-default">Questão tipo 3</a>
                     </div>
                   </div>
+                    
+                    <div class="form-group">
+                    <div class="col">
+                        <a title="Total de questões dessa atividade" class="btn btn-default"><span class="glyphicon glyphicon-scale"></span> Total: <span id="total_questoes_atividade" ></span></a>
+                    </div>
+                  </div>
 
                   <div class="form-group">
                     <div class="col">
@@ -371,7 +377,7 @@
                     <div class="col">
                       <a name="voltarInicio" href="principalADM.php" class="btn btn-default"><span class="glyphicon glyphicon-home"></span> Início</a>
                     </div>
-                  </div>
+                  </div>                                      
 
               </form>
 
@@ -886,6 +892,13 @@
 
       <!--Minhas verificações -->
       <script src="js/verificacoes.js"></script>
+      
+      <script>
+          var totalQuestoes = '<?php echo $countAlert; ?>';
+          $(document).ready( function () {
+             $('#total_questoes_atividade').html(totalQuestoes); 
+          });          
+      </script>
 
     </body>
 </html>
