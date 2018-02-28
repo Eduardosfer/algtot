@@ -210,6 +210,7 @@ $acesso->acessar();
                             <table class="table table-bordered">
 
                                 <thead>
+                                    <th><span class="glyphicon glyphicon-sort-by-attributes"></span></th>
                                     <th>Titulo</th>
                                     <th>Nível</th>
                                     <th>Data/Hora cadastro</th>
@@ -330,6 +331,7 @@ $acesso->acessar();
 
                                     $dados = $modelo->selecionar($select, $dados);
                                     $countAlert = 0;
+                                    $countAlert = $offset;
                                     foreach ($dados as $key => $dado) {
                                         $countAlert++;
                                         $dado['titulo'] = htmlspecialchars($dado['titulo']);
@@ -337,10 +339,11 @@ $acesso->acessar();
                                         $dado['status'] = htmlspecialchars($dado['status']);
                                         $dado['dataCadastramento'] = $dado['dataCadastramento'];
                                         $dado['dataCadastramento'] = date("d/m/Y H:i", strtotime($dado['dataCadastramento']));
-                                        $dado['dataCadastramento'] = preg_replace('/ /', ' as ', $dado['dataCadastramento']);                                        
+                                        $dado['dataCadastramento'] = preg_replace('/ /', ' as ', $dado['dataCadastramento']);                                      
                                         ?>
 
                                         <tr>
+                                            <td><?php echo $countAlert; ?></td>
                                             <td><?php echo $dado['titulo']; ?></td>
                                             <td><?php echo $dado['nivel']; ?></td>
                                             <td><?php echo $dado['dataCadastramento']; ?></td>

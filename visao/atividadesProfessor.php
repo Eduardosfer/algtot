@@ -210,11 +210,12 @@ $acesso->acessar();
                             <table class="table table-bordered">
 
                                 <thead>
-                                <th>Titulo</th>
-                                <th>Nível</th>
-                                <th>Data de cadastro</th>
-                                <th>Status</th>
-                                <th>Ações</th>
+                                    <th><span class="glyphicon glyphicon-sort-by-attributes"></span></th>
+                                    <th>Titulo</th>
+                                    <th>Nível</th>
+                                    <th>Data de cadastro</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
                                 </thead>
 
                                 <tbody>
@@ -330,18 +331,22 @@ $acesso->acessar();
 
                                     $dados = $modelo->selecionar($select, $dados);
                                     $countAlert = 0;
+                                    $countAlert = $offset;
                                     foreach ($dados as $key => $dado) {
                                         $countAlert++;
                                         $dado['titulo'] = htmlspecialchars($dado['titulo']);
                                         $dado['nivel'] = $dado['nivel'];
                                         $dado['status'] = htmlspecialchars($dado['status']);
                                         $dado['dataCadastramento'] = $dado['dataCadastramento'];
+                                        $dado['dataCadastramento'] = date("d/m/Y H:i", strtotime($dado['dataCadastramento']));
+                                        $dado['dataCadastramento'] = preg_replace('/ /', ' as ', $dado['dataCadastramento']);
                                         ?>
 
                                         <tr>
-                                            <td><?php echo $dado['titulo'] ?></td>
-                                            <td><?php echo $dado['nivel'] ?></td>
-                                            <td><?php echo date("d/m/Y", strtotime($dado['dataCadastramento'])) ?></td>
+                                            <td><?php echo $countAlert; ?></td>
+                                            <td><?php echo $dado['titulo']; ?></td>
+                                            <td><?php echo $dado['nivel']; ?></td>
+                                            <td><?php echo $dado['dataCadastramento']; ?></td>
                                             <td><div class="<?php echo ($dado['status'] == 'ativo')?'status_ativo':'status_inativo'; ?>" ><?php echo $dado['status']; ?></div></td>
 
                                             <td style="width: 150px;">

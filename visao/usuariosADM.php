@@ -290,6 +290,7 @@ if (!isset($_POST['buscarPor'])) {
                             <table class="table table-bordered">
 
                                 <thead>
+                                    <th><span class="glyphicon glyphicon-sort-by-attributes"></span></th>
                                     <th>Usuário</th>
                                     <th>Nome</th>
                                     <th>Instituição</th>
@@ -407,6 +408,7 @@ if (!isset($_POST['buscarPor'])) {
 
                                     $dados = $modelo->selecionar($select, $dados);
                                     $countAlert = 0;
+                                    $countAlert = $offset;
                                     foreach ($dados as $key => $dado) {                                                                                
                                         $countAlert++;                                        
                                         $dado['usuario'] = htmlspecialchars($dado['usuario']);
@@ -422,6 +424,7 @@ if (!isset($_POST['buscarPor'])) {
                                         ?>
 
                                         <tr>                                                                                        
+                                            <td><?php echo $countAlert; ?></td>
                                             <td><?php echo $dado['usuario']; ?></td>
                                             <td><?php echo $dado['nomeCompleto']; ?></td>
                                             <td><?php echo $dado['instituicao']; ?></td>
