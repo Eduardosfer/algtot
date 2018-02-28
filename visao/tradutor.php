@@ -71,9 +71,6 @@ $codigoTraduzido = $tradutor->getCodigoTraduzido();
             }
         ?>
 
-        
-        
-
         <!--MODAL DE VISUALIZAÇÃO E EDIÇÃO DE DADOS-->
         <?php include_once("includs/modalVerEditarPerfil.php"); ?>
 

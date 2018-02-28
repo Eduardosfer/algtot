@@ -57,9 +57,6 @@ if (($_SESSION['nivel'] == 1) || (($_SESSION['nivel'] == 2) && ($_SESSION['nivel
         <!-- MENU DO ALUNO -->
 <?php include_once ("includs/menuAluno.php"); ?>
 
-        
-
-
         <!--MODAL DE VISUALIZAÇÃO E EDIÇÃO DE DADOS-->
 <?php include_once("includs/modalVerEditarPerfil.php"); ?>
 

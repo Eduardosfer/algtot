@@ -44,9 +44,6 @@
     <!-- MENU DO PROFESSOR -->
     <?php include_once("includs/menuProfessor.php"); ?>
 
-    
-    
-
     <!--MODAL DE VISUALIZAÇÃO E EDIÇÃO DE DADOS-->
     <?php include_once("includs/modalVerEditarPerfil.php"); ?>
 

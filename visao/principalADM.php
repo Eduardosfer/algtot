@@ -42,9 +42,6 @@ $acesso->acessar();
         <!-- MENU DO ADM -->
 <?php include_once ("includs/menuADM.php"); ?>
 
-        
-
-
         <!--MODAL DE VISUALIZAÇÃO E EDIÇÃO DE DADOS-->
 <?php include_once("includs/modalVerEditarPerfil.php"); ?>
 
