@@ -71,8 +71,8 @@ $codigoTraduzido = $tradutor->getCodigoTraduzido();
             }
         ?>
 
-        <!-- MODAL PARA SAIR DO SISTEMA -->
-        <?php include_once("includs/modalSair.php"); ?>
+        
+        
 
         <!--MODAL DE VISUALIZAÇÃO E EDIÇÃO DE DADOS-->
         <?php include_once("includs/modalVerEditarPerfil.php"); ?>

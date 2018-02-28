@@ -75,8 +75,8 @@ $codigoTraduzido = $tradutor->getCodigoTraduzido();
       <!--MENU DE ALUNO-->
       <?php include_once ("includs/menuAluno.php"); ?>
 
-      <!-- MODAL PARA SAIR DO SISTEMA -->
-      <?php include_once("includs/modalSair.php"); ?>
+      
+      
 
       <!--MODAL DE VISUALIZAÇÃO E EDIÇÃO DE DADOS-->
       <?php include_once("includs/modalVerEditarPerfil.php"); ?>
