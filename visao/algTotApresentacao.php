@@ -415,71 +415,7 @@ $acesso->verificarApresentacao();
                 </div>
             </div>
 
-        </section>
-
-        <section id="conhecer">
-
-            <div class="container">
-
-                <div class="row">
-
-                    <div class="col-lg-12 text-center">
-                        <h2 class="section-heading">Como o AlgTot Funciona</h2>
-                        <hr class="primary">
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="container">
-
-                <div class="row">
-
-                    <div class="col-lg-3 col-md-6 text-center">
-
-                        <div class="service-box">
-                            <i class="fa fa-4x text-success sr-icons"><span class="glyphicon glyphicon-rub"></span></i>
-                            <h3>Aprenda Com Portugol</h3>
-                            <p class="text-muted">Aprenda a programar utilizando o Portugol que é uma pseudo linguagem de programação desenvolvida para facilitar no aprendizado.</p>
-                            <button name="acaoSintaxe" value="sintaxe" type="button" data-toggle="modal" data-target="#sintaxe" href="#" class="btn btn-success"><span class="glyphicon glyphicon-book"></span> Sintaxe</button>
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 text-center">
-
-                        <div class="service-box">
-                            <i class="fa fa-4x text-primary sr-icons"><span class="glyphicon glyphicon-sort-by-alphabet"></span></i>
-                            <h3>Aprenda a Estruturar Seus Pensamentos</h3>
-                            <p class="text-muted">Aprenda desde conceitos básicos de programação como declarar variáveis até conceitos mais avançados utilizando estruturas de repetição.</p>
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 text-center">
-
-                        <div class="service-box">
-                            <i class="fa fa-4x text-success sr-icons"><span class="glyphicon glyphicon-education"></span></i>
-                            <h3>Aprenda Aos Poucos</h3>
-                            <p class="text-muted">O AlgTot trabalha com 5 níveis de dificuldade onde são dispostos as atividades, essas atividades possuem três maneiras diferente se responder.</p>
-                        </div>
-
-                    </div>
-
-                    <div class="col-lg-3 col-md-6 text-center">
-
-                        <div class="service-box">
-                            <i class="fa fa-4x text-primary sr-icons"><span class="glyphicon glyphicon-stats"></span></i>
-                            <h3>Compare Seu Desempenho Com o de Outros Usuários</h3>
-                            <p class="text-muted">Você poderá ver seu avanço por meio de uma pontuação que é adquirida de acordo responde as atividades, essa pontuação também é comparada com a de outros usuários.</p>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-        </section>
+        </section>        
 
         <section class="no-padding" id="">
 
