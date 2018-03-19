@@ -266,7 +266,7 @@ $codigoTraduzido = $tradutor->getCodigoTraduzido();
                                         <div class="panel-footer" style="text-align: right;">            					
                                             <a name="desistir" type="button" class="btn btn-default" data-toggle="modal" data-target="#desistir"><span class="glyphicon glyphicon-remove"></span> Desistir</a>            						            					
                                             <button name="dica" type="button" class="btn btn-primary" data-toggle="modal" data-target="#verDica"><span class="glyphicon glyphicon-gift"></span> Ver Dica</button>
-                                            <button name="acao" value="ValidarQuestaoTipo2" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Enviar</button>            						            					
+                                            <button name="acao" value="ValidarQuestaoTipo3" type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Enviar</button>            						            					
             				</div>
 
                 </form>
