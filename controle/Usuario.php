@@ -59,6 +59,10 @@ Class Usuario {
             case 'AlterarUsuario':
                 $this->alterarUsuario();
                 break;
+            
+            case 'ativaOuInativarUsuarios':
+                $this->ativaOuInativarUsuarios();
+                break;
 
             case 'ExcluirConta':
                 $this->excluirConta();
@@ -602,6 +606,27 @@ Class Usuario {
                 }                
             }            
         }
+    }
+    
+    public function ativaOuInativarUsuarios() {
+        $cdUsuario = $_POST['cdUsuarioJqueryPost'];
+        $status = $_POST['statusJqueryPost'];
+        $retorno = '';
+        $this->modelo = new Modelo();
+        
+        if ($status == 'ativo') {
+            $status = 'inativo';
+            $retorno = 'inativado';
+        } else {
+            $status = 'ativo';
+            $retorno = 'ativado';
+        }
+        
+        $update = "UPDATE usuario SET status = ? WHERE cdUsuario = ?";
+        $dados = array($status, $cdUsuario);
+        $this->modelo->alterar($update, $dados);
+        
+        echo $retorno;
     }
 
     public function verificarDuplicidade($select, $dados) {              

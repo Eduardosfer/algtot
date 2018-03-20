@@ -10,7 +10,7 @@
     text-align: center;
     border-radius: 10px;
     color: white;
-    cursor: context-menu;
+    cursor: pointer;   
 }
 
 .status_inativo {
@@ -18,7 +18,7 @@
     text-align: center;
     border-radius: 10px;
     color: white;
-    cursor: context-menu;
+    cursor: pointer;   
 }
 
 form {

@@ -128,7 +128,7 @@ foreach ($grupos as $key => $grupo) {
                                 <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-sort"></span></span>
                                 <select title="Selecione o status" required name="status" class="form-control">                                    
                                     <option value="ativo">Ativo</option>
-                                    <option value="inativo">Intivo</option>
+                                    <option value="inativo">Inativo</option>
                                 </select>
                             </div>
 
@@ -433,7 +433,7 @@ if (!isset($_POST['buscarPor'])) {
                                             <td><?php echo $dado['grupo']; ?></td>
                                             <!--<td><?php // echo $dado['email']; ?></td>-->
                                             <td><?php echo $dado['data']; ?></td>
-                                            <td><div class="<?php echo ($dado['status'] == 'ativo')?'status_ativo':'status_inativo'; ?>" ><?php echo $dado['status']; ?></div></td>
+                                            <td><div onclick="ativaOuInativarUsuarios(<?php echo $dado['cdUsuario']; ?>, this);" class="<?php echo ($dado['status'] == 'ativo')?'status_ativo':'status_inativo'; ?>" ><?php echo $dado['status']; ?></div></td>
 
                                             <td style="width: 105px;">
                                                 <button type="button" class="btn btn-danger" title="Excluir conta" data-toggle="modal" data-target="#excluir<?php echo $dado['cdUsuario'] ?>"><span class="glyphicon glyphicon-trash"></span></button>
@@ -620,7 +620,7 @@ if (!isset($_POST['buscarPor'])) {
                                                                         <span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-sort"></span></span>
                                                                         <select disabled="true" id="status<?php echo $dado['cdUsuario'] ?>" title="Selecione o status" required name="status" class="form-control">                                    
                                                                             <option <?php echo ($dado['status'] == 'ativo')?'selected':''; ?> value="ativo">Ativo</option>
-                                                                            <option <?php echo ($dado['status'] == 'inativo')?'selected':''; ?> value="inativo">Intivo</option>
+                                                                            <option <?php echo ($dado['status'] == 'inativo')?'selected':''; ?> value="inativo">Inativo</option>
                                                                         </select>
                                                                         <span class="input-group-btn">
                                                                             <button id="editarStatus<?php echo $dado['cdUsuario'] ?>" class="btn btn-default" title="Clique para editar o e-mail do usuário" onclick="editarInput(document.getElementById('editarStatus<?php echo $dado['cdUsuario'] ?>'), document.getElementById('status<?php echo $dado['cdUsuario'] ?>'))" type="button">Editar</button>
@@ -775,6 +775,35 @@ if (!isset($_POST['buscarPor'])) {
                 <?php } ?>
                 
             });
+            
+            function ativaOuInativarUsuarios(cdUsuario, obj) {
+                var status = $(obj).text();
+                $.post( "../controle/Usuario.php", { statusJqueryPost: status, cdUsuarioJqueryPost: cdUsuario, acao: "ativaOuInativarUsuarios" })
+                .done(function( resultado ) {
+                    if (resultado == 'ativado') {
+                        $(obj).removeClass('status_inativo');
+                        $(obj).addClass('status_ativo');
+                        $(obj).html('ativo');
+                        $('#status'+cdUsuario+' option').each( function () {
+                            $(this).removeAttr('selected');
+                            if ($(this).val() == 'ativo') {
+                                $(this).attr('selected', true);
+                            } 
+                        });                        
+                    }
+                    if (resultado == 'inativado') {
+                        $(obj).removeClass('status_ativo');
+                        $(obj).addClass('status_inativo');
+                        $(obj).html('inativo');
+                        $('#status'+cdUsuario+' option').each( function () {
+                            $(this).removeAttr('selected');
+                            if ($(this).val() == 'inativo') {
+                                $(this).attr('selected', true);
+                            } 
+                        });                        
+                    }
+                 });
+            }
         </script>
         
     </body>

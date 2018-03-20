@@ -34,6 +34,10 @@ Class AlgTot {
             case 'EditarAtividade':
                 $this->editarAtividade();
                 break;
+            
+            case 'ativaOuInativarAtividade':
+                $this->ativaOuInativarAtividade();
+                break;
 
             case 'ExcluirAtividade':
                 $this->excluirAtividade();
@@ -220,6 +224,27 @@ Class AlgTot {
                 }                
             }  
         }
+    }
+    
+    public function ativaOuInativarAtividade() {
+        $cdAtividade = $_POST['cdAtividadeJqueryPost'];
+        $status = $_POST['statusJqueryPost'];
+        $retorno = '';
+        $this->modelo = new Modelo();
+        
+        if ($status == 'ativo') {
+            $status = 'inativo';
+            $retorno = 'inativado';
+        } else {
+            $status = 'ativo';
+            $retorno = 'ativado';
+        }
+        
+        $update = "UPDATE atividade SET status = ? WHERE cdAtividade = ?";
+        $dados = array($status, $cdAtividade);
+        $this->modelo->alterar($update, $dados);
+        
+        echo $retorno;
     }
 
     public function excluirAtividade() {
@@ -562,7 +587,7 @@ Class AlgTot {
                 }                
             }
         }
-    }
+    }        
 
     public function excluirQuestao() {
         

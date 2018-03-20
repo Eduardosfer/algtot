@@ -347,7 +347,7 @@ $acesso->acessar();
                                             <td><?php echo $dado['titulo']; ?></td>
                                             <td><?php echo $dado['nivel']; ?></td>
                                             <td><?php echo $dado['dataCadastramento']; ?></td>
-                                            <td><div class="<?php echo ($dado['status'] == 'ativo')?'status_ativo':'status_inativo'; ?>" ><?php echo $dado['status']; ?></div></td>
+                                            <td><div onclick="ativaOuInativarAtividade(<?php echo $dado['cdAtividade']; ?>, this);" class="<?php echo ($dado['status'] == 'ativo')?'status_ativo':'status_inativo'; ?>" ><?php echo $dado['status']; ?></div></td>
 
                                             <td style="width: 150px;">
 
@@ -810,6 +810,35 @@ $acesso->acessar();
                         $('.parametro_da_busca').mask('99/99/9999');
                 <?php } ?>
             });
+            
+            function ativaOuInativarAtividade(cdAtividade, obj) {
+                var status = $(obj).text();
+                $.post( "../controle/AlgTot.php", { statusJqueryPost: status, cdAtividadeJqueryPost: cdAtividade, acao: "ativaOuInativarAtividade" })
+                .done(function( resultado ) {
+                    if (resultado == 'ativado') {
+                        $(obj).removeClass('status_inativo');
+                        $(obj).addClass('status_ativo');
+                        $(obj).html('ativo');
+                        $('#status'+cdAtividade+' option').each( function () {
+                            $(this).removeAttr('selected');
+                            if ($(this).val() == 'ativo') {
+                                $(this).attr('selected', true);
+                            } 
+                        }); 
+                    }
+                    if (resultado == 'inativado') {
+                        $(obj).removeClass('status_ativo');
+                        $(obj).addClass('status_inativo');
+                        $(obj).html('inativo');
+                        $('#status'+cdAtividade+' option').each( function () {
+                            $(this).removeAttr('selected');
+                            if ($(this).val() == 'inativo') {
+                                $(this).attr('selected', true);
+                            } 
+                        }); 
+                    }
+                 });
+            }
         </script>
     </body>
 </html>
