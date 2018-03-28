@@ -2,12 +2,162 @@
 
   require_once("../controle/Acesso.php");
   
+      
+    $modelo = new Modelo();
+    $acesso = new Acesso();
 
-  $modelo = new Modelo();
-  $acesso = new Acesso();
+    $acesso->acessar();
 
-  $acesso->acessar();
+    $necessarioNivel1 = 1000;
+    $necessarioNivel2 = 2000;
+    $necessarioNivel3 = 3000;
+    $necessarioNivel4 = 4000;   
+  
+    $select = "SELECT usuario.usuario,
+    (SELECT COUNT(usuarioquestao.cdQuestao) 
+    FROM usuarioquestao, questao, atividade 
+    WHERE usuarioquestao.cdUsuario = ? AND 
+    usuarioquestao.status = 'acertou' 
+    AND usuarioquestao.cdQuestao = questao.cdQuestao 
+    AND atividade.cdAtividade = questao.cdAtividade 
+    AND atividade.nivel = 1) AS quantidadeAcertadaNivel1,
 
+    (SELECT COUNT(usuarioquestao.cdQuestao) 
+    FROM usuarioquestao, questao, atividade 
+    WHERE usuarioquestao.cdUsuario = ? 
+    AND usuarioquestao.status = 'acertou' 
+    AND usuarioquestao.cdQuestao = questao.cdQuestao 
+    AND atividade.cdAtividade = questao.cdAtividade 
+    AND atividade.nivel = 2) AS quantidadeAcertadaNivel2,
+
+    (SELECT COUNT(usuarioquestao.cdQuestao) 
+    FROM usuarioquestao, questao, atividade 
+    WHERE usuarioquestao.cdUsuario = ? 
+    AND usuarioquestao.status = 'acertou' 
+    AND usuarioquestao.cdQuestao = questao.cdQuestao 
+    AND atividade.cdAtividade = questao.cdAtividade 
+    AND atividade.nivel = 3) AS quantidadeAcertadaNivel3,
+
+    (SELECT COUNT(usuarioquestao.cdQuestao) 
+    FROM usuarioquestao, questao, atividade 
+    WHERE usuarioquestao.cdUsuario = ? 
+    AND usuarioquestao.status = 'acertou' 
+    AND usuarioquestao.cdQuestao = questao.cdQuestao 
+    AND atividade.cdAtividade = questao.cdAtividade 
+    AND atividade.nivel = 4) AS quantidadeAcertadaNivel4,
+
+    (SELECT COUNT(usuarioquestao.cdQuestao) 
+    FROM usuarioquestao, questao, atividade 
+    WHERE usuarioquestao.cdUsuario = ? 
+    AND usuarioquestao.status = 'acertou' 
+    AND usuarioquestao.cdQuestao = questao.cdQuestao 
+    AND atividade.cdAtividade = questao.cdAtividade 
+    AND atividade.nivel = 5) AS quantidadeAcertadaNivel5
+
+    FROM usuario
+    WHERE usuario.cdUsuario = ?";
+  
+    $select2 = "SELECT DISTINCT
+    (SELECT COUNT(cdQuestao) 
+    FROM questao, atividade 
+    WHERE questao.cdAtividade = atividade.cdAtividade 
+    AND questao.status = 'ativo' 
+    AND atividade.status = 'ativo'
+    AND atividade.nivel = ?) AS quantidadeNivel1,
+
+    (SELECT COUNT(cdQuestao) 
+    FROM questao, atividade 
+    WHERE questao.cdAtividade = atividade.cdAtividade 
+    AND questao.status = 'ativo' 
+    AND atividade.status = 'ativo'
+    AND atividade.nivel = ?) AS quantidadeNivel2,
+
+    (SELECT COUNT(cdQuestao) 
+    FROM questao, atividade 
+    WHERE questao.cdAtividade = atividade.cdAtividade 
+    AND questao.status = 'ativo' 
+    AND atividade.status = 'ativo'
+    AND atividade.nivel = ?) AS quantidadeNivel3,
+
+    (SELECT COUNT(cdQuestao) 
+    FROM questao, atividade 
+    WHERE questao.cdAtividade = atividade.cdAtividade 
+    AND questao.status = 'ativo' 
+    AND atividade.status = 'ativo'
+    AND atividade.nivel = ?) AS quantidadeNivel4,
+
+    (SELECT COUNT(cdQuestao) 
+    FROM questao, atividade 
+    WHERE questao.cdAtividade = atividade.cdAtividade 
+    AND questao.status = 'ativo' 
+    AND atividade.status = 'ativo'
+    AND atividade.nivel = ?) AS quantidadeNivel5
+
+    FROM questao";
+  
+    $dados = array($_SESSION['cdUsuario'],$_SESSION['cdUsuario'],$_SESSION['cdUsuario'],$_SESSION['cdUsuario'],$_SESSION['cdUsuario'],$_SESSION['cdUsuario']);
+    $totalRespondidas = $modelo->selecionar($select,$dados);        
+    $totalNiveis = $modelo->selecionar($select2,array(1,2,3,4,5));    
+
+    foreach ($totalRespondidas as $key => $total) {
+        $respondido1 = $total['quantidadeAcertadaNivel1'];
+        $respondido2 = $total['quantidadeAcertadaNivel2'];
+        $respondido3 = $total['quantidadeAcertadaNivel3'];
+        $respondido4 = $total['quantidadeAcertadaNivel4'];
+        $respondido5 = $total['quantidadeAcertadaNivel5'];
+    }
+    
+    foreach ($totalNiveis as $key => $total2) {
+        $total1 = $total2['quantidadeNivel1'];
+        $total2 = $total2['quantidadeNivel2'];
+        $total3 = $total2['quantidadeNivel3'];
+        $total4 = $total2['quantidadeNivel4'];
+        $total5 = $total2['quantidadeNivel5'];
+    }
+    
+    $porcentNecessa1 = 60;
+    $porcentNecessa2 = 60;
+    $porcentNecessa3 = 60;
+    $porcentNecessa4 = 60;      
+    $porcentNecessa5 = 60;
+        
+    function validarPorcentagem($quantiRespondida, $quantiTotal, $nivel) {    
+        $porcentNecessa1 = 60;
+        $porcentNecessa2 = 60;
+        $porcentNecessa3 = 60;
+        $porcentNecessa4 = 60;      
+        $porcentNecessa5 = 60;      
+        $retorno = false;
+        $porcemRespon = 0;
+        $porcemRespon = (($quantiRespondida * 100) / $quantiTotal);
+        if ($nivel == 1) {
+            if ($porcemRespon >= $porcentNecessa1) {
+                $retorno = true;
+            }
+        }
+        if ($nivel == 2) {
+            if ($porcemRespon >= $porcentNecessa2) {
+                $retorno = true;
+            }
+        }
+        if ($nivel == 3) {
+            if ($porcemRespon >= $porcentNecessa3) {
+                $retorno = true;
+            }
+        }
+        if ($nivel == 4) {
+            if ($porcemRespon >= $porcentNecessa4) {
+                $retorno = true;
+            }
+        }
+        if ($nivel == 5) {
+            if ($porcemRespon >= $porcentNecessa5) {
+                $retorno = true;
+            }
+        }
+        return $retorno;
+    }         
+    
 ?>
 
 <!DOCTYPE html>
@@ -89,24 +239,24 @@
                         </button>
           							<br><br>
 
-          							<button name="nivel" value="2" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel1']>=1000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 1000 pontos no nível 1'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel2'] < 0)?'danger':'success'; ?>">
+          							<button name="nivel" value="2" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel1']>=$necessarioNivel1 || validarPorcentagem($respondido1, $total1, 1)){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça $necessarioNivel1 pontos no nível 1 ou acerte $porcentNecessa1% das questões'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel2'] < 0)?'danger':'success'; ?>">
                           Nível 2
-                          <?php if($_SESSION['nivel1']>=1000){ echo "<br>Pontuação<br>".$_SESSION['nivel2']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>1000 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 1"; } ?></button>
+                          <?php if($_SESSION['nivel1']>=$necessarioNivel1 || validarPorcentagem($respondido1, $total1, 1)){ echo "<br>Pontuação<br>".$_SESSION['nivel2']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>$necessarioNivel1 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 1"; } ?></button>
           							<br><br>
 
-          							<button name="nivel" value="3" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel2']>=2000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 2000 pontos no nível 2'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel3'] < 0)?'danger':'success'; ?>">
+          							<button name="nivel" value="3" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel2']>=$necessarioNivel2 || validarPorcentagem($respondido2, $total2, 2)){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça $necessarioNivel2 pontos no nível 2 ou acerte $porcentNecessa2% das questões'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel3'] < 0)?'danger':'success'; ?>">
                           Nível 3
-                          <?php if($_SESSION['nivel2']>=2000){ echo "<br>Pontuação<br>".$_SESSION['nivel3']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>2000 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 2"; } ?></button>
+                          <?php if($_SESSION['nivel2']>=$necessarioNivel2 || validarPorcentagem($respondido2, $total2, 2)){ echo "<br>Pontuação<br>".$_SESSION['nivel3']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>$necessarioNivel2 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 2"; } ?></button>
           							<br><br>
 
-          							<button name="nivel" value="4" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel3']>=3000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 3000 pontos no nível 3'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel4'] < 0)?'danger':'success'; ?>">
+          							<button name="nivel" value="4" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel3']>=$necessarioNivel3 || validarPorcentagem($respondido3, $total3, 3)){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça $necessarioNivel3 pontos no nível 3 ou acerte $porcentNecessa3% das questões'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel4'] < 0)?'danger':'success'; ?>">
                           Nível 4
-                          <?php if($_SESSION['nivel3']>=3000){ echo "<br>Pontuação<br>".$_SESSION['nivel4']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>3000 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 3"; } ?></button>
+                          <?php if($_SESSION['nivel3']>=$necessarioNivel3 || validarPorcentagem($respondido3, $total3, 3)){ echo "<br>Pontuação<br>".$_SESSION['nivel4']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>$necessarioNivel3 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 3"; } ?></button>
           							<br><br>
 
-          							<button name="nivel" value="5" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel4']>=4000){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça 4000 pontos no nível 4'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel5'] < 0)?'danger':'success'; ?>">
+          							<button name="nivel" value="5" style="min-width: 120px; min-height: 100px;" type="submit" <?php if($_SESSION['nivel4']>=$necessarioNivel4 || validarPorcentagem($respondido4, $total4, 4)){ echo "title='Clique para abrir o nível'"; }else{ echo "title='Faça $necessarioNivel4 pontos no nível 4 ou acerte $porcentNecessa4% das questões'"." disabled "; } ?> class="btn btn-<?php echo ($_SESSION['nivel5'] < 0)?'danger':'success'; ?>">
                           Nível 5
-                          <?php if($_SESSION['nivel4']>=4000){ echo "<br>Pontuação<br>".$_SESSION['nivel5']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>4000 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 4"; } ?></button>
+                          <?php if($_SESSION['nivel4']>=$necessarioNivel4 || validarPorcentagem($respondido4, $total4, 4)){ echo "<br>Pontuação<br>".$_SESSION['nivel5']." <span class='glyphicon glyphicon-star' aria-hidden='true'></span>"; }else{ echo"<br>Necessário<br>$necessarioNivel4 <span class='glyphicon glyphicon-star' aria-hidden='true'></span><br>no nível 4"; } ?></button>
           							<br><br>
 
           						</form>

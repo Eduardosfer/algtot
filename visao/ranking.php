@@ -235,14 +235,16 @@ if (!isset($_POST['buscarPor'])) {
                                         $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
                                     WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status = ?
                                     AND usuario.cdGrupo = ?
-                                    ORDER BY $campo DESC LIMIT $offset,10";
+                                    ORDER BY $campo DESC LIMIT 0,10";
+                                        //SE QUISER A PAGINAÇÃO NOVAMENTE TEM QUE TROCAR O 0 PELA VARIAVEL $offset E DESCOMENTE O CODIGO DA PAGINAÇÃO NO FOOTER
                                         $dados = array('ativo', 3);
                                     } else {
 
                                         $select = "SELECT usuario.*, grupo.grupo AS grupo FROM usuario, grupo
                                     WHERE usuario.cdGrupo = grupo.cdGrupo AND usuario.status = ?
                                     AND usuario.cdGrupo = ?
-                                    ORDER BY usuario.pontuacaoTotal DESC LIMIT $offset,10";
+                                    ORDER BY usuario.pontuacaoTotal DESC LIMIT 0,10";
+                                        //SE QUISER A PAGINAÇÃO NOVAMENTE TEM QUE TROCAR O 0 PELA VARIAVEL $offset E DESCOMENTE O CODIGO DA PAGINAÇÃO NO FOOTER
                                         $dados = array('ativo', 3);
                                     }
 
@@ -282,7 +284,7 @@ if (!isset($_POST['buscarPor'])) {
 
                         <div class="panel-footer">
 
-                            <form name="paginacao" action="ranking.php" method="post">
+<!--                            <form name="paginacao" action="ranking.php" method="post">
 
                                 <div style="text-align: center">
 
@@ -310,7 +312,7 @@ if (!isset($_POST['buscarPor'])) {
 
                                 </div>
 
-                            </form>
+                            </form>-->
 
                         </div>
 
