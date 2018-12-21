@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 
 INSERT INTO `usuario` (`cdUsuario`, `usuario`, `senha`, `cdGrupo`, `email`, `status`, `data`, `nivel1`, `nivel2`, `nivel3`, `nivel4`, `nivel5`, `pontuacaoTotal`) VALUES
 (78, 'root', 'root', 1, 'root@root.com', 'ativo', '2017-05-19', '0', '0', '0', '0', '0', '0'),
-(79, 'Edu', 'root', 3, 'eduardogbi51@hotmail.com', 'ativo', '2017-05-19', '220', '0', '0', '0', '0', '220'),
+(79, 'Edu', 'root', 3, 'eduardosfer@outlook.com', 'ativo', '2017-05-19', '220', '0', '0', '0', '0', '220'),
 (80, 'woquiton', 'root', 2, 'woquiton@gmail.com', 'ativo', '2017-05-19', '0', '0', '0', '0', '0', '0'),
 (81, 'tinga', 'root', 3, 'tinga@hotmail.com', 'ativo', '2017-05-20', '75', '0', '0', '0', '0', '75'),
 (82, 'nando', 'root', 3, 'nando@gmail.com', 'ativo', '2017-05-20', '75', '0', '0', '0', '0', '75'),

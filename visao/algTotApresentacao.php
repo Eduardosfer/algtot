@@ -584,7 +584,7 @@ $acesso->verificarApresentacao();
                     </div>
                     <div id="desenvolvedor" class="col-md-3 text-center">
                         <p>Desenvolvedor: Eduardo Soares Ferreira.</p>
-                        <p><a href="mailto:eduardogbi51@hotmail.com">eduardogbi51@hotmail.com</a></p>
+                        <p><a href="mailto:eduardosfer@outlook.com">eduardosfer@outlook.com</a></p>
                         <hr class="primary">
                     </div>
 
